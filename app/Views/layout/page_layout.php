@@ -12,6 +12,13 @@
 		
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 		<link rel="stylesheet" href="<?= base_url() ?>/public/css/style.css">
+        <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+
+
   </head>
   <body>
 		
@@ -21,33 +28,32 @@
 					<button type="button" id="sidebarCollapse" class="btn btn-primary">
 	        </button>
         </div>
-	  		<div class="img bg-wrap text-center py-4" style="background-image: url(public/images/bg_1.jpg);">
+	  		<div class="bg-wrap text-center py-1">
 	  			<div class="user-logo">
-	  				<div class="img" style="background-image: url(public/images/logo.jpg);"></div>
+	  				<div>
+                        <img src="<?= base_url() ?>/public/images/logo.jpg" class="img" alt="">
+                    </div>
 	  				<h3><?= session()->get('username'); ?></h3>
 	  			</div>
 	  		</div>
         <ul class="list-unstyled components mb-5">
-          <li class="active">
-            <a href="<?= base_url('contact') ?>"><span class="fa fa-home mr-3"></span> Home</a>
+          <li class="<?php if($hover =='Dashboard'){echo 'active';}?>" <?php if($hover =='Dashboard'){?> style="background: #17a2b8;" <?php }?> >
+            <a href="<?= base_url('dashboard') ?>" style="text-decoration:none"><span class="fa fa-home mr-3"></span> Dashboard</a>
+          </li>
+          <?php
+                if(session()->get('level') == "Admin"){
+                    ?>
+                        <li class="<?php if($hover =='Pengguna'){echo 'active';}?>" <?php if($hover =='Pengguna'){?> style="background: #17a2b8;" <?php }?>>
+              <a href="<?= base_url('user') ?>" style="text-decoration:none"><span class="fa fa-download mr-3 notif"></span> Pengguna</a>
+          </li>
+                    <?php
+                }
+          ?>
+          <li class="<?php if($hover =='Guru'){echo 'active';}?>" <?php if($hover =='Guru'){?> style="background: #17a2b8;" <?php }?>>
+              <a href="<?= base_url('guru') ?>" style="text-decoration:none"><span class="fa fa-download mr-3 notif"></span> Data Guru</a>
           </li>
           <li>
-              <a href="<?= base_url('about') ?>"><span class="fa fa-download mr-3 notif"></span> About</a>
-          </li>
-          <li>
-            <a href="#"><span class="fa fa-gift mr-3"></span> Gift Code</a>
-          </li>
-          <li>
-            <a href="#"><span class="fa fa-trophy mr-3"></span> Top Review</a>
-          </li>
-          <li>
-            <a href="#"><span class="fa fa-cog mr-3"></span> Settings</a>
-          </li>
-          <li>
-            <a href="#"><span class="fa fa-support mr-3"></span> Support</a>
-          </li>
-          <li>
-            <a href="<?= base_url('/logout') ?>"><span class="fa fa-sign-out mr-3"></span> Sign Out</a>
+            <a href="<?= base_url('/logout') ?>" style="text-decoration:none"><span class="fa fa-sign-out mr-3"></span> Sign Out</a>
           </li>
         </ul>
 
@@ -55,6 +61,10 @@
 
         <!-- Page Content  -->
       <div id="content" class="p-4 p-md-5 pt-5">
+        <h2><?=  $data ?></h2>
+        <hr color="blue" width="100%" size="50%">
+
+
         <?= $this->renderSection('content') ?>
 		</div>
 
@@ -62,6 +72,65 @@
     <script src="<?= base_url() ?>/public/js/popper.js "></script>
     <script src="<?= base_url() ?>/public/js/bootstrap.min.js "></script>
     <script src="<?= base_url() ?>/public/js/main.js "></script>
+    <script>
+        new DataTable('#example');
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.17.2/dist/sweetalert2.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/sweetalert2@9.17.2/dist/sweetalert2.min.css">
+
+
+<script>
+$(function(){
+
+    <?php if(session()->has("success")) { ?>
+        Swal.fire({
+            icon: 'success',
+            title: 'Great!',
+            text: '<?= session("success") ?>'
+        })
+    <?php } ?>
+});
+</script>
+
+<script>
+$(function(){
+
+    <?php if(session()->has("error")) { ?>
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: '<?= session("error") ?>'
+        })
+    <?php } ?>
+});
+</script>
+
+<script>
+$(function(){
+
+    <?php if(session()->has("warning")) { ?>
+        Swal.fire({
+            icon: 'warning',
+            title: 'Great!',
+            text: '<?= session("warning") ?>'
+        })
+    <?php } ?>
+});
+</script>
+
+<script>
+$(function(){
+
+    <?php if(session()->has("info")) { ?>
+        Swal.fire({
+            icon: 'info',
+            title: 'Hi!',
+            text: '<?= session("info") ?>'
+        })
+    <?php } ?>
+});
+</script>
   </body>
 </html>
 

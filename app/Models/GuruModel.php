@@ -4,15 +4,15 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class UserModel extends Model
+class GuruModel extends Model
 {
-    protected $table            = 'users';
+    protected $table            = 'guru';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['name','email','password','level','username','created_at','id'];
+    protected $allowedFields    = ['user_id','nip','nama','tempat','t_lahir','j_kelamin','agama','no_hp','id_guru'];
 
     // Dates
     protected $useTimestamps = false;
@@ -38,7 +38,8 @@ class UserModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    public function getUser()
+
+    public function getGUru()
     {
         return $this->findAll();
     }

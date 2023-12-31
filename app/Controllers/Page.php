@@ -9,11 +9,13 @@ class Page extends BaseController
 {
     public function about1()
 	{
-		return view('about');
+		$data = "About";
+		return view('about',compact('data'));
 	}
     
     public function contact()
 	{
-		return view('contact');
+		$data = "Contact";
+		return view('contact',compact('data'));
 	}
 }

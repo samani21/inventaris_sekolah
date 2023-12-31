@@ -35,7 +35,7 @@ class Login extends BaseController
                             
 						];
 				$session->set($login);
-				return redirect()->to('/about');
+				return redirect()->to('/dashboard');
 
 			}else{
 				$session->setFlashdata('msg', 'Email/Password invalid');
