@@ -53,6 +53,12 @@ class Guru extends BaseController
         $guru = new GuruModel();
         $guru->update($id_guru,[
             'nip'=>$this->request->getPost('nip'),
+            'nama'=>$this->request->getPost('nama'),
+            'tempat'=>$this->request->getPost('tempat'),
+            't_lahir'=>$this->request->getPost('t_lahir'),
+            'j_kelamin'=>$this->request->getPost('j_kelamin'),
+            'agama'=>$this->request->getPost('agama'),
+            'no_hp'=>$this->request->getPost('no_hp'),
         ]);
         session()->setFlashdata("success", "Berhasil update data");
         return redirect('guru');

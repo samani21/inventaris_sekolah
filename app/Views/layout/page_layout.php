@@ -52,6 +52,12 @@
           <li class="<?php if($hover =='Guru'){echo 'active';}?>" <?php if($hover =='Guru'){?> style="background: #17a2b8;" <?php }?>>
               <a href="<?= base_url('guru') ?>" style="text-decoration:none"><span class="fa fa-download mr-3 notif"></span> Data Guru</a>
           </li>
+          <li class="<?php if($hover =='Barang'){echo 'active';}?>" <?php if($hover =='Barang'){?> style="background: #17a2b8;" <?php }?>>
+              <a href="<?= base_url('barang') ?>" style="text-decoration:none"><span class="fa fa-download mr-3 notif"></span> Data Barang</a>
+          </li>
+          <li class="<?php if($hover =='Barang Masuk'){echo 'active';}?>" <?php if($hover =='Barang Masuk'){?> style="background: #17a2b8;" <?php }?>>
+              <a href="<?= base_url('barang_masuk') ?>" style="text-decoration:none"><span class="fa fa-download mr-3 notif"></span> Barang masuk</a>
+          </li>
           <li>
             <a href="<?= base_url('/logout') ?>" style="text-decoration:none"><span class="fa fa-sign-out mr-3"></span> Sign Out</a>
           </li>

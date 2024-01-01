@@ -29,3 +29,19 @@ $routes->post('guru/store', 'Guru::store');
 $routes->get('/guru/edit/(:any)', 'Guru::edit/$1');
 $routes->post('/guru/update/(:any)', 'Guru::update/$1');
 $routes->get('/guru/delete/(:any)', 'Guru::delete/$1');
+
+//barang
+$routes->get('/barang','Barang::index');
+$routes->get('/barang/tambah','Barang::tambah');
+$routes->post('barang/store', 'Barang::store');
+$routes->get('/barang/edit/(:any)', 'Barang::edit/$1');
+$routes->post('/barang/update/(:any)', 'Barang::update/$1');
+$routes->get('/barang/delete/(:any)', 'Barang::delete/$1');
+
+//barang masuk pemerintah
+$routes->get('/barang_masuk','BarangMasuk::index');
+$routes->get('/barang_masuk/tambah','BarangMasuk::tambah');
+$routes->post('barang_masuk/store', 'BarangMasuk::store');
+$routes->get('/barang_masuk/edit/(:any)', 'BarangMasuk::edit/$1');
+$routes->post('/barang_masuk/update/(:any)', 'BarangMasuk::update/$1');
+$routes->get('/barang_masuk/delete/(:any)', 'BarangMasuk::delete/$1');
