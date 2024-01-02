@@ -58,6 +58,12 @@
           <li class="<?php if($hover =='Barang Masuk'){echo 'active';}?>" <?php if($hover =='Barang Masuk'){?> style="background: #17a2b8;" <?php }?>>
               <a href="<?= base_url('barang_masuk') ?>" style="text-decoration:none"><span class="fa fa-download mr-3 notif"></span> Barang masuk</a>
           </li>
+          <li class="<?php if($hover =='Barang Rusak'){echo 'active';}?>" <?php if($hover =='Barang Rusak'){?> style="background: #17a2b8;" <?php }?>>
+              <a href="<?= base_url('barang_rusak') ?>" style="text-decoration:none"><span class="fa fa-download mr-3 notif"></span> Barang Rusak</a>
+          </li>
+          <li class="<?php if($hover =='Barang Baik'){echo 'active';}?>" <?php if($hover =='Barang Baik'){?> style="background: #17a2b8;" <?php }?>>
+              <a href="<?= base_url('barang_baik') ?>" style="text-decoration:none"><span class="fa fa-download mr-3 notif"></span> Barang Baik</a>
+          </li>
           <li>
             <a href="<?= base_url('/logout') ?>" style="text-decoration:none"><span class="fa fa-sign-out mr-3"></span> Sign Out</a>
           </li>
@@ -92,7 +98,7 @@ $(function(){
     <?php if(session()->has("success")) { ?>
         Swal.fire({
             icon: 'success',
-            title: 'Great!',
+            title: 'Berhasil!',
             text: '<?= session("success") ?>'
         })
     <?php } ?>

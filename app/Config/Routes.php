@@ -38,10 +38,26 @@ $routes->get('/barang/edit/(:any)', 'Barang::edit/$1');
 $routes->post('/barang/update/(:any)', 'Barang::update/$1');
 $routes->get('/barang/delete/(:any)', 'Barang::delete/$1');
 
-//barang masuk pemerintah
+//barang masuk
 $routes->get('/barang_masuk','BarangMasuk::index');
 $routes->get('/barang_masuk/tambah','BarangMasuk::tambah');
 $routes->post('barang_masuk/store', 'BarangMasuk::store');
 $routes->get('/barang_masuk/edit/(:any)', 'BarangMasuk::edit/$1');
 $routes->post('/barang_masuk/update/(:any)', 'BarangMasuk::update/$1');
 $routes->get('/barang_masuk/delete/(:any)', 'BarangMasuk::delete/$1');
+
+//barang rusal
+$routes->get('/barang_rusak','BarangRusak::index');
+$routes->get('/barang_rusak/tambah','BarangRusak::tambah');
+$routes->post('barang_rusak/store', 'BarangRusak::store');
+$routes->get('/barang_rusak/edit/(:any)', 'BarangRusak::edit/$1');
+$routes->post('/barang_rusak/update/(:any)', 'BarangRusak::update/$1');
+$routes->get('/barang_rusak/delete/(:any)', 'BarangRusak::delete/$1');
+
+//barang baik
+$routes->get('/barang_baik','BarangBaik::index');
+$routes->get('/barang_baik/tambah/(:any)', 'BarangBaik::tambah_baik/$1');
+$routes->post('barang_baik/store/(:any)', 'BarangBaik::store/$1');
+$routes->get('/barang_baik/edit/(:any)', 'BarangBaik::edit/$1');
+$routes->post('/barang_baik/update/(:any)', 'BarangBaik::update/$1');
+$routes->get('/barang_baik/delete/(:any)', 'BarangBaik::delete/$1');
