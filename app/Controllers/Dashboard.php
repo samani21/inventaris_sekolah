@@ -17,14 +17,10 @@ class Dashboard extends BaseController
         $dt = $guru->where([
             'user_id'=>$id_user,
         ])->first();
-        if(session()->get('level') == "Guru"){
-            if(empty($dt)){
-                return view('guru/tambah',compact('id_user'));
-            }else{
-            return view('dashboard',compact('data','hover'));
-            }
+        if(empty($dt)){
+            return view('guru/tambah',compact('id_user'));
         }else{
-            return view('dashboard',compact('data','hover'));
+        return view('dashboard',compact('data','hover'));
         }
     }
 }

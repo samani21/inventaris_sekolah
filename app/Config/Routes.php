@@ -61,3 +61,14 @@ $routes->post('barang_baik/store/(:any)', 'BarangBaik::store/$1');
 $routes->get('/barang_baik/edit/(:any)', 'BarangBaik::edit/$1');
 $routes->post('/barang_baik/update/(:any)', 'BarangBaik::update/$1');
 $routes->get('/barang_baik/delete/(:any)', 'BarangBaik::delete/$1');
+
+//barang pakai
+$routes->get('/barang_pakai','BarangPakai::index');
+$routes->get('/barang_pakai/tambah/(:any)','BarangPakai::tambah/$1');
+$routes->post('barang_pakai/store/(:any)', 'BarangPakai::store/$1');
+$routes->get('/barang_pakai/selesai/(:any)','BarangPakai::selesai/$1');
+$routes->post('barang_pakai/proses/(:any)', 'BarangPakai::proses/$1');
+$routes->get('/barang_pakai/edit/(:any)', 'BarangPakai::edit/$1');
+$routes->post('/barang_pakai/update/(:any)', 'BarangPakai::update/$1');
+$routes->post('/barang_pakai/update1/(:any)', 'BarangPakai::update1/$1');
+$routes->get('/barang_pakai/delete/(:any)', 'BarangPakai::delete/$1');

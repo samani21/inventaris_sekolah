@@ -35,6 +35,7 @@
                                 if(session()->get('level') == "Admin"){
                                     ?>
                                     <td>
+                                        <a href="<?= base_url('barang_pakai/tambah/'.$b['id'].'')?>" class="btn btn-primary">Pakai</a>
                                         <a href="<?= base_url('barang/edit/'.$b['id'].'')?>" class="btn btn-warning">Edit</a>
                                         <a href="<?= base_url('barang/delete/'.$b['id'].'')?>" onClick="return confirm('Hapus data')" class="btn btn-danger">Hapus</a>
                                     </td>

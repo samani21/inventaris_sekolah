@@ -17,7 +17,14 @@
         <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
         <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+        <style>
+            .dropdown-container {
+  display: none;
+  background-color: #262626;
+  padding-left: 8px;
+}
 
+        </style>
 
   </head>
   <body>
@@ -39,6 +46,9 @@
         <ul class="list-unstyled components mb-5">
           <li class="<?php if($hover =='Dashboard'){echo 'active';}?>" <?php if($hover =='Dashboard'){?> style="background: #17a2b8;" <?php }?> >
             <a href="<?= base_url('dashboard') ?>" style="text-decoration:none"><span class="fa fa-home mr-3"></span> Dashboard</a>
+          </li>
+          <li>
+
           </li>
           <?php
                 if(session()->get('level') == "Admin"){
@@ -64,15 +74,27 @@
           <li class="<?php if($hover =='Barang Baik'){echo 'active';}?>" <?php if($hover =='Barang Baik'){?> style="background: #17a2b8;" <?php }?>>
               <a href="<?= base_url('barang_baik') ?>" style="text-decoration:none"><span class="fa fa-download mr-3 notif"></span> Barang Baik</a>
           </li>
+          <li class="<?php if($hover =='Barang Pakai'){echo 'active';}?>" <?php if($hover =='Barang Pakai'){?> style="background: #17a2b8;" <?php }?>>
+              <a href="<?= base_url('barang_pakai') ?>" style="text-decoration:none"><span class="fa fa-download mr-3 notif"></span> Barang Pakai</a>
+          </li>
           <li>
             <a href="<?= base_url('/logout') ?>" style="text-decoration:none"><span class="fa fa-sign-out mr-3"></span> Sign Out</a>
           </li>
+          <li>
+          <a href="#" style="text-decoration:none" class="dropdown-btn">Dropdown 
+                <i class="fa fa-caret-down"></i></a>
+            <div class="dropdown-container">
+                <a href="#" class>Link 1</a>
+                <a href="#">Link 2</a>
+                <a href="#">Link 3</a>
+            </div>
+          </li>
         </ul>
-
     	</nav>
 
         <!-- Page Content  -->
       <div id="content" class="p-4 p-md-5 pt-5">
+        
         <h2><?=  $data ?></h2>
         <hr color="blue" width="100%" size="50%">
 
@@ -87,11 +109,26 @@
     <script>
         new DataTable('#example');
     </script>
+    <script>
+/* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+var dropdown = document.getElementsByClassName("dropdown-btn");
+var i;
+
+for (i = 0; i < dropdown.length; i++) {
+  dropdown[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var dropdownContent = this.nextElementSibling;
+    if (dropdownContent.style.display === "block") {
+      dropdownContent.style.display = "none";
+    } else {
+      dropdownContent.style.display = "block";
+    }
+  });
+}
+</script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.17.2/dist/sweetalert2.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/sweetalert2@9.17.2/dist/sweetalert2.min.css">
-
-
 <script>
 $(function(){
 

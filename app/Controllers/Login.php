@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\GuruModel;
 use App\Models\UserModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
@@ -26,17 +27,20 @@ class Login extends BaseController
 			if( password_verify($password, $data['password']) )
 			{
                                 //create session
+								$user = new GuruModel();
+								$dt = $user->where([
+									'user_id'=>$data['id'],
+								])->first();
 				$login = [
                             'islogin' => true,
                             'id'=> $data['id'],
 							'username'=> $data['username'],
 							'name' => $data['name'],
                             'level' => $data['level'],
-                            
+							'id_guru' => $dt['id'],
 						];
 				$session->set($login);
 				return redirect()->to('/dashboard');
-
 			}else{
 				$session->setFlashdata('msg', 'Email/Password invalid');
                 return redirect()->to('/login');
