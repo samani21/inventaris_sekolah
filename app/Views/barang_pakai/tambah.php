@@ -13,7 +13,9 @@
             </div>
             <div>
                 <label for="">Ruangan</label>
-                <input type="text" name="ruangan"  value="" class="form-control" required  autocomplete="off">
+                <input type="text" name="ruangan"  value="<?php if(session()->get('level') == "Guru"){
+                    echo session()->get('wakel');
+                } ?>" class="form-control" required  autocomplete="off">
             </div>
             <div>
                 <label for="">Jumlah</label>

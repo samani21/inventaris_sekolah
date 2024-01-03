@@ -12,13 +12,7 @@
                 <th>Nama Barang</th>
                 <th>Jumlah</th>
                 <th>Satuan</th>
-                <?php
-                    if(session()->get('level') == "Admin"){
-                        ?>
-                        <th>Action</th>
-                        <?php
-                    }
-                ?>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -31,17 +25,18 @@
                             <td><?= $b['nm_barang']?></td>
                             <td><?= $b['jumlah']?></td>
                             <td><?= $b['satuan']?></td>
+                            <td>
+                                <a href="<?= base_url('barang_pakai/tambah/'.$b['id'].'')?>" class="btn btn-primary">Pakai</a>
                                 <?php
                                 if(session()->get('level') == "Admin"){
                                     ?>
-                                    <td>
-                                        <a href="<?= base_url('barang_pakai/tambah/'.$b['id'].'')?>" class="btn btn-primary">Pakai</a>
                                         <a href="<?= base_url('barang/edit/'.$b['id'].'')?>" class="btn btn-warning">Edit</a>
                                         <a href="<?= base_url('barang/delete/'.$b['id'].'')?>" onClick="return confirm('Hapus data')" class="btn btn-danger">Hapus</a>
-                                    </td>
+
                                     <?php
                                 }
                                 ?>
+                            </td>
                         </tr>
                     <?php
                 }

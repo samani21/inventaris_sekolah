@@ -28,6 +28,7 @@ $routes->get('/guru/tambah','Guru::tambah');
 $routes->post('guru/store', 'Guru::store');
 $routes->get('/guru/edit/(:any)', 'Guru::edit/$1');
 $routes->post('/guru/update/(:any)', 'Guru::update/$1');
+$routes->post('/guru/profil/(:any)/(:any)', 'Guru::profil/$1/$2');
 $routes->get('/guru/delete/(:any)', 'Guru::delete/$1');
 
 //barang

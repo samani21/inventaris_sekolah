@@ -12,13 +12,7 @@
                 <th>Stok Pinjam</th>
                 <th>Stok Selesai</th>
                 <th>Ruangan</th>
-                <?php
-                    if(session()->get('level') == "Admin"){
-                        ?>
-                        <th>Action</th>
-                        <?php
-                    }
-                ?>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -40,12 +34,9 @@
                             <td><?= $b['stok']?></td>
                             <td><?= $b['stok_selesai']?></td>
                             <td><?= $b['ruangan']?></td>
+                            <td>
+                                <a href="<?= base_url('barang_pakai/edit/'.$b['id_barang_peruangan'].'')?>" class="btn btn-warning">Edit</a>
                                 <?php
-                                if(session()->get('level') == "Admin"){
-                                    ?>
-                                    <td>
-                                        <a href="<?= base_url('barang_pakai/edit/'.$b['id_barang_peruangan'].'')?>" class="btn btn-warning">Edit</a>
-                                        <?php
                                             if($b['stok_selesai'] < $b['stok']){
                                                 ?>
                                                 <a href="<?= base_url('barang_pakai/selesai/'.$b['id_barang_peruangan'].'')?>" class="btn btn-primary">Selesai</a>
@@ -55,12 +46,7 @@
 
                                             }
                                         ?>
-                                        
-                                        
-                                    </td>
-                                    <?php
-                                }
-                                ?>
+                            </td>
                         </tr>
                     <?php
                 }

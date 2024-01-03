@@ -35,9 +35,12 @@ class Login extends BaseController
                             'islogin' => true,
                             'id'=> $data['id'],
 							'username'=> $data['username'],
+							'email'=> $data['email'],
 							'name' => $data['name'],
                             'level' => $data['level'],
 							'id_guru' => $dt['id'],
+							'wakel' => $dt['wakel'],
+							'foto' => $dt['foto'],
 						];
 				$session->set($login);
 				return redirect()->to('/dashboard');

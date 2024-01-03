@@ -12,7 +12,7 @@ class GuruModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['user_id','nip','nama','tempat','t_lahir','j_kelamin','agama','no_hp','id_guru'];
+    protected $allowedFields    = ['user_id','wakel','foto','nip','nama','tempat','t_lahir','j_kelamin','agama','no_hp','id_guru'];
 
     // Dates
     protected $useTimestamps = false;

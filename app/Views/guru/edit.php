@@ -2,7 +2,7 @@
 
 <?= $this->section('content') ?>
     <div>
-    <form action="<?= base_url('guru/update/'.$dt['id'].'')?>" method="post"><div class="row">
+    <form action="<?= base_url('guru/update/'.$dt['id'].'')?>" method="post" enctype="multipart/form-data"><div class="row">
                 <div class="col-2">
                     <label for="">NIP</label>
                 </div>
@@ -67,7 +67,25 @@
                     <label for="">No Hp</label>
                 </div>
                 <div class="col-8">
-                    <input type="text" value="<?= $dt['no_hp'] ?>" name="no_hp" class="form-control" required>
+                    <input type="text" value="<?= $dt['no_hp'] ?>" name="hp" class="form-control" required>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-2">
+                    <label for="">Wali Kelas</label>
+                </div>
+                <div class="col-8">
+                <input type="text" name="wakel" class="form-control" value="<?= $dt['wakel'] ?>" required>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-2">
+                    <label for="">Foto</label>
+                </div>
+                <div class="col-8">
+                <input type="file" name="foto" class="form-control">
                 </div>
             </div>
             <br>
