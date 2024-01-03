@@ -33,6 +33,8 @@ class Guru extends BaseController
     }
 
     public function store(){
+        $dataBerkas = $this->request->getFile('foto');
+        $fileName = $dataBerkas->getRandomName();
         $guru = new GuruModel();
         $guru->insert([
             'user_id'=>$this->request->getPost('user_id'),
@@ -43,7 +45,10 @@ class Guru extends BaseController
             'j_kelamin'=>$this->request->getPost('j_kelamin'),
             'agama'=>$this->request->getPost('agama'),
             'no_hp'=>$this->request->getPost('no_hp'),
+            'wakel'=> $this->request->getPost('wakel'),
+            'foto'=> $fileName,
         ]);
+        $dataBerkas->move('public/images', $fileName);
         session()->setFlashdata("success", "Berhasil tambah data");
         return redirect('dashboard');
     }
