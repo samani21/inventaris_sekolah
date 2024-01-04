@@ -44,9 +44,35 @@ class BarangRuanganModel extends Model
     }
 
     public function getPeruangan(){
-        $id_guru = session()->get('id_guru');
+        if(session()->get('level') == "Admin"){
+            return $this->db->table('barang_peruangan')->join('barang','barang.id=barang_peruangan.id_barang')->join('guru','guru.id = barang_peruangan.id_guru')
+            ->get()->getResultArray();
+        }else{
+            $id_guru = session()->get('id_guru');
         
-        return $this->db->table('barang_peruangan')->join('barang','barang.id=barang_peruangan.id_barang')->join('guru','guru.id = barang_peruangan.id_guru')->where('id_guru',$id_guru)
-        ->get()->getResultArray();
+            return $this->db->table('barang_peruangan')->join('barang','barang.id=barang_peruangan.id_barang')->join('guru','guru.id = barang_peruangan.id_guru')->where('id_guru',$id_guru)
+            ->get()->getResultArray();
+        }
+    }
+
+    public function getPakai(){
+        if(session()->get('level') == "Admin"){
+            return $this->db->table('barang_peruangan')->join('barang','barang.id=barang_peruangan.id_barang')->join('guru','guru.id = barang_peruangan.id_guru')->where('status',1)
+            ->get()->getResultArray();
+        }else{
+            $id_guru = session()->get('id_guru');
+            return $this->db->table('barang_peruangan')->join('barang','barang.id=barang_peruangan.id_barang')->join('guru','guru.id = barang_peruangan.id_guru')->where('id_guru',$id_guru)->where('status',1)
+            ->get()->getResultArray();
+        }
+    }
+    public function getSelesai(){
+        if(session()->get('level') == "Admin"){
+            return $this->db->table('barang_peruangan')->join('barang','barang.id=barang_peruangan.id_barang')->join('guru','guru.id = barang_peruangan.id_guru')->where('status',2)
+            ->get()->getResultArray();
+        }else{
+            $id_guru = session()->get('id_guru');
+            return $this->db->table('barang_peruangan')->join('barang','barang.id=barang_peruangan.id_barang')->join('guru','guru.id = barang_peruangan.id_guru')->where('id_guru',$id_guru)->where('status',2)
+            ->get()->getResultArray();
+        }
     }
 }

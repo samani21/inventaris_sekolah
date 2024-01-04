@@ -60,4 +60,18 @@ class Barang extends BaseController
         session()->setFlashdata("success", "Berhasil hapus data");
         return redirect('barang');
     }
+
+    public function laporan(){
+        $data = "Laporan Barang";
+        $hover = "Laporan Barang";
+        $cari = $this->request->getPost('cari');
+        $barang = new BarangModel();
+        $d_barang = $barang->getBarang();
+        return view('barang/laporan',compact('data','hover','d_barang','cari'));
+    }
+
+    public function cetak(){
+        $cari = $this->request->getPost('cari');
+        return view('barang/cetak',compact('cari'));
+    }
 }

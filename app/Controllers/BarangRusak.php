@@ -76,5 +76,17 @@ class BarangRusak extends BaseController
         return redirect('barang_rusak');
     }
 
+    public function laporan(){
+        $data = "Laporan Barang Rusak";
+        $hover = "Laporan Barang Rusak";
+        $data1 = new BarangSModel();
+        $dt = $data1->getbarangrusakk();
+        return view('barang_rusak/laporan',compact('data','hover','dt'));
+    }
     
+    public function cetak(){
+        $dari = $this->request->getPost('dari');
+        $sampai = $this->request->getPost('sampai');
+        return view('barang_rusak/cetak',compact('dari','sampai'));
+    }
 }

@@ -4,15 +4,15 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class BarangSModel extends Model
+class RuanganModel extends Model
 {
-    protected $table            = 'barang_status';
-    protected $primaryKey       = 'id_barang_status';
+    protected $table            = 'ruangan';
+    protected $primaryKey       = 'id_ruangan';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['id_barang_status','id_barang','tgl_rusak','tgl_baik','keterangan','status','stok','stok_baik'];
+    protected $allowedFields    = ['nm_ruangan'];
 
     // Dates
     protected $useTimestamps = false;
@@ -38,24 +38,8 @@ class BarangSModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    public function getBarangStatus()
+    public function getRuangan()
     {
         return $this->findAll();
     }
-
-    public function getbarang2(){
-        return $this->db->table('barang_status')->join('barang','barang.id=barang_status.id_barang')
-        ->get()->getResultArray();
-    }
-
-    public function getbarangrusakk(){
-        return $this->db->table('barang_status')->join('barang','barang.id=barang_status.id_barang')->where('status','1')
-        ->get()->getResultArray();
-    }
-
-    public function getbarangbaik(){
-        return $this->db->table('barang_status')->join('barang','barang.id=barang_status.id_barang')->where('status','2')
-        ->get()->getResultArray();
-    }
 }
-

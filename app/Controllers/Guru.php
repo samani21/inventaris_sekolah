@@ -15,15 +15,8 @@ class Guru extends BaseController
         $hover = "Guru";
         $guru = new GuruModel();
         $d_guru = $guru->getGUru();
-        if(session()->get('level') == "Admin"){
-            $d_guru = $guru->getGUru();
-            return view('guru/list',compact('data','d_guru','hover'));
-        }else{
-            $d_guru = $guru->where([
-                'id' => session()->get('id_guru')
-            ])->first();
-            return view('guru/profil',compact('data','d_guru','hover'));
-        }
+        $d_guru = $guru->getGUru();
+        return view('guru/list',compact('data','d_guru','hover'));
     }
 
     public function tambah(){
@@ -50,7 +43,7 @@ class Guru extends BaseController
         ]);
         $dataBerkas->move('public/images', $fileName);
         session()->setFlashdata("success", "Berhasil tambah data");
-        return redirect('dashboard');
+        return redirect('/');
     }
 
     public function edit($id){
@@ -156,4 +149,16 @@ class Guru extends BaseController
         return redirect('guru');
     }
 
+    public function laporan(){
+        $data = "Laporan Guru";
+        $hover = "Laporan Guru";
+        $barang = new GuruModel();
+        $d_guru = $barang->getGUru();
+        return view('guru/laporan',compact('data','hover','d_guru'));
+    }
+
+    public function cetak(){
+        $cari = $this->request->getPost('cari');
+        return view('guru/cetak',compact('cari'));
+    }
 }

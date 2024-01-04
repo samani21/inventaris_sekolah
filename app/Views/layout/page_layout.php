@@ -44,8 +44,8 @@
 	  			</div>
 	  		</div>
         <ul class="list-unstyled components mb-5">
-          <li class="<?php if($hover =='Dashboard'){echo 'active';}?>" <?php if($hover =='Dashboard'){?> style="background: #17a2b8;" <?php }?> >
-            <a href="<?= base_url('dashboard') ?>" style="text-decoration:none"><span class="fa fa-home mr-3"></span> Dashboard</a>
+          <li class="<?php if($hover =='Profil'){echo 'active';}?>" <?php if($hover =='Profil'){?> style="background: #17a2b8;" <?php }?> >
+            <a href="<?= base_url('dashboard') ?>" style="text-decoration:none"><span class="fa fa-user mr-3"></span> Profil</a>
           </li>
           <li>
           <a href="#" style="text-decoration:none" class="dropdown-btn"><i class="fa-solid fa-list"></i> Data Master 
@@ -57,6 +57,9 @@
                             ?>
                     <li class="<?php if($hover =='Pengguna'){echo 'active';}?>" <?php if($hover =='Pengguna'){?> style="background: #17a2b8;" <?php }?>>
                         <a href="<?= base_url('user') ?>" style="text-decoration:none"><span class="fa fa-user mr-3 notif"></span> Pengguna</a>
+                    </li>
+                    <li class="<?php if($hover =='Ruangan'){echo 'active';}?>" <?php if($hover =='Ruangan'){?> style="background: #17a2b8;" <?php }?>>
+                        <a href="<?= base_url('ruangan') ?>" style="text-decoration:none"><span class="fa fa-user mr-3 notif"></span> Ruangan</a>
                     </li>
                             <?php
                         }
@@ -87,6 +90,45 @@
           ?>
           <li class="<?php if($hover =='Barang Pakai'){echo 'active';}?>" <?php if($hover =='Barang Pakai'){?> style="background: #17a2b8;" <?php }?>>
               <a href="<?= base_url('barang_pakai') ?>" style="text-decoration:none"><span class="fa fa-truck-ramp-box mr-3 notif"></span> Barang Pakai</a>
+          </li>
+          <li>
+          <a href="#" style="text-decoration:none" class="dropdown-btn"><i class="fa-solid fa-info"></i> Laporan 
+                <i class="fa fa-caret-down"></i></a>
+            <div class="dropdown-container">
+                <ul>
+                    <li class="<?php if($hover =='Laporan Guru'){echo 'active';}?>" <?php if($hover =='Laporan Guru'){?> style="background: #17a2b8;" <?php }?>>
+                        <a href="<?= base_url('guru/laporan') ?>" style="text-decoration:none"><span class="fa fa-address-card mr-3 notif"></span> Data Guru</a>
+                    </li>
+                    <li class="<?php if($hover =='Laporan Barang'){echo 'active';}?>" <?php if($hover =='Laporan Barang'){?> style="background: #17a2b8;" <?php }?>>
+                        <a href="<?= base_url('barang/laporan_barang') ?>" style="text-decoration:none"><span class="fa fa-boxes-stacked mr-3 notif"></span> Laporan Data Barang</a>
+                    </li>
+                    <?php
+                        if(session()->get('level') == "Admin"){
+                            ?>
+                                <li class="<?php if($hover =='Barang Masuk Pemerintah'){echo 'active';}?>" <?php if($hover =='Barang Masuk Pemerintah'){?> style="background: #17a2b8;" <?php }?>>
+                                    <a href="<?= base_url('barang_masuk/laporan_pemerintah') ?>" style="text-decoration:none"><span class="fa fa-box-open mr-3 notif"></span> Barang masuk pemerintah</a>
+                                </li>
+                                <li class="<?php if($hover =='Barang Masuk Pembelian'){echo 'active';}?>" <?php if($hover =='Barang Masuk Pembelian'){?> style="background: #17a2b8;" <?php }?>>
+                                    <a href="<?= base_url('barang_masuk/laporan_pembelian') ?>" style="text-decoration:none"><span class="fa fa-box-open mr-3 notif"></span> Barang masuk pembelian</a>
+                                </li>
+                                <li class="<?php if($hover =='Laporan Barang Rusak'){echo 'active';}?>" <?php if($hover =='Laporan Barang Rusak'){?> style="background: #17a2b8;" <?php }?>>
+                                    <a href="<?= base_url('barang_rusak/laporan') ?>" style="text-decoration:none"><span class="fa fa-box mr-3 notif"></span> Barang Rusak</a>
+                                </li>
+                                <li class="<?php if($hover =='Laporan Barang Baik'){echo 'active';}?>" <?php if($hover =='Laporan Barang Baik'){?> style="background: #17a2b8;" <?php }?>>
+                                    <a href="<?= base_url('barang_baik/laporan') ?>" style="text-decoration:none"><span class="fa fa-boxes-packing mr-3 notif"></span> Barang Baik</a>
+                                </li>
+                                
+                            <?php
+                        }
+                    ?>
+                    <li class="<?php if($hover =='Laporan Barang Pakai'){echo 'active';}?>" <?php if($hover =='Laporan Barang Pakai'){?> style="background: #17a2b8;" <?php }?>>
+                        <a href="<?= base_url('barang_pakai/laporan_pakai') ?>" style="text-decoration:none"><span class="fa fa-truck-ramp-box mr-3 notif"></span> Barang Pakai</a>
+                    </li>
+                    <li class="<?php if($hover =='Laporan Barang Selesai'){echo 'active';}?>" <?php if($hover =='Laporan Barang Selesai'){?> style="background: #17a2b8;" <?php }?>>
+                        <a href="<?= base_url('barang_pakai/laporan_selesai') ?>" style="text-decoration:none"><span class="fa fa-truck-ramp-box mr-3 notif"></span> Barang Selesai</a>
+                    </li>
+                </ul>
+            </div>
           </li>
           <li>
             <a href="<?= base_url('/logout') ?>" style="text-decoration:none"><span class="fa fa-sign-out mr-3"></span> Sign Out</a>

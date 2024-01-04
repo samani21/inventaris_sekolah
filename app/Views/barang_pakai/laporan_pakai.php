@@ -1,6 +1,22 @@
 <?= $this->extend('layout/page_layout') ?>
 
 <?= $this->section('content') ?>
+<form action="<?= base_url('barang_pakai/cetak_pakai') ?>" method="post">
+    <div class="row">
+        <div class="col-2">
+            <label for="">Cetak berdasarkan</label>
+        </div>
+        <div class="col-2">
+            <input type="date" class="form-control" name="dari">
+        </div>
+        <div class="col-2">
+            <input type="date" class="form-control" name="sampai">
+        </div>
+        <div class="col-4">
+            <button class="btn btn-primary">Cetak</button>
+        </div>
+    </div>
+</form>
 <br>
 <table id="example" class="table table-striped" style="width:100%">
         <thead>
@@ -13,7 +29,6 @@
                 <th>Stok Pinjam</th>
                 <th>Stok Selesai</th>
                 <th>Ruangan</th>
-                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -36,19 +51,6 @@
                             <td><?= $b['stok']?></td>
                             <td><?= $b['stok_selesai']?></td>
                             <td><?= $b['ruangan']?></td>
-                            <td>
-                                <a href="<?= base_url('barang_pakai/edit/'.$b['id_barang_peruangan'].'')?>" class="btn btn-warning">Edit</a>
-                                <?php
-                                            if($b['stok_selesai'] < $b['stok']){
-                                                ?>
-                                                <a href="<?= base_url('barang_pakai/selesai/'.$b['id_barang_peruangan'].'')?>" class="btn btn-primary">Selesai</a>
-                                                <a href="<?= base_url('barang_pakai/delete/'.$b['id_barang_peruangan'].'')?>" onClick="return confirm('Hapus data')" class="btn btn-danger">Hapus</a>
-                                                <?php
-                                            }else{
-
-                                            }
-                                        ?>
-                            </td>
                         </tr>
                     <?php
                 }

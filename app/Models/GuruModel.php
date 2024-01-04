@@ -43,4 +43,5 @@ class GuruModel extends Model
     {
         return $this->findAll();
     }
+    
 }

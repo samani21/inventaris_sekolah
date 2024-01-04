@@ -80,4 +80,18 @@ class BarangBaik extends BaseController
         session()->setFlashdata("success", "Berhasil update data");
         return redirect('barang_baik');
     }
+
+    public function laporan(){
+        $data = "Laporan Barang Baik";
+        $hover = "Laporan Barang Baik";
+        $data1 = new BarangSModel();
+        $dt = $data1->getbarangbaik();
+        return view('barang_baik/laporan',compact('data','hover','dt'));
+    }
+    
+    public function cetak(){
+        $dari = $this->request->getPost('dari');
+        $sampai = $this->request->getPost('sampai');
+        return view('barang_baik/cetak',compact('dari','sampai'));
+    }
 }

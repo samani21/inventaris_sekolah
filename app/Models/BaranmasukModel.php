@@ -47,4 +47,14 @@ class BaranmasukModel extends Model
         return $this->db->table('barang_masuk')->join('barang','barang.id=barang_masuk.id_barang')
         ->get()->getResultArray();
     }
+
+    public function getPemerintah(){
+        return $this->db->table('barang_masuk')->join('barang','barang.id=barang_masuk.id_barang')->where('status','Pemerintah')
+        ->get()->getResultArray();
+    }
+
+    public function getPembelian(){
+        return $this->db->table('barang_masuk')->join('barang','barang.id=barang_masuk.id_barang')->where('status','Pembelian')
+        ->get()->getResultArray();
+    }
 }

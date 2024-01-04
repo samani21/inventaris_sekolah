@@ -13,9 +13,16 @@
             </div>
             <div>
                 <label for="">Ruangan</label>
-                <input type="text" name="ruangan"  value="<?php if(session()->get('level') == "Guru"){
-                    echo session()->get('wakel');
-                } ?>" class="form-control" required  autocomplete="off">
+                <select name="ruangan" class="form-control" id="" required>
+                    <option value="">-pilih</option>
+                    <?php
+                        foreach($ruangan as $ru){
+                            ?>
+                            <option value="<?= $ru['nm_ruangan'] ?>"><?= $ru['nm_ruangan'] ?></option>
+                            <?php
+                        }
+                    ?>
+                </select>
             </div>
             <div>
                 <label for="">Jumlah</label>

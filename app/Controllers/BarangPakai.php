@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use App\Models\BarangModel;
 use App\Models\BarangRuanganModel;
 use App\Models\GuruModel;
+use App\Models\RuanganModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class BarangPakai extends BaseController
@@ -26,7 +27,9 @@ class BarangPakai extends BaseController
         $d_barang = $barang->where([
             'id'=>$id
         ])->first();
-        return view('barang_pakai/tambah',compact('data','hover','d_barang'));
+        $ruangan = new RuanganModel();
+        $ruangan = $ruangan->getRuangan();
+        return view('barang_pakai/tambah',compact('data','hover','d_barang','ruangan'));
     }
 
     public function store($id){
@@ -77,6 +80,7 @@ class BarangPakai extends BaseController
         $data->update($id,[
             'tgl_selesai'=> $this->request->getPost('tgl_selesai'),
             'stok_selesai'=> $this->request->getPost('stok_selesai'),
+            'status' => 2,
         ]);
         session()->setFlashdata("success", "Berhasil update data");
         return redirect('barang_pakai');
@@ -94,8 +98,9 @@ class BarangPakai extends BaseController
         $d_barang = $barang->where([
             'id'=>$br['id_barang']
         ])->first();
-
-        return view('barang_pakai/edit',compact('data','hover','d_barang','br'));
+        $ruangan = new RuanganModel();
+        $ruangan = $ruangan->getRuangan();
+        return view('barang_pakai/edit',compact('data','hover','d_barang','br','ruangan'));
     }
 
     public function update($id){
@@ -124,5 +129,35 @@ class BarangPakai extends BaseController
         $data->delete($id);
         session()->setFlashdata("success", "Berhasil hapus data");
         return redirect('barang_pakai');
+    }
+
+    public function laporan_pakai()
+    {
+        $data = "Laporan Barang Pakai";
+        $hover = "Laporan Barang Pakai";
+        $data1 = new BarangRuanganModel();
+        $dt = $data1->getPakai();
+        return view('barang_pakai/laporan_pakai',compact('data','hover','dt'));
+    }
+
+    public function cetak_pakai(){
+        $dari = $this->request->getPost('dari');
+        $sampai = $this->request->getPost('sampai');
+        return view('barang_pakai/cetak_pakai',compact('dari','sampai'));
+    }
+
+    public function laporan_selesai()
+    {
+        $data = "Laporan Barang Selesai";
+        $hover = "Laporan Barang Selesai";
+        $data1 = new BarangRuanganModel();
+        $dt = $data1->getSelesai();
+        return view('barang_pakai/laporan_selesai',compact('data','hover','dt'));
+    }
+
+    public function cetak_selesai(){
+        $dari = $this->request->getPost('dari');
+        $sampai = $this->request->getPost('sampai');
+        return view('barang_pakai/cetak_selesai',compact('dari','sampai'));
     }
 }
