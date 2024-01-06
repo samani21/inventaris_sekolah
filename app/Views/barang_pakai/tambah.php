@@ -15,6 +15,12 @@
                 <label for="">Ruangan</label>
                 <select name="ruangan" class="form-control" id="" required>
                     <option value="">-pilih</option>
+                    <option value="Kelas I">Kelas I</option>
+                    <option value="Kelas II">Kelas II</option>
+                    <option value="Kelas III">Kelas III</option>
+                    <option value="Kelas IV">Kelas IV</option>
+                    <option value="Kelas V">Kelas V</option>
+                    <option value="Kelas VI">Kelas VI</option>
                     <?php
                         foreach($ruangan as $ru){
                             ?>

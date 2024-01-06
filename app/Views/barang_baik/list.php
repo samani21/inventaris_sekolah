@@ -1,10 +1,7 @@
 <?= $this->extend('layout/page_layout') ?>
 
 <?= $this->section('content') ?>
-<div>
-    <a href="<?= base_url('barang_rusak/tambah') ?>" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</a>
-</div>
-<br>
+
 <table id="example" class="table table-striped" style="width:100%">
         <thead>
             <tr>

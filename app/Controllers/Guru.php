@@ -124,18 +124,14 @@ class Guru extends BaseController
         $pas = $this->request->getPost('password');
         if(empty($pas)){
             $user->update($id_user,[
-                'name' => $this->request->getPost('name'),
                 'username' => $this->request->getPost('username'),
                 'email' => $this->request->getPost('email'),
-                'level' => $this->request->getPost('level'),
             ]);
         }else{
             $user->update($id_user,[
-                'name' => $this->request->getPost('name'),
                 'username' => $this->request->getPost('username'),
                 'email' => $this->request->getPost('email'),
                 'password' => password_hash($this->request->getVar('password'), PASSWORD_DEFAULT),
-                'level' => $this->request->getPost('level'),
             ]);
         }
         session()->setFlashdata("success", "Berhasil update data");
