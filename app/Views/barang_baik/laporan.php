@@ -1,7 +1,7 @@
 <?= $this->extend('layout/page_layout') ?>
 
 <?= $this->section('content') ?>
-<form action="<?= base_url('barang_baik/cetak') ?>" method="post">
+<form action="<?= base_url('kondisi_barang/cetak') ?>" method="post">
     <div class="row">
         <div class="col-2">
             <label for="">Cetak berdasarkan</label>
@@ -24,7 +24,6 @@
                 <th>NO</th>
                 <th>Nama Barang</th>
                 <th>Tanggal</th>
-                <th>Jumlah Rusak</th>
                 <th>Jumlah Baik</th>
                 <th>Keterangan</th>
                 <th>Status</th>
@@ -38,9 +37,8 @@
                         <tr>
                             <td><?= $no++ ?></td>
                             <td><?= $b['nm_barang']?></td>
-                            <td><?= date('d-m-Y', strtotime($b['tgl_baik']))?></td>
+                            <td><?= date('d-m-Y', strtotime($b['tgl']))?></td>
                             <td><?= $b['stok']?></td>
-                            <td><?= $b['stok_baik']?></td>
                             <td><?= $b['keterangan']?></td>
                             <td><?php
                                 if($b['status'] == 1 ){

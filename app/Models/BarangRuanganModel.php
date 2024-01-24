@@ -12,7 +12,7 @@ class BarangRuanganModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['id_barang_peruangan','id_guru','id_barang','tgl_pinjam','tgl_selesai','ruangan','status','stok','stok_selesai'];
+    protected $allowedFields    = ['id_barang_peruangan','id_guru','id_barang_masuk','tgl_pinjam','tgl_selesai','ruangan','status_r','stok','stok_selesai'];
 
     // Dates
     protected $useTimestamps = false;
@@ -43,25 +43,25 @@ class BarangRuanganModel extends Model
         return $this->findAll();
     }
 
-    public function getPeruangan(){
+    public function getPeruangan($ruangan){
         if(session()->get('level') == "Admin"){
-            return $this->db->table('barang_peruangan')->join('barang','barang.id=barang_peruangan.id_barang')->join('guru','guru.id = barang_peruangan.id_guru')
+            return $this->db->table('barang_peruangan')->join('barang_masuk','barang_masuk.id_barang_masuk = barang_peruangan.id_barang_masuk')->join('barang','barang.id = barang_masuk.id_barang')->join('guru','guru.id = barang_peruangan.id_guru')->where('ruangan',$ruangan)
             ->get()->getResultArray();
         }else{
             $id_guru = session()->get('id_guru');
         
-            return $this->db->table('barang_peruangan')->join('barang','barang.id=barang_peruangan.id_barang')->join('guru','guru.id = barang_peruangan.id_guru')->where('id_guru',$id_guru)
+            return $this->db->table('barang_peruangan')->join('barang_masuk','barang_masuk.id_barang_masuk = barang_peruangan.id_barang_masuk')->join('barang','barang.id = barang_masuk.id_barang')->join('guru','guru.id = barang_peruangan.id_guru')->where('ruangan',$ruangan)
             ->get()->getResultArray();
         }
     }
 
-    public function getPakai(){
+    public function getPakai($ruangan){
         if(session()->get('level') == "Admin"){
-            return $this->db->table('barang_peruangan')->join('barang','barang.id=barang_peruangan.id_barang')->join('guru','guru.id = barang_peruangan.id_guru')->where('status',1)
+            return $this->db->table('barang_peruangan')->join('barang_masuk','barang_masuk.id_barang_masuk = barang_peruangan.id_barang_masuk')->join('barang','barang.id = barang_masuk.id_barang')->join('guru','guru.id = barang_peruangan.id_guru')->where('ruangan',$ruangan)
             ->get()->getResultArray();
         }else{
             $id_guru = session()->get('id_guru');
-            return $this->db->table('barang_peruangan')->join('barang','barang.id=barang_peruangan.id_barang')->join('guru','guru.id = barang_peruangan.id_guru')->where('id_guru',$id_guru)->where('status',1)
+            return $this->db->table('barang_peruangan')->join('barang_masuk','barang_masuk.id_barang_masuk = barang_peruangan.id_barang_masuk')->join('barang','barang.id = barang_masuk.id_barang')->join('guru','guru.id = barang_peruangan.id_guru')
             ->get()->getResultArray();
         }
     }
@@ -71,7 +71,7 @@ class BarangRuanganModel extends Model
             ->get()->getResultArray();
         }else{
             $id_guru = session()->get('id_guru');
-            return $this->db->table('barang_peruangan')->join('barang','barang.id=barang_peruangan.id_barang')->join('guru','guru.id = barang_peruangan.id_guru')->where('id_guru',$id_guru)->where('status',2)
+            return $this->db->table('barang_peruangan')->join('barang','barang.id=barang_peruangan.id_barang')->join('guru','guru.id = barang_peruangan.id_guru')->where('status',2)
             ->get()->getResultArray();
         }
     }

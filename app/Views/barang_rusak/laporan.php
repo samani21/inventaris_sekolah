@@ -37,7 +37,7 @@
                         <tr>
                             <td><?= $no++ ?></td>
                             <td><?= $b['nm_barang']?></td>
-                            <td><?= date('d-m-Y', strtotime($b['tgl_rusak']))?></td>
+                            <td><?= date('d-m-Y', strtotime($b['tgl']))?></td>
                             <td><?= $b['stok']?></td>
                             <td><?= $b['keterangan']?></td>
                             <td><?php

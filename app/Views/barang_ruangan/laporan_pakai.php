@@ -6,6 +6,7 @@
         <div class="col-2">
             <label for="">Cetak berdasarkan</label>
         </div>
+        <input type="hidden" value="<?= $ruangan?>" name="ruangan">
         <div class="col-2">
             <input type="date" class="form-control" name="dari">
         </div>
@@ -19,16 +20,17 @@
 </form>
 <br>
 <table id="example" class="table table-striped" style="width:100%">
-        <thead>
+<thead>
             <tr>
                 <th>NO</th>
-                <th>Nama Pemakai</th>
+                <th>Kode Barang</th>
                 <th>Nama Barang</th>
-                <th>Tanggal Pinjam</th>
-                <th>Tanggal Selesai</th>
-                <th>Stok Pinjam</th>
-                <th>Stok Selesai</th>
+                <th>Merek Barang</th>
+                <th>Tanggal</th>
+                <th>Stok</th>
+                <th>Dari</th>
                 <th>Ruangan</th>
+                <th>Status</th>
             </tr>
         </thead>
         <tbody>
@@ -38,19 +40,20 @@
                     ?>
                         <tr>
                             <td><?= $no++ ?></td>
-                            <td><?= $b['nama']?></td>
+                            <td><?= $b['kode_barang']?></td>
                             <td><?= $b['nm_barang']?></td>
+                            <td><?= $b['merek']?></td>
                             <td><?= date('d-m-Y', strtotime($b['tgl_pinjam']))?></td>
-                            <td><?php
-                                if($b['stok_selesai'] < $b['stok']){
-                                    echo '-';
-                                }else{
-                                   echo date('d-m-Y', strtotime($b['tgl_selesai']));
-                                }
-                             ?></td>
                             <td><?= $b['stok']?></td>
-                            <td><?= $b['stok_selesai']?></td>
+                            <td><?= $b['status']?></td>
                             <td><?= $b['ruangan']?></td>
+                            <td><?php
+                                if($b['status_r'] == 1){
+                                    echo "PAKAI";
+                                }else{
+                                    echo "SELESAI";
+                                }
+                            ?></td>
                         </tr>
                     <?php
                 }

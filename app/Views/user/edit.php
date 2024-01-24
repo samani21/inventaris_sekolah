@@ -24,8 +24,7 @@
                 <select name="level" id="" class="form-control" required>
                     <option value="<?= $dt['level'] ?>"><?= $dt['level'] ?></option>
                     <option value="Admin">Admin</option>
-                    <option value="Guru">Guru</option>
-                    <option value="Staff">Staff</option>
+                    <option value="Tata Usaha">Tata Usaha</option>
                 </select>
             </div>
             <br>

@@ -3,6 +3,10 @@
 <?= $this->section('content') ?>
     <div>
         <form action="<?= base_url('barang/update/'.$dt['id'].'')?>" method="post">
+        <div>
+                <label for="">Kode Barang</label>
+                <input type="text" name="kode_barang" value="<?= $dt['kode_barang'] ?>" class="form-control" required autofocus>
+            </div>
             <div>
                 <label for="">Nama Barang</label>
                 <input type="text" name="nm_barang" value="<?= $dt['nm_barang'] ?>" class="form-control" required autofocus>
@@ -10,15 +14,15 @@
             <div>
                 <label for="">Satuan</label>
                 <select name="satuan" class="form-control" id="" required>
-                    <option value="<?= $dt['nm_barang'] ?>"><?= $dt['nm_barang'] ?></option>
+                    <option value="<?= $dt['satuan'] ?>"><?= $dt['satuan'] ?></option>
                     <option value="Unit">Unit</option>
                     <option value="Lusin">Lusin</option>
                     <option value="Liter">Liter</option>
                 </select>
             </div>
             <div>
-                <label for="">Jumlah</label>
-                <input type="text" name="jumlah" value="<?= $dt['jumlah'] ?>" class="form-control" required autofocus>
+                <label for="">Merek Barang</label>
+                <input type="text" name="merek" value="<?= $dt['merek'] ?>" class="form-control" required autofocus>
             </div>
             <br>
             <div>

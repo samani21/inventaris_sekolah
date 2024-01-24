@@ -49,7 +49,6 @@ class Login extends BaseController
 						'name' => $data['name'],
 						'level' => $data['level'],
 						'id_guru' => $dt['id'],
-						'wakel' => $dt['wakel'],
 						'foto' => $dt['foto'],
 					];
 				}

@@ -12,7 +12,7 @@ class BarangSModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['id_barang_status','id_barang','tgl_rusak','tgl_baik','keterangan','status','stok','stok_baik'];
+    protected $allowedFields    = ['id_barang_status','id_barang','keterangan','status','stok','tgl'];
 
     // Dates
     protected $useTimestamps = false;
@@ -54,7 +54,17 @@ class BarangSModel extends Model
     }
 
     public function getbarangbaik(){
-        return $this->db->table('barang_status')->join('barang','barang.id=barang_status.id_barang')->where('status','2')
+        return $this->db->table('barang_status')->join('barang','barang.id=barang_status.id_barang')
+        ->get()->getResultArray();
+    }
+    
+    public function getbarangbaik3(){
+        return $this->db->table('barang_status')->join('barang','barang.id=barang_status.id_barang')->where('status',2)
+        ->get()->getResultArray();
+    }
+
+    public function getbarangbaik1($dari,$sampai,$status){
+        return $this->db->table('barang_status')->join('barang','barang.id=barang_status.id_barang')->where("tgl BETWEEN '$dari' AND '$sampai'")->where("status",$status)
         ->get()->getResultArray();
     }
 }

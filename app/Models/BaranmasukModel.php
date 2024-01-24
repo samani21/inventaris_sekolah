@@ -12,7 +12,7 @@ class BaranmasukModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['id_barang_nasuk','id_barang','tgl','total','harga','status'];
+    protected $allowedFields    = ['id_barang_nasuk','id_barang','tgl','total','status'];
 
     // Dates
     protected $useTimestamps = false;
@@ -47,9 +47,17 @@ class BaranmasukModel extends Model
         return $this->db->table('barang_masuk')->join('barang','barang.id=barang_masuk.id_barang')
         ->get()->getResultArray();
     }
+    public function getbarangrelasi($id){
+        return $this->db->table('barang_masuk')->join('barang','barang.id=barang_masuk.id_barang')->where('id_barang_masuk',$id)
+        ->get()->getResultArray();
+    }
+    public function getbarang2($dari,$sampai){
+        return $this->db->table('barang_masuk')->join('barang','barang.id=barang_masuk.id_barang')->where("tgl BETWEEN '$dari' AND '$sampai'")
+        ->get()->getResultArray();
+    }
 
     public function getPemerintah(){
-        return $this->db->table('barang_masuk')->join('barang','barang.id=barang_masuk.id_barang')->where('status','Pemerintah')
+        return $this->db->table('barang_masuk')->join('barang','barang.id=barang_masuk.id_barang')
         ->get()->getResultArray();
     }
 

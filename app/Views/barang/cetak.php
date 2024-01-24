@@ -1,6 +1,6 @@
 <?php
  $db = db_connect();
- $query = $db->query("SELECT * FROM barang WHERE nm_barang LIKE '%".$cari."%' OR satuan LIKE '%".$cari."%' OR jumlah LIKE '%".$cari."%'");
+ $query = $db->query("SELECT * FROM barang WHERE nm_barang LIKE '%".$cari."%' OR satuan LIKE '%".$cari."%' OR kode_barang LIKE '%".$cari."%'");
  //you get result as an array in here but fetch your result however you feel to
  $result = $query->getResultArray();
 ?>
@@ -42,9 +42,10 @@ DINAS PENDIDIKAN</b>
   <table border="1" style="border-collapse: collapse;" width="100%">
     <thead>
       <th>No</th>
+      <th>Kode Barang</th>
       <th>Nama Barang</th>
       <th>Satuan</th>
-      <th>Jumlah</th>
+      <th>Merek</th>
     </thead>
     <tbody>
       <?php
@@ -53,9 +54,10 @@ DINAS PENDIDIKAN</b>
                 ?>
       <tr>
         <td><?= $no++ ?></td>
+        <td><?= $r['kode_barang'] ?></td>
         <td><?= $r['nm_barang'] ?></td>
         <td><?= $r['satuan'] ?></td>
-        <td><?= $r['jumlah'] ?></td>
+        <td><?= $r['merek'] ?></td>
       </tr>
       <?php
               }

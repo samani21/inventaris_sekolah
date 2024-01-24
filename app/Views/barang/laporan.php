@@ -19,9 +19,10 @@
         <thead>
             <tr>
                 <th>NO</th>
+                <th>Kode Barang</th>
                 <th>Nama Barang</th>
-                <th>Jumlah</th>
                 <th>Satuan</th>
+                <th>Merek</th>
             </tr>
         </thead>
         <tbody>
@@ -31,9 +32,10 @@
                     ?>
                         <tr>
                             <td><?= $no++ ?></td>
+                            <td><?= $b['kode_barang']?></td>
                             <td><?= $b['nm_barang']?></td>
-                            <td><?= $b['jumlah']?></td>
                             <td><?= $b['satuan']?></td>
+                            <td><?= $b['merek']?></td>
                             </td>
                         </tr>
                     <?php

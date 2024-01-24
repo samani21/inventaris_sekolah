@@ -2,7 +2,7 @@
 
 <?= $this->section('content') ?>
     <div>
-    <form action="<?= base_url('guru/update/'.$dt['id'].'')?>" method="post" enctype="multipart/form-data"><div class="row">
+    <form action="<?= base_url('tata_usaha/update/'.$dt['id'].'')?>" method="post" enctype="multipart/form-data"><div class="row">
                 <div class="col-2">
                     <label for="">NIP</label>
                 </div>
@@ -71,14 +71,6 @@
                 </div>
             </div>
             <br>
-            <div class="row">
-                <div class="col-2">
-                    <label for="">Wali Kelas</label>
-                </div>
-                <div class="col-8">
-                <input type="text" name="wakel" class="form-control" value="<?= $dt['wakel'] ?>" required>
-                </div>
-            </div>
             <br>
             <div class="row">
                 <div class="col-2">

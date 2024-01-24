@@ -2,7 +2,7 @@
 
 <?= $this->section('content') ?>
     <div>
-        <form action="<?= base_url('barang_baik/update/'.$dt['id_barang_status'].'')?>" method="post">
+        <form action="<?= base_url('kondisi_barang/update/'.$dt['id_barang_status'].'')?>" method="post">
             <div>
                 <label for="">Nama Barang</label>
                 <input type="text" name="id_barang" list="barang"  value="<?= $dt_barang['nm_barang']?>"class="form-control" required aut autocomplete="off" readonly>
@@ -29,23 +29,15 @@
             </div>
             <div>
                 <label for="">Tanggal</label>
-                <input type="date" name="tgl_rusak" value="<?= $dt['tgl_rusak'] ?>" class="form-control" required readonly>
+                <input type="date" name="tgl" value="<?= $dt['tgl'] ?>" class="form-control" required autofocus>
             </div>
             <div>
-                <label for="">Jumlah Rusak</label>
-                <input type="text"  value="<?= $dt['stok'] ?>" class="form-control" required readonly>
+                <label for="">Jumlah</label>
+                <input type="text" name="stok" value="<?= $dt['stok'] ?>" class="form-control" required autofocus>
             </div>
             <div>
                 <label for="">Keterangan</label>
-                <textarea class="form-control" name="keterangan" id="floatingTextarea2" style="height: 100px" readonly><?= $dt['keterangan'] ?></textarea>
-            </div>
-            <div>
-                <label for="">Jumlah Baik</label>
-                <input type="text" name="stok" value="<?= $dt['stok_baik'] ?>" class="form-control" required autofocus>
-            </div>
-            <div>
-                <label for="">Tanggal</label>
-                <input type="date" name="tgl_baik" value="<?= $dt['tgl_baik'] ?>" class="form-control" required>
+                <textarea class="form-control" name="keterangan" id="floatingTextarea2"  style="height: 100px"><?= $dt['keterangan'] ?></textarea>
             </div>
             <br>
             <div>

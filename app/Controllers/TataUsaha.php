@@ -7,22 +7,22 @@ use App\Models\GuruModel;
 use App\Models\UserModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
-class Guru extends BaseController
+class TataUsaha extends BaseController
 {
     public function index()
     {
-        $data = "Tata Usaha";
-        $hover = "Tata Usaha";
+        $data = "Guru";
+        $hover = "Guru";
         $guru = new GuruModel();
         $d_guru = $guru->getGUru();
         $d_guru = $guru->getGUru();
-        return view('tata_usaha/list',compact('data','d_guru','hover'));
+        return view('guru/list',compact('data','d_guru','hover'));
     }
 
     public function tambah(){
-        $data = "Tambah Data Tata Usaha";
-        $hover = "Tata Usaha";
-        return view('tata_usaha/tambah',compact('data','hover'));
+        $data = "Tambah Data Guru";
+        $hover = "Guru";
+        return view('guru/tambah',compact('data','hover'));
     }
 
     public function store(){
@@ -46,13 +46,13 @@ class Guru extends BaseController
     }
 
     public function edit($id){
-        $data = "Edit Tata Usaha";
-        $hover = "Tata Usaha";
+        $data = "Edit Guru";
+        $hover = "Pengguna";
         $user = new GuruModel();
         $dt = $user->where([
             'id'=>$id,
         ])->first();
-        return view('tata_usaha/edit',compact('data','hover','dt'));
+        return view('guru/edit',compact('data','hover','dt'));
     }
 
     public function update($id_guru){
@@ -84,7 +84,7 @@ class Guru extends BaseController
             $dataBerkas->move('public/images', $fileName);
         }
         session()->setFlashdata("success", "Berhasil update data");
-        return redirect('tata_usaha');
+        return redirect('guru');
     }
 
     public function profil($id_guru,$id_user){
@@ -130,26 +130,26 @@ class Guru extends BaseController
             ]);
         }
         session()->setFlashdata("success", "Berhasil update data");
-        return redirect('tata_usaha');
+        return redirect('guru');
     }
 
     public function delete($id){
         $user = new GuruModel();
         $user->delete($id);
         session()->setFlashdata("success", "Berhasil hapus data");
-        return redirect('tata_usaha');
+        return redirect('guru');
     }
 
     public function laporan(){
-        $data = "Laporan Tata Usaha";
-        $hover = "Laporan Tata Usaha";
+        $data = "Laporan Guru";
+        $hover = "Laporan Guru";
         $barang = new GuruModel();
         $d_guru = $barang->getGUru();
-        return view('tata_usaha/laporan',compact('data','hover','d_guru'));
+        return view('guru/laporan',compact('data','hover','d_guru'));
     }
 
     public function cetak(){
         $cari = $this->request->getPost('cari');
-        return view('tata_usaha/cetak',compact('cari'));
+        return view('guru/cetak',compact('cari'));
     }
 }

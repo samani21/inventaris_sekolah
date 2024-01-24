@@ -2,7 +2,7 @@
 
 <?= $this->section('content') ?>
     <div>
-        <form action="<?= base_url('barang_baik/store/'.$dt['id_barang_status'].'')?>" method="post">
+        <form action="<?= base_url('kondisi_barang/store/'.$dt['id_barang_status'].'')?>" method="post">
             <div>
                 <label for="">Nama Barang</label>
                 <input type="text" name="id_barang" list="barang"  value="<?= $dt_barang['nm_barang']?>"class="form-control" required aut autocomplete="off" readonly>

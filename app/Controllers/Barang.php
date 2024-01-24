@@ -28,7 +28,8 @@ class Barang extends BaseController
         $barang->insert([
             'nm_barang'=> $this->request->getPost('nm_barang'),
             'satuan'=> $this->request->getPost('satuan'),
-            'jumlah'=> $this->request->getPost('jumlah'),
+            'kode_barang'=> $this->request->getPost('kode_barang'),
+            'merek'=> $this->request->getPost('merek'),
         ]);
         session()->setFlashdata("success", "Berhasil update data");
         return redirect('barang');
@@ -48,7 +49,8 @@ class Barang extends BaseController
         $barang->update($id_guru,[
             'nm_barang'=> $this->request->getPost('nm_barang'),
             'satuan'=> $this->request->getPost('satuan'),
-            'jumlah'=> $this->request->getPost('jumlah'),
+            'kode_barang'=> $this->request->getPost('kode_barang'),
+            'merek'=> $this->request->getPost('merek'),
         ]);
         session()->setFlashdata("success", "Berhasil update data");
         return redirect('barang');

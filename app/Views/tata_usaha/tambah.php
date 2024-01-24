@@ -12,7 +12,7 @@
     <div class="container">
         <h2 align="center">TAMBAH DATA GURU</h2>
         <hr>
-        <form action="<?= base_url('guru/store')?>" method="post" enctype="multipart/form-data">
+        <form action="<?= base_url('tata_usaha/store')?>" method="post" enctype="multipart/form-data">
         <input type="hidden" name="user_id" value="<?= session()->get('id'); ?>" class="form-control" required>
             <div class="row">
                 <div class="col-2">
@@ -83,27 +83,10 @@
             <br>
             <div class="row">
                 <div class="col-2">
-                    <label for="">Wali Kelas</label>
-                </div>
-                <div class="col-8">
-                <select name="wakel" class="form-control" id="" >
-                    <option value="-">-Pilih</option>
-                    <option value="Kelas I">Kelas I</option>
-                    <option value="Kelas II">Kelas II</option>
-                    <option value="Kelas III">Kelas III</option>
-                    <option value="Kelas IV">Kelas IV</option>
-                    <option value="Kelas V">Kelas V</option>
-                    <option value="Kelas VI">Kelas VI</option>
-                </select>
-                </div>
-            </div>
-            <br>
-            <div class="row">
-                <div class="col-2">
                     <label for="">Foto</label>
                 </div>
                 <div class="col-8">
-                <input type="file" name="foto" class="form-control">
+                <input type="file" name="foto" class="form-control" required>
                 </div>
             </div>
             <br>

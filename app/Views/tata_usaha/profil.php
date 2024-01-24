@@ -2,7 +2,7 @@
 
 <?= $this->section('content') ?>
 
-<form action="<?= base_url('guru/profil/'.session()->get('id_guru').'/'.session()->get('id').'') ?>" method="post" enctype="multipart/form-data">
+<form action="<?= base_url('tata_usaha/profil/'.session()->get('id_guru').'/'.session()->get('id').'') ?>" method="post" enctype="multipart/form-data">
 <div class="row">
     <div class="col-6">
         <div>
@@ -35,10 +35,6 @@
         <div>
             <label for="">No Hp</label>
             <input type="text" name="hp" class="form-control" value="<?= $d_guru['no_hp'] ?>">
-        </div>
-        <div>
-            <label for="">Wali Kelas</label>
-            <input type="text" name="wakel" class="form-control" value="<?= $d_guru['wakel'] ?>">
         </div>
     </div>
     <div class="col-6">

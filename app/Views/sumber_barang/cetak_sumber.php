@@ -1,15 +1,9 @@
 <?php
  $db = db_connect();
- if(session()->get('level') == "Admin"){
-  $query = $db->query("SELECT * FROM barang_peruangan JOIN barang ON barang.id = barang_peruangan.id_barang JOIN guru ON guru.id = barang_peruangan.id_guru WHERE tgl_pinjam BETWEEN '$dari' AND '$sampai' AND status = '1'");
+ $query = $db->query("SELECT * FROM barang_masuk JOIN barang ON barang.id = barang_masuk.id_barang WHERE tgl BETWEEN '$dari' AND '$sampai'");
  //you get result as an array in here but fetch your result however you feel to
  $result = $query->getResultArray();
- }else{
-  $id = session()->get('id_guru');
-  $query = $db->query("SELECT * FROM barang_peruangan JOIN barang ON barang.id = barang_peruangan.id_barang JOIN guru ON guru.id = barang_peruangan.id_guru WHERE tgl_pinjam BETWEEN '$dari' AND '$sampai' AND status = '1' AND guru.id = $id");
- //you get result as an array in here but fetch your result however you feel to
- $result = $query->getResultArray();
- }
+
 ?>
 
 <!DOCTYPE html>
@@ -43,17 +37,22 @@ DINAS PENDIDIKAN</b>
   </table>
   <hr>
   <div align="center">
-    <b align="center">DATA BARANG PAKAI</td></b>
+    <b align="center">DATA SUMBER BARANG</td></b>
   </div>
   <hr>
+<pre>
+Laporan Sumber barang dari tanggal <?= $dari ?> - <?= $sampai?>
+</pre>
   <table border="1" style="border-collapse: collapse;" width="100%">
     <thead>
       <th>No</th>
-      <th>Nama Pemakai</th>
+      <th>Kode Barang</th>
       <th>Nama Barang</th>
+      <th>Merek Barang</th>
       <th>Tanggal</th>
+      <th>Satuan</th>
       <th>Jumlah</th>
-      <th>Status</th>
+      <th>Dari</th>
     </thead>
     <tbody>
       <?php
@@ -62,17 +61,13 @@ DINAS PENDIDIKAN</b>
                 ?>
       <tr>
         <td><?= $no++ ?></td>
-        <td><?= $r['nama'] ?></td>
+        <td><?= $r['kode_barang'] ?></td>
         <td><?= $r['nm_barang'] ?></td>
-        <td><?= date('d-m-Y', strtotime($r['tgl_pinjam'])) ?></td>
-        <td><?= $r['stok'] ?></td>
-        <td><?php
-                                if($r['status'] == 1 ){
-                                    echo "Pakai";
-                                }else{
-                                    echo "Selesai";
-                                }
-                            ?>
+        <td><?= $r['merek'] ?></td>
+        <td><?= date('d-m-Y', strtotime($r['tgl'])) ?></td>
+        <td><?= $r['satuan'] ?></td>
+        <td><?= $r['total'] ?></td>
+        <td><?= $r['status'] ?></td>
       </tr>
       <?php
               }

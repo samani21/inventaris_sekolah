@@ -22,16 +22,16 @@ $routes->get('/user/edit/(:any)', 'User::edit/$1');
 $routes->post('/user/update/(:any)', 'User::update/$1');
 $routes->get('/user/delete/(:any)', 'User::delete/$1');
 
-//Guru
-$routes->get('/guru','Guru::index');
-$routes->get('/guru/tambah','Guru::tambah');
-$routes->post('guru/store', 'Guru::store');
-$routes->get('/guru/edit/(:any)', 'Guru::edit/$1');
-$routes->post('/guru/update/(:any)', 'Guru::update/$1');
-$routes->post('/guru/profil/(:any)/(:any)', 'Guru::profil/$1/$2');
-$routes->get('/guru/delete/(:any)', 'Guru::delete/$1');
-$routes->get('/guru/laporan','Guru::laporan');
-$routes->post('guru/cetak', 'Guru::cetak');
+//Tata Usaha
+$routes->get('/tata_usaha','Guru::index');
+$routes->get('/tata_usaha/tambah','Guru::tambah');
+$routes->post('tata_usaha/store', 'Guru::store');
+$routes->get('/tata_usaha/edit/(:any)', 'Guru::edit/$1');
+$routes->post('/tata_usaha/update/(:any)', 'Guru::update/$1');
+$routes->post('/tata_usaha/profil/(:any)/(:any)', 'Guru::profil/$1/$2');
+$routes->get('/tata_usaha/delete/(:any)', 'Guru::delete/$1');
+$routes->get('/tata_usaha/laporan','Guru::laporan');
+$routes->post('tata_usaha/cetak', 'Guru::cetak');
 
 //barang
 $routes->get('/barang','Barang::index');
@@ -44,18 +44,16 @@ $routes->get('/barang/laporan_barang','Barang::laporan');
 $routes->post('barang/cetak', 'Barang::cetak');
 
 //barang masuk
-$routes->get('/barang_masuk','BarangMasuk::index');
-$routes->get('/barang_masuk/tambah','BarangMasuk::tambah');
-$routes->post('barang_masuk/store', 'BarangMasuk::store');
-$routes->get('/barang_masuk/edit/(:any)', 'BarangMasuk::edit/$1');
-$routes->post('/barang_masuk/update/(:any)', 'BarangMasuk::update/$1');
-$routes->get('/barang_masuk/delete/(:any)', 'BarangMasuk::delete/$1');
-$routes->get('/barang_masuk/laporan_pemerintah','BarangMasuk::laporan_pemerintah');
-$routes->post('barang_masuk/cetak_pemerintah', 'BarangMasuk::cetak_pemerintah');
-$routes->get('/barang_masuk/laporan_pembelian','BarangMasuk::laporan_pembelian');
-$routes->post('barang_masuk/cetak_pembelian', 'BarangMasuk::cetak_pembelian');
+$routes->get('/sumber_barang','BarangMasuk::index');
+$routes->get('/sumber_barang/tambah','BarangMasuk::tambah');
+$routes->post('sumber_barang/store', 'BarangMasuk::store');
+$routes->get('/sumber_barang/edit/(:any)', 'BarangMasuk::edit/$1');
+$routes->post('/sumber_barang/update/(:any)', 'BarangMasuk::update/$1');
+$routes->get('/sumber_barang/delete/(:any)', 'BarangMasuk::delete/$1');
+$routes->get('/sumber_barang/laporan_sumber','BarangMasuk::laporan_sumber');
+$routes->post('sumber_barang/cetak_sumber', 'BarangMasuk::cetak_sumber');
 
-//barang rusak
+//Kondisi_barang
 $routes->get('/barang_rusak','BarangRusak::index');
 $routes->get('/barang_rusak/tambah','BarangRusak::tambah');
 $routes->post('barang_rusak/store', 'BarangRusak::store');
@@ -66,17 +64,17 @@ $routes->get('/barang_rusak/laporan','BarangRusak::laporan');
 $routes->post('barang_rusak/cetak', 'BarangRusak::cetak');
 
 //barang baik
-$routes->get('/barang_baik','BarangBaik::index');
-$routes->get('/barang_baik/tambah/(:any)', 'BarangBaik::tambah_baik/$1');
-$routes->post('barang_baik/store/(:any)', 'BarangBaik::store/$1');
-$routes->get('/barang_baik/edit/(:any)', 'BarangBaik::edit/$1');
-$routes->post('/barang_baik/update/(:any)', 'BarangBaik::update/$1');
-$routes->get('/barang_baik/delete/(:any)', 'BarangBaik::delete/$1');
-$routes->get('/barang_baik/laporan','BarangBaik::laporan');
-$routes->post('barang_baik/cetak', 'BarangBaik::cetak');
+$routes->get('/kondisi_barang','BarangBaik::index');
+$routes->get('/kondisi_barang/tambah','BarangBaik::tambah');
+$routes->post('kondisi_barang/store', 'BarangBaik::store');
+$routes->get('/kondisi_barang/edit/(:any)', 'BarangBaik::edit/$1');
+$routes->post('/kondisi_barang/update/(:any)', 'BarangBaik::update/$1');
+$routes->get('/kondisi_barang/delete/(:any)', 'BarangBaik::delete/$1');
+$routes->get('/kondisi_barang/laporan','BarangBaik::laporan');
+$routes->post('kondisi_barang/cetak', 'BarangBaik::cetak');
 
-//barang pakai
-$routes->get('/barang_pakai','BarangPakai::index');
+//barang peruangan
+$routes->get('/barang_peruangan/(:any)','BarangPakai::index/$1');
 $routes->get('/barang_pakai/tambah/(:any)','BarangPakai::tambah/$1');
 $routes->post('barang_pakai/store/(:any)', 'BarangPakai::store/$1');
 $routes->get('/barang_pakai/selesai/(:any)','BarangPakai::selesai/$1');
@@ -85,10 +83,8 @@ $routes->get('/barang_pakai/edit/(:any)', 'BarangPakai::edit/$1');
 $routes->post('/barang_pakai/update/(:any)', 'BarangPakai::update/$1');
 $routes->post('/barang_pakai/update1/(:any)', 'BarangPakai::update1/$1');
 $routes->get('/barang_pakai/delete/(:any)', 'BarangPakai::delete/$1');
-$routes->get('/barang_pakai/laporan_pakai','BarangPakai::laporan_pakai');
-$routes->post('barang_pakai/cetak_pakai', 'BarangPakai::cetak_pakai');
-$routes->get('/barang_pakai/laporan_selesai','BarangPakai::laporan_selesai');
-$routes->post('barang_pakai/cetak_selesai', 'BarangPakai::cetak_selesai');
+$routes->get('/barang_pakai/laporan_(:any)','BarangPakai::laporan_pakai/$1');
+$routes->post('barang_pakai/cetak_pakai', 'BarangPakai::cetak_pakai/$1');
 
 //ruangan
 $routes->get('/ruangan','Ruangan::index');

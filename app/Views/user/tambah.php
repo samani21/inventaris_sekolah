@@ -22,9 +22,9 @@
             <div>
                 <label for="">Level</label>
                 <select name="level" id="" class="form-control" required>
+                    <option value="">--pilih</option>
                     <option value="Admin">Admin</option>
-                    <option value="Guru">Guru</option>
-                    <option value="Staf">Staf</option>
+                    <option value="Tata Usaha">Tata Usaha</option>
                 </select>
             </div>
             <br>

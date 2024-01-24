@@ -1,6 +1,6 @@
 <?php
  $db = db_connect();
- $query = $db->query("SELECT * FROM barang_status JOIN barang ON barang.id = barang_status.id_barang WHERE tgl_rusak BETWEEN '$dari' AND '$sampai' AND status = '1'");
+ $query = $db->query("SELECT * FROM barang_status JOIN barang ON barang.id = barang_status.id_barang WHERE tgl BETWEEN '$dari' AND '$sampai' AND status = '1'");
  //you get result as an array in here but fetch your result however you feel to
  $result = $query->getResultArray();
 ?>
@@ -36,9 +36,12 @@ DINAS PENDIDIKAN</b>
   </table>
   <hr>
   <div align="center">
-    <b align="center">DATA BARANG RUSAK</td></b>
+    <b align="center">DATA KONDISI BARANG RUSAK</td></b>
   </div>
   <hr>
+<pre>
+Laporan dari tanggal <?= $dari ?> - <?= $sampai ?>
+</pre>
   <table border="1" style="border-collapse: collapse;" width="100%">
     <thead>
       <th>No</th>
@@ -56,7 +59,7 @@ DINAS PENDIDIKAN</b>
       <tr>
         <td><?= $no++ ?></td>
         <td><?= $r['nm_barang'] ?></td>
-        <td><?= date('d-m-Y', strtotime($r['tgl_rusak'])) ?></td>
+        <td><?= date('d-m-Y', strtotime($r['tgl'])) ?></td>
         <td><?= $r['stok'] ?></td>
         <td><?= $r['keterangan'] ?></td>
         <td><?php

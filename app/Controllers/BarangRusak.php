@@ -27,19 +27,16 @@ class BarangRusak extends BaseController
     }
 
     public function store(){
-        $id_barang = substr($this->request->getPost('id_barang'),0,4);
         $data = new BarangsModel();
         $data->insert([
-            'id_barang'=> $id_barang,
-            'tgl_rusak'=> $this->request->getPost('tgl_rusak'),
-            'tgl_baik'=> $this->request->getPost('tgl_rusak'),
+            'id_barang'=> $this->request->getPost('id_barang'),
+            'tgl'=> $this->request->getPost('tgl'),
             'stok'=> $this->request->getPost('stok'),
-            'stok_baik'=> 0,
             'keterangan'=> $this->request->getPost('keterangan'),
             'status'=> 1,
         ]);
         session()->setFlashdata("success", "Berhasil update data");
-        return redirect('barang_rusak');
+        return redirect('kondisi_barang');
     }
 
     public function edit($id){
@@ -73,7 +70,7 @@ class BarangRusak extends BaseController
         $data = new BarangsModel();
         $data->delete($id);
         session()->setFlashdata("success", "Berhasil hapus data");
-        return redirect('barang_rusak');
+        return redirect('kondisi_barang');
     }
 
     public function laporan(){

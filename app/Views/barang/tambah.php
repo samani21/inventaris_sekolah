@@ -3,9 +3,13 @@
 <?= $this->section('content') ?>
     <div>
         <form action="<?= base_url('barang/store')?>" method="post">
+        <div>
+                <label for="">Kode Barang</label>
+                <input type="text" name="kode_barang" class="form-control" required autofocus>
+            </div>
             <div>
                 <label for="">Nama Barang</label>
-                <input type="text" name="nm_barang" class="form-control" required autofocus>
+                <input type="text" name="nm_barang" class="form-control" required >
             </div>
             <div>
                 <label for="">Satuan</label>
@@ -16,8 +20,8 @@
                 </select>
             </div>
             <div>
-                <label for="">Jumlah</label>
-                <input type="text" name="jumlah" class="form-control" required autofocus>
+                <label for="">Merek Barang</label>
+                <input type="text" name="merek" class="form-control" required >
             </div>
             <br>
             <div>

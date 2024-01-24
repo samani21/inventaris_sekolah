@@ -2,7 +2,7 @@
 
 <?= $this->section('content') ?>
     <div>
-        <form action="<?= base_url('barang_masuk/update/'.$dt['id_barang_masuk'].'')?>" method="post">
+        <form action="<?= base_url('sumber_barang/update/'.$dt['id_barang_masuk'].'')?>" method="post">
             <div>
                 <label for="">Nama Barang</label>
                 <input type="text" name="id_barang" list="barang"  value="<?= $dt_barang['nm_barang']?>"class="form-control" required aut autocomplete="off" readonly>
@@ -36,16 +36,8 @@
                 <input type="text" name="total" value="<?= $dt['total'] ?>" class="form-control" required autofocus>
             </div>
             <div>
-                <label for="">Harga</label>
-                <input type="text" name="harga" value="<?= $hasil_rupiah = "Rp " . number_format($dt['harga'],0,',','.') ?>"  class="form-control" required autofocus>
-            </div>
-            <div>
                 <label for="">Status</label>
-                <select name="status" class="form-control" id="" required>
-                    <option value="<?= $dt['status'] ?>"><?= $dt['status'] ?></option>
-                    <option value="Pemerintah">Pemerintah</option>
-                    <option value="Pembelian">Pembelian</option>
-                </select>
+                <input type="text" name="status" value="<?= $dt['status'] ?>" class="form-control" required autofocus>
             </div>
             <br>
             <div>

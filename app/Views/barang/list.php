@@ -9,9 +9,10 @@
         <thead>
             <tr>
                 <th>NO</th>
+                <th>Kode Barang</th>
                 <th>Nama Barang</th>
-                <th>Jumlah</th>
                 <th>Satuan</th>
+                <th>Merek</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -22,12 +23,11 @@
                     ?>
                         <tr>
                             <td><?= $no++ ?></td>
+                            <td><?= $b['kode_barang']?></td>
                             <td><?= $b['nm_barang']?></td>
-                            <td><?= $b['jumlah']?></td>
                             <td><?= $b['satuan']?></td>
-                            <td>
-                                <a href="<?= base_url('barang_pakai/tambah/'.$b['id'].'')?>" class="btn btn-primary">Pakai</a>
-                                <?php
+                            <td><?= $b['merek']?></td>
+                            <td><?php
                                 if(session()->get('level') == "Admin"){
                                     ?>
                                         <a href="<?= base_url('barang/edit/'.$b['id'].'')?>" class="btn btn-warning">Edit</a>

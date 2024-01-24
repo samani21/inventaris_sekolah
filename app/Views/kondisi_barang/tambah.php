@@ -2,38 +2,35 @@
 
 <?= $this->section('content') ?>
     <div>
-        <form action="<?= base_url('barang_rusak/store')?>" method="post">
-            <div>
+        <form action="<?= base_url('kondisi_barang/store')?>" method="post">
+        <div>
                 <label for="">Nama Barang</label>
-                <input type="text" name="id_barang" list="barang" class="form-control" required autofocus aut autocomplete="off">
-                <datalist id="barang">
-                    <?php
+                <select name="id_barang" class="form-control" required autofocus>
+                    <option value="">--pilih barang</option>
+                <?php
                         foreach($d_barang as $b){
                             ?>
-                                <option value="<?php
-                                    if($b['id'] < 10){
-                                        echo "000".$b['id'];
-                                    }else if($b['id'] < 100){
-                                        echo "00".$b['id'];
-                                    }
-                                    else if($b['id'] < 1000){
-                                        echo "0".$b['id'];
-                                    }else if($b['id'] < 1000){
-                                        echo $b['id'];
-                                    }
-                                ?>, <?= $b['nm_barang']?>"></option>
+                                <option value="<?= $b['id']?>"><?= $b['kode_barang']?> : <?= $b['nm_barang']?> (<?= $b['merek']?>)</option>
                             <?php
                         }
                     ?>
-                </datalist>
+                </select>
             </div>
             <div>
                 <label for="">Tanggal</label>
-                <input type="date" name="tgl_rusak" value="<?= date('Y-m-d') ?>" class="form-control" required autofocus>
+                <input type="date" name="tgl" value="<?= date('Y-m-d') ?>" class="form-control" required autofocus>
             </div>
             <div>
                 <label for="">Jumlah</label>
                 <input type="text" name="stok" class="form-control" required autofocus>
+            </div>
+            <div>
+                <label for="">Konidis</label>
+            <select name="status" class="form-control" id="" required>
+                <option value="">--Pilih</option>
+                <option value="1">Rusak</option>
+                <option value="2">Diperbaiki</option>
+            </select>    
             </div>
             <div>
                 <label for="">Keterangan</label>
