@@ -44,7 +44,7 @@
                                 if($b['status'] == 1 ){
                                     echo "Rusak";
                                 }else{
-                                    echo "Diperbaiki";
+                                    echo "Baik";
                                 }
                             ?></td>
                         </tr>

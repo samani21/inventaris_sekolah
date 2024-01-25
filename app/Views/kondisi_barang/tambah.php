@@ -29,7 +29,7 @@
             <select name="status" class="form-control" id="" required>
                 <option value="">--Pilih</option>
                 <option value="1">Rusak</option>
-                <option value="2">Diperbaiki</option>
+                <option value="2">Baik</option>
             </select>    
             </div>
             <div>

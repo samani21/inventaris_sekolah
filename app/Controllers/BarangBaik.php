@@ -26,7 +26,7 @@ class BarangBaik extends BaseController
     }
 
     public function tambah(){
-        $data = "Tambah Barang Rusak";
+        $data = "Tambah Kondisi Barang";
         $hover = "Barang Rusak";
         $barang = new BarangModel();
         $d_barang = $barang->getBarang();
@@ -47,7 +47,7 @@ class BarangBaik extends BaseController
     }
 
     public function edit($id){
-        $data = "Edit Barang baik";
+        $data = "Edit Kondisi Barang";
         $hover = "Kondisi Barang";
         $barangmasuk = new BarangsModel();
         $dt = $barangmasuk->where([

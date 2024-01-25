@@ -16,13 +16,13 @@ class TataUsaha extends BaseController
         $guru = new GuruModel();
         $d_guru = $guru->getGUru();
         $d_guru = $guru->getGUru();
-        return view('guru/list',compact('data','d_guru','hover'));
+        return view('tata_usaha/list',compact('data','d_guru','hover'));
     }
 
     public function tambah(){
         $data = "Tambah Data Guru";
         $hover = "Guru";
-        return view('guru/tambah',compact('data','hover'));
+        return view('tata_usaha/tambah',compact('data','hover'));
     }
 
     public function store(){
@@ -52,7 +52,7 @@ class TataUsaha extends BaseController
         $dt = $user->where([
             'id'=>$id,
         ])->first();
-        return view('guru/edit',compact('data','hover','dt'));
+        return view('tata_usaha/edit',compact('data','hover','dt'));
     }
 
     public function update($id_guru){
@@ -145,11 +145,11 @@ class TataUsaha extends BaseController
         $hover = "Laporan Guru";
         $barang = new GuruModel();
         $d_guru = $barang->getGUru();
-        return view('guru/laporan',compact('data','hover','d_guru'));
+        return view('tata_usaha/laporan',compact('data','hover','d_guru'));
     }
 
     public function cetak(){
         $cari = $this->request->getPost('cari');
-        return view('guru/cetak',compact('cari'));
+        return view('tata_usaha/cetak',compact('cari'));
     }
 }

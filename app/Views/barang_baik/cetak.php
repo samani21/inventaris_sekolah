@@ -66,7 +66,7 @@ Laporan dari tanggal <?= $dari ?> - <?= $sampai ?>
                                 if($r['status'] == 1 ){
                                     echo "Rusak";
                                 }else{
-                                    echo "Diperbaiki";
+                                    echo "Baik";
                                 }
                             ?>
       </tr>
