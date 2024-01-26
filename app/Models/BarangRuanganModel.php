@@ -56,14 +56,8 @@ class BarangRuanganModel extends Model
     }
 
     public function getPakai($ruangan){
-        if(session()->get('level') == "Admin"){
-            return $this->db->table('barang_peruangan')->join('barang_masuk','barang_masuk.id_barang_masuk = barang_peruangan.id_barang_masuk')->join('barang','barang.id = barang_masuk.id_barang')->join('guru','guru.id = barang_peruangan.id_guru')->where('ruangan',$ruangan)
-            ->get()->getResultArray();
-        }else{
-            $id_guru = session()->get('id_guru');
-            return $this->db->table('barang_peruangan')->join('barang_masuk','barang_masuk.id_barang_masuk = barang_peruangan.id_barang_masuk')->join('barang','barang.id = barang_masuk.id_barang')->join('guru','guru.id = barang_peruangan.id_guru')
-            ->get()->getResultArray();
-        }
+        return $this->db->table('barang_peruangan')->join('barang_masuk','barang_masuk.id_barang_masuk = barang_peruangan.id_barang_masuk')->join('barang','barang.id = barang_masuk.id_barang')->join('guru','guru.id = barang_peruangan.id_guru')->where('ruangan',$ruangan)
+        ->get()->getResultArray();
     }
     public function getSelesai(){
         if(session()->get('level') == "Admin"){
