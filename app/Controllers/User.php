@@ -12,19 +12,35 @@ class User extends BaseController
     {
         $data = "Pengguna";
         $hover = "Pengguna";
-        $user = new UserModel();
-        $d_user = $user->getUser();
-        return view('user/list',compact('data','d_user','hover'));
+        $model = new UserModel();
+        $page = 'user';
+        $column = ['name', 'username', 'email', 'level'];
+        $row = $model->getData();
+        return view('main/list', compact('data', 'hover', 'row', 'column', 'page'));
     }
 
     public function tambah()
     {
         $data = "Tambah User";
         $hover = "Pengguna";
-        return view('user/tambah',compact('data','hover'));
+        $page = "user";
+        $model = new UserModel();
+        $enumValues = $model->getEnumValues('level');
+        $enum = [
+            'level' => $enumValues
+        ];
+        $form = [
+            ['type' => 'text', 'name' => 'name'],
+            ['type' => 'text', 'name' => 'username'],
+            ['type' => 'email', 'name' => 'email'],
+            ['type' => 'password', 'name' => 'password'],
+            ['type' => 'enum', 'name' => 'level'],
+        ];
+        return view('main/tambah', compact('data', 'hover', 'page', 'form', 'enum', 'enumValues'));
     }
 
-    public function store(){
+    public function store()
+    {
         $user = new UserModel();
         $user->insert([
             'name' => $this->request->getPost('name'),
@@ -37,28 +53,43 @@ class User extends BaseController
         return redirect('user');
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
         $data = "Edit User";
         $hover = "Pengguna";
-        $user = new UserModel();
-        $dt = $user->where([
-            'id'=>$id,
+        $model = new UserModel();
+        $page = "user";
+        $model = new UserModel();
+        $enumValues = $model->getEnumValues('level');
+        $enum = [
+            'level' => $enumValues
+        ];
+        $form = [
+            ['type' => 'text', 'name' => 'name'],
+            ['type' => 'text', 'name' => 'username'],
+            ['type' => 'email', 'name' => 'email'],
+            ['type' => 'password', 'name' => 'password'],
+            ['type' => 'enum', 'name' => 'level'],
+        ];
+        $dt = $model->where([
+            'id' => $id,
         ])->first();
-        return view('user/edit',compact('data','hover','dt'));
+        return view('main/edit', compact('data', 'hover', 'dt', 'page', 'form', 'enum', 'enumValues'));
     }
 
-    public function update($id){
+    public function update($id)
+    {
         $user = new UserModel();
         $pas = $this->request->getPost('password');
-        if(empty($pas)){
-            $user->update($id,[
+        if (empty($pas)) {
+            $user->update($id, [
                 'name' => $this->request->getPost('name'),
                 'username' => $this->request->getPost('username'),
                 'email' => $this->request->getPost('email'),
                 'level' => $this->request->getPost('level'),
             ]);
-        }else{
-            $user->update($id,[
+        } else {
+            $user->update($id, [
                 'name' => $this->request->getPost('name'),
                 'username' => $this->request->getPost('username'),
                 'email' => $this->request->getPost('email'),
@@ -70,7 +101,8 @@ class User extends BaseController
         return redirect('user');
     }
 
-    public function delete($id){
+    public function delete($id)
+    {
         $user = new UserModel();
         $user->delete($id);
         session()->setFlashdata("success", "Berhasil hapus data");

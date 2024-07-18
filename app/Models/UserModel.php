@@ -12,7 +12,7 @@ class UserModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['name','email','password','level','username','created_at','id'];
+    protected $allowedFields    = ['name', 'email', 'password', 'level', 'username', 'created_at', 'id'];
 
     // Dates
     protected $useTimestamps = false;
@@ -38,8 +38,23 @@ class UserModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    public function getUser()
+    public function getData()
     {
         return $this->findAll();
+    }
+    public function getEnumValues($field)
+    {
+        $db = \Config\Database::connect();
+        $query = $db->query("SHOW COLUMNS FROM {$this->table} LIKE '{$field}'");
+        $row = $query->getRow();
+
+        if ($row) {
+            // Extract enum values
+            preg_match("/^enum\((.*)\)$/", $row->Type, $matches);
+            $enum = str_getcsv($matches[1], ',', "'");
+            return $enum;
+        }
+
+        return [];
     }
 }

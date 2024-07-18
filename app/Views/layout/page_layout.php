@@ -1,269 +1,342 @@
 <?php
-  if(!empty(session()->get('id'))){
-    ?>
-    <!doctype html>
-<html lang="en">
-  <head>
-  	<title>Sidebar 09</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+if (!empty(session()->get('id'))) {
+?>
+    <!DOCTYPE html>
+    <html lang="en">
 
-    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
-		
-    <script src="https://kit.fontawesome.com/a284c48079.js" crossorigin="anonymous"></script>
-		<link rel="stylesheet" href="<?= base_url() ?>/public/css/style.css">
-        <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-        <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
-        <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
-        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
-        <style>
-            .dropdown-container {
-  display: none;
-  background-color: #262626;
-  padding-left: 8px;
-}
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>Forms - Kaiadmin Bootstrap 5 Admin Dashboard</title>
+        <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
+        <link rel="icon" href="<?= base_url('public/') ?>assets/img/kaiadmin/favicon.ico" type="image/x-icon" />
 
-        </style>
+        <!-- Fonts and icons -->
+        <script src="<?= base_url('public/') ?>assets/js/plugin/webfont/webfont.min.js"></script>
+        <script>
+            WebFont.load({
+                google: {
+                    families: ["Public Sans:300,400,500,600,700"]
+                },
+                custom: {
+                    families: [
+                        "Font Awesome 5 Solid",
+                        "Font Awesome 5 Regular",
+                        "Font Awesome 5 Brands",
+                        "simple-line-icons",
+                    ],
+                    urls: ["<?= base_url('public/') ?>assets/css/fonts.min.css"],
+                },
+                active: function() {
+                    sessionStorage.fonts = true;
+                },
+            });
+        </script>
 
-  </head>
-  <body>
-		
-		<div class="wrapper d-flex align-items-stretch">
-			<nav id="sidebar">
-				<div class="custom-menu">
-					<button type="button" id="sidebarCollapse" class="btn btn-primary">
-	        </button>
-        </div>
-	  		<div class="bg-wrap text-center py-1">
-	  			<div class="user-logo">
-	  				<div>
-                        <img src="<?= base_url() ?>/public/images/<?= session()->get('foto'); ?>" class="img" alt="">
+        <!-- CSS Files -->
+        <link rel="stylesheet" href="<?= base_url('public/') ?>assets/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="<?= base_url('public/') ?>assets/css/plugins.min.css" />
+        <link rel="stylesheet" href="<?= base_url('public/') ?>assets/css/kaiadmin.min.css" />
+
+        <!-- CSS Just for demo purpose, don't include it in your project -->
+        <link rel="stylesheet" href="<?= base_url('public/') ?>assets/css/demo.css" />
+    </head>
+
+    <body>
+        <div class="wrapper">
+            <!-- Sidebar -->
+            <?= $this->include('partials/sidebar') ?>
+            <!-- End Sidebar -->
+
+            <div class="main-panel">
+                <div class="main-header">
+                    <div class="main-header-logo">
+                        <!-- Logo Header -->
+                        <div class="logo-header" data-background-color="dark">
+                            <a href="index.html" class="logo">
+                                <img src="<?= base_url('public/') ?>assets/img/kaiadmin/logo_light.svg" alt="navbar brand" class="navbar-brand" height="20" />
+                            </a>
+                            <div class="nav-toggle">
+                                <button class="btn btn-toggle toggle-sidebar">
+                                    <i class="gg-menu-right"></i>
+                                </button>
+                                <button class="btn btn-toggle sidenav-toggler">
+                                    <i class="gg-menu-left"></i>
+                                </button>
+                            </div>
+                            <button class="topbar-toggler more">
+                                <i class="gg-more-vertical-alt"></i>
+                            </button>
+                        </div>
+                        <!-- End Logo Header -->
                     </div>
-	  				<h3><?= session()->get('username'); ?></h3>
-	  			</div>
-	  		</div>
-        <ul class="list-unstyled components mb-5">
-          <li class="<?php if($hover =='Profil'){echo 'active';}?>" <?php if($hover =='Profil'){?> style="background: #17a2b8;" <?php }?> >
-            <a href="<?= base_url('dashboard') ?>" style="text-decoration:none"><span class="fa fa-user mr-3"></span> Profil</a>
-          </li>
-          <li>
-          <a href="#" style="text-decoration:none" class="dropdown-btn"><i class="fa-solid fa-list"></i> Data Master 
-                <i class="fa fa-caret-down"></i></a>
-            <div class="dropdown-container">
-                <ul>
-                <?php
-                        if(session()->get('level') == "Admin"){
-                            ?>
-                    <li class="<?php if($hover =='Pengguna'){echo 'active';}?>" <?php if($hover =='Pengguna'){?> style="background: #17a2b8;" <?php }?>>
-                        <a href="<?= base_url('user') ?>" style="text-decoration:none"><span class="fa fa-user mr-3 notif"></span> Pengguna</a>
-                    </li>
-                    <li class="<?php if($hover =='Ruangan'){echo 'active';}?>" <?php if($hover =='Ruangan'){?> style="background: #17a2b8;" <?php }?>>
-                        <a href="<?= base_url('ruangan') ?>" style="text-decoration:none"><span class="fa fa-user mr-3 notif"></span> Ruangan</a>
-                    </li>
-                            <?php
-                        }
-                ?>
-                    <li class="<?php if($hover =='Tata Usaha'){echo 'active';}?>" <?php if($hover =='Tata Usaha'){?> style="background: #17a2b8;" <?php }?>>
-                        <a href="<?= base_url('tata_usaha') ?>" style="text-decoration:none"><span class="fa fa-address-card mr-3 notif"></span> Data Tata Usaha</a>
-                    </li>
-                    <li class="<?php if($hover =='Barang'){echo 'active';}?>" <?php if($hover =='Barang'){?> style="background: #17a2b8;" <?php }?>>
-                        <a href="<?= base_url('barang') ?>" style="text-decoration:none"><span class="fa fa-boxes-stacked mr-3 notif"></span> Data Barang</a>
-                    </li>
-                </ul>
-            </div>
-          </li>
-          <li>
-          <a href="#" style="text-decoration:none" class="dropdown-btn"><i class="fa-solid fa-list"></i> Barang Peruangan 
-                <i class="fa fa-caret-down"></i></a>
-            <div class="dropdown-container">
-                <ul>
-                <?php
-                         $db = db_connect();
-                         $query = $db->query("SELECT * FROM ruangan ");
-                         //you get result as an array in here but fetch your result however you feel to
-                         $result = $query->getResultArray();
-                ?>
-                 <?php
-              $no =1;
-              foreach($result as $r){
-                ?>
-     <li class="<?php if($hover =='Ruangan '.$r['nm_ruangan'].''){echo 'active';}?>" <?php if($hover =='Ruangan '.$r['nm_ruangan'].''){?> style="background: #17a2b8;" <?php }?>>
-              <a href="<?= base_url('barang_peruangan/'.$r['nm_ruangan'].'') ?>" style="text-decoration:none"><span class="fa fa-truck-ramp-box mr-3 notif"></span> Ruangan <?= $r['nm_ruangan'] ?></a>
-          </li>
-      <?php
-              }
-            ?>
-                </ul>
-            </div>
-          </li>
-          <li class="<?php if($hover =='Sumber Barang'){echo 'active';}?>" <?php if($hover =='Sumber Barang'){?> style="background: #17a2b8;" <?php }?>>
-                        <a href="<?= base_url('sumber_barang') ?>" style="text-decoration:none"><span class="fa fa-box-open mr-3 notif"></span> Sumber Barang</a>
-                    </li>
-          <?php
-                if(session()->get('level') == "Admin"){
-                    ?>
-                   
-                    <li class="<?php if($hover =='Kondisi Barang' || $hover =='Barang Rusak'){echo 'active';}?>" <?php if($hover =='Kondisi Barang' || $hover =='Barang Rusak'){?> style="background: #17a2b8;" <?php }?>>
-                        <a href="<?= base_url('kondisi_barang') ?>" style="text-decoration:none"><span class="fa fa-boxes-packing mr-3 notif"></span>Kondisi barang</a>
-                    </li>
-                    <?php
-                }
-          ?>
-          <li>
-          <a href="#" style="text-decoration:none" class="dropdown-btn"><i class="fa-solid fa-info"></i> Laporan 
-                <i class="fa fa-caret-down"></i></a>
-            <div class="dropdown-container">
-                <ul>
-                   
-                    <li class="<?php if($hover =='Laporan Barang'){echo 'active';}?>" <?php if($hover =='Laporan Barang'){?> style="background: #17a2b8;" <?php }?>>
-                        <a href="<?= base_url('barang/laporan_barang') ?>" style="text-decoration:none"><span class="fa fa-boxes-stacked mr-3 notif"></span> Laporan Data Barang</a>
-                    </li>
-                    <?php
-                        if(session()->get('level') == "Admin"){
-                            ?>
-                                <li class="<?php if($hover =='Laporan Sumber Barang'){echo 'active';}?>" <?php if($hover =='Laporan Sumber Barang'){?> style="background: #17a2b8;" <?php }?>>
-                                    <a href="<?= base_url('sumber_barang/laporan_sumber') ?>" style="text-decoration:none"><span class="fa fa-box-open mr-3 notif"></span> Sumber Barang</a>
-                                </li>
-                                
-                            <?php
-                        }
-                    ?>
-                                <li class="<?php if($hover =='Laporan Barang Rusak'){echo 'active';}?>" <?php if($hover =='Laporan Barang Rusak'){?> style="background: #17a2b8;" <?php }?>>
-                                    <a href="<?= base_url('barang_rusak/laporan') ?>" style="text-decoration:none"><span class="fa fa-box mr-3 notif"></span> Barang Rusak</a>
-                                </li>
-                                <li class="<?php if($hover =='Laporan Barang Baik'){echo 'active';}?>" <?php if($hover =='Laporan Barang Baik'){?> style="background: #17a2b8;" <?php }?>>
-                                    <a href="<?= base_url('kondisi_barang/laporan') ?>" style="text-decoration:none"><span class="fa fa-boxes-packing mr-3 notif"></span> Barang Baik</a>
-                                </li>
-                                <li>
-                                    <a href="#" style="text-decoration:none" class="dropdown-btn"><i class="fa-solid fa-info"></i> Barang Peruangan 
-                                            <i class="fa fa-caret-down"></i></a>
-                                        <div class="dropdown-container">
-                                            <ul>
-                                            <?php
-                                                $db = db_connect();
-                                                $query = $db->query("SELECT * FROM ruangan ");
-                                                //you get result as an array in here but fetch your result however you feel to
-                                                $result = $query->getResultArray();
-                                            ?>
-                                            <?php
-                                                $no =1;
-                                                foreach($result as $ru){
-                                                    ?>
-                                                   <li class="<?php if($hover =='Laporan Barang Ruangan '.$ru['nm_ruangan']){echo 'active';}?>" <?php if($hover =='Laporan Barang Ruangan '.$ru['nm_ruangan']){?> style="background: #17a2b8;" <?php }?>>
-                                    <a href="<?= base_url('barang_pakai/laporan_'.$ru['nm_ruangan'].'') ?>" style="text-decoration:none"><span class="fa fa-boxes-packing mr-3 notif"></span> Ruangan <?= $ru['nm_ruangan']?></a>
-                                </li>
-                                            <?php
-                                                }
-                                            ?>
-                                            </ul>
+                    <!-- Navbar Header -->
+                    <nav class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom">
+                        <div class="container-fluid">
+
+                            <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
+                                <li class="nav-item topbar-user dropdown hidden-caret">
+                                    <a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#" aria-expanded="false">
+                                        <div class="avatar-sm">
+                                            <img src="<?= base_url() ?>/public/images/<?= session()->get('foto'); ?>" alt="..." class="avatar-img rounded-circle" />
                                         </div>
+                                        <span class="profile-username">
+                                            <span class="op-7">Hi,</span>
+                                            <span class="fw-bold"><?= session()->get('username'); ?></span>
+                                        </span>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-user animated fadeIn">
+                                        <div class="dropdown-user-scroll scrollbar-outer">
+                                            <li>
+                                                <div class="user-box">
+                                                    <div class="avatar-lg">
+                                                        <img src="<?= base_url('public/') ?>assets/img/profile.jpg" alt="image profile" class="avatar-img rounded" />
+                                                    </div>
+                                                    <div class="u-text">
+                                                        <h4><?= session()->get('username'); ?></h4>
+                                                        <p class="text-muted"><?= session()->get('email'); ?></p>
+                                                        <a href="profile.html" class="btn btn-xs btn-secondary btn-sm">View Profile</a>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="dropdown-divider"></div>
+                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item" href="<?= base_url('profil') ?>">Account Setting</a>
+                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item" href="<?= base_url('logout') ?>">Logout</a>
+                                            </li>
+                                        </div>
+                                    </ul>
                                 </li>
-                </ul>
+                            </ul>
+                        </div>
+                    </nav>
+                    <!-- End Navbar -->
+                </div>
+
+                <div class="container">
+                    <div class="page-inner">
+                        <?= $this->renderSection('content') ?>
+                    </div>
+                </div>
+
             </div>
-          </li>
-          <li>
-            <a href="<?= base_url('/logout') ?>" style="text-decoration:none"><span class="fa fa-sign-out mr-3"></span> Sign Out</a>
-          </li>
-        </ul>
-    	</nav>
 
-        <!-- Page Content  -->
-      <div id="content" class="p-4 p-md-5 pt-5">
-        
-        <h2><?=  $data ?></h2>
-        <hr color="blue" width="100%" size="50%">
+        </div>
+        <script src="<?= base_url('public/') ?>assets/js/core/jquery-3.7.1.min.js"></script>
+        <script src="<?= base_url('public/') ?>assets/js/core/popper.min.js"></script>
+        <script src="<?= base_url('public/') ?>assets/js/core/bootstrap.min.js"></script>
 
+        <!-- jQuery Scrollbar -->
+        <script src="<?= base_url('public/') ?>assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
 
-        <?= $this->renderSection('content') ?>
-		</div>
+        <!-- Chart JS -->
+        <script src="<?= base_url('public/') ?>assets/js/plugin/chart.js/chart.min.js"></script>
 
-    <script src="<?= base_url()?>/public/js/jquery.min.js "></script>
-    <script src="<?= base_url() ?>/public/js/popper.js "></script>
-    <script src="<?= base_url() ?>/public/js/bootstrap.min.js "></script>
-    <script src="<?= base_url() ?>/public/js/main.js "></script>
-    <script>
-        new DataTable('#example');
-    </script>
-    <script>
-/* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
-var dropdown = document.getElementsByClassName("dropdown-btn");
-var i;
+        <!-- jQuery Sparkline -->
+        <script src="<?= base_url('public/') ?>assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
 
-for (i = 0; i < dropdown.length; i++) {
-  dropdown[i].addEventListener("click", function() {
-    this.classList.toggle("active");
-    var dropdownContent = this.nextElementSibling;
-    if (dropdownContent.style.display === "block") {
-      dropdownContent.style.display = "none";
-    } else {
-      dropdownContent.style.display = "block";
-    }
-  });
-}
-</script>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.17.2/dist/sweetalert2.min.js"></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/sweetalert2@9.17.2/dist/sweetalert2.min.css">
-<script>
-$(function(){
+        <!-- Chart Circle -->
+        <script src="<?= base_url('public/') ?>assets/js/plugin/chart-circle/circles.min.js"></script>
 
-    <?php if(session()->has("success")) { ?>
-        Swal.fire({
-            icon: 'success',
-            title: 'Berhasil!',
-            text: '<?= session("success") ?>'
-        })
-    <?php } ?>
-});
-</script>
+        <!-- Datatables -->
+        <script src="<?= base_url('public/') ?>assets/js/plugin/datatables/datatables.min.js"></script>
 
-<script>
-$(function(){
+        <!-- jQuery Vector Maps -->
+        <script src="<?= base_url('public/') ?>assets/js/plugin/jsvectormap/jsvectormap.min.js"></script>
+        <script src="<?= base_url('public/') ?>assets/js/plugin/jsvectormap/world.js"></script>
 
-    <?php if(session()->has("error")) { ?>
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: '<?= session("error") ?>'
-        })
-    <?php } ?>
-});
-</script>
+        <!-- Sweet Alert -->
+        <script src="<?= base_url('public/') ?>assets/js/plugin/sweetalert/sweetalert.min.js"></script>
 
-<script>
-$(function(){
+        <!-- Kaiadmin JS -->
+        <script src="<?= base_url('public/') ?>assets/js/kaiadmin.min.js"></script>
 
-    <?php if(session()->has("warning")) { ?>
-        Swal.fire({
-            icon: 'warning',
-            title: 'Great!',
-            text: '<?= session("warning") ?>'
-        })
-    <?php } ?>
-});
-</script>
+        <!-- Kaiadmin DEMO methods, don't include it in your project! -->
+        <script src="<?= base_url('public/') ?>assets/js/setting-demo.js"></script>
+        <script src="<?= base_url('public/') ?>assets/js/demo.js"></script>
+        <script>
+            $("#lineChart").sparkline([102, 109, 120, 99, 110, 105, 115], {
+                type: "line",
+                height: "70",
+                width: "100%",
+                lineWidth: "2",
+                lineColor: "#177dff",
+                fillColor: "rgba(23, 125, 255, 0.14)",
+            });
 
-<script>
-$(function(){
+            $("#lineChart2").sparkline([99, 125, 122, 105, 110, 124, 115], {
+                type: "line",
+                height: "70",
+                width: "100%",
+                lineWidth: "2",
+                lineColor: "#f3545d",
+                fillColor: "rgba(243, 84, 93, .14)",
+            });
 
-    <?php if(session()->has("info")) { ?>
-        Swal.fire({
-            icon: 'info',
-            title: 'Hi!',
-            text: '<?= session("info") ?>'
-        })
-    <?php } ?>
-});
-</script>
-  </body>
-</html>
+            $("#lineChart3").sparkline([105, 103, 123, 100, 95, 105, 115], {
+                type: "line",
+                height: "70",
+                width: "100%",
+                lineWidth: "2",
+                lineColor: "#ffa534",
+                fillColor: "rgba(255, 165, 52, .14)",
+            });
+        </script>
+        <script src="<?= base_url('public/') ?>assets/js/core/jquery-3.7.1.min.js"></script>
 
-    <?php
-  }else{
-    ?>
-<!DOCTYPE html>
-<html lang="en">
+        <!-- jQuery Scrollbar -->
+        <script src="<?= base_url('public/') ?>assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+        <!-- Datatables -->
+        <script src="<?= base_url('public/') ?>assets/js/plugin/datatables/datatables.min.js"></script>
+        <!-- Kaiadmin JS -->
+        <script src="<?= base_url('public/') ?>assets/js/kaiadmin.min.js"></script>
+        <!-- Kaiadmin DEMO methods, don't include it in your project! -->
+        <script src="<?= base_url('public/') ?>assets/js/setting-demo2.js"></script>
+        <script>
+            $(document).ready(function() {
+                $("#basic-datatables").DataTable({});
+                <?php
+                if (isset($relasi)) {
+                    foreach ($relasi as $index => $r) {
+                ?>
+                        $("#relationTable_<?= $r['fieldName'] ?>").DataTable({});
+                <?php
+                    }
+                }
+                ?>
+                $("#multi-filter-select").DataTable({
+                    pageLength: 5,
+                    initComplete: function() {
+                        this.api()
+                            .columns()
+                            .every(function() {
+                                var column = this;
+                                var select = $(
+                                        '<select class="form-select"><option value=""></option></select>'
+                                    )
+                                    .appendTo($(column.footer()).empty())
+                                    .on("change", function() {
+                                        var val = $.fn.dataTable.util.escapeRegex($(this).val());
+
+                                        column
+                                            .search(val ? "^" + val + "$" : "", true, false)
+                                            .draw();
+                                    });
+
+                                column
+                                    .data()
+                                    .unique()
+                                    .sort()
+                                    .each(function(d, j) {
+                                        select.append(
+                                            '<option value="' + d + '">' + d + "</option>"
+                                        );
+                                    });
+                            });
+                    },
+                });
+
+                // Add Row
+                $("#add-row").DataTable({
+                    pageLength: 5,
+                });
+
+                var action =
+                    '<td> <div class="form-button-action"> <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
+
+                $("#addRowButton").click(function() {
+                    $("#add-row")
+                        .dataTable()
+                        .fnAddData([
+                            $("#addName").val(),
+                            $("#addPosition").val(),
+                            $("#addOffice").val(),
+                            action,
+                        ]);
+                    $("#addRowModal").modal("hide");
+                });
+            });
+        </script>
+        <script>
+            //== Class definition
+            var SweetAlert2Demo = (function() {
+                //== Demos
+                var initDemos = function() {
+                    $(document).on('click', '.delete-button', function(e) {
+                        e.preventDefault();
+                        var deleteUrl = $(this).attr('href');
+                        swal({
+                            title: "Are you sure?",
+                            text: "You won't be able to revert this!",
+                            type: "warning",
+                            buttons: {
+                                confirm: {
+                                    text: "Yes, delete it!",
+                                    className: "btn btn-success",
+                                },
+                                cancel: {
+                                    visible: true,
+                                    className: "btn btn-danger",
+                                },
+                            },
+                        }).then((Delete) => {
+                            if (Delete) {
+                                window.location.href = deleteUrl;
+                            } else {
+                                swal.close();
+                            }
+                        });
+                    });
+                    <?php if (session()->getFlashdata('success')) : ?>
+                        swal({
+                            title: "Success!",
+                            text: "<?= session()->getFlashdata('success') ?>",
+                            icon: "success",
+                            buttons: {
+                                confirm: {
+                                    className: "btn btn-success",
+                                },
+                            },
+                        });
+                    <?php endif; ?>
+                    <?php if (session()->getFlashdata('failed')) : ?>
+                        swal({
+                            title: "Failed!",
+                            text: "<?= session()->getFlashdata('failed') ?>",
+                            icon: "error",
+                            buttons: {
+                                confirm: {
+                                    className: "btn btn-danger",
+                                },
+                            },
+                        });
+                    <?php endif; ?>
+                };
+
+                return {
+                    //== Init
+                    init: function() {
+                        initDemos();
+                    },
+                };
+            })();
+
+            //== Class Initialization
+            jQuery(document).ready(function() {
+                SweetAlert2Demo.init();
+            });
+        </script>
+    </body>
+
+    </html>
+
+<?php
+} else {
+?>
+    <!DOCTYPE html>
+    <html lang="en">
+
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -271,7 +344,7 @@ $(function(){
         <title>Contoh Form Login</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        
+
         <style>
             body {
                 margin: 0;
@@ -279,6 +352,7 @@ $(function(){
                 background-color: #17a2b8;
                 height: 100vh;
             }
+
             #login .container #login-row #login-column #login-box {
                 margin-top: 120px;
                 max-width: 600px;
@@ -286,16 +360,19 @@ $(function(){
                 border: 1px solid #9C9C9C;
                 background-color: #EAEAEA;
             }
+
             #login .container #login-row #login-column #login-box #login-form {
                 padding: 20px;
             }
+
             #login .container #login-row #login-column #login-box #login-form #register-link {
                 margin-top: -85px;
             }
         </style>
     </head>
+
     <body>
-        
+
         <section>
             <div id="login">
                 <h3 class="text-center text-white pt-5">LOGIN FORM</h3>
@@ -303,20 +380,20 @@ $(function(){
                     <div id="login-row" class="row justify-content-center align-items-center">
                         <div id="login-column" class="col-md-6">
                             <div id="login-box" class="col-md-12">
-                            <?php if(session()->getFlashdata('msg')):?>
-                                <div class="alert alert-danger"><?= session()->getFlashdata('msg') ?></div>
-                            <?php endif;?>
+                                <?php if (session()->getFlashdata('msg')) : ?>
+                                    <div class="alert alert-danger"><?= session()->getFlashdata('msg') ?></div>
+                                <?php endif; ?>
                                 <form id="login-form" class="form" action="<?= base_url('login') ?>" method="post">
                                     <div class="form-group">
                                         <label for="username" class="text-info">Username:</label><br>
-                                        <input type="text" name="username" id="email" class="form-control" required >
+                                        <input type="text" name="username" id="email" class="form-control" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="password" class="text-info">Password:</label><br>
                                         <input type="password" name="password" id="password" class="form-control" required>
                                     </div>
                                     <div class="form-group">
-                                        <button type="submit" name="submit" class="btn btn-info btn-md" > LOGIN</button>
+                                        <button type="submit" name="submit" class="btn btn-info btn-md"> LOGIN</button>
                                     </div>
                                 </form>
                             </div>
@@ -328,11 +405,10 @@ $(function(){
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-        
+
     </body>
-</html>
-    <?php
-  }
+
+    </html>
+<?php
+}
 ?>
-
-
