@@ -88,6 +88,13 @@ function transformTableNama($tableName)
                                     <span class="sub-item">Ruangan</span>
                                 </a>
                             </li>
+                            <li class="<?php if ($hover == 'Tahun Ajaran') {
+                                            echo 'active';
+                                        } ?>">
+                                <a href="<?= base_url('tahun_ajaran') ?>">
+                                    <span class="sub-item">Tahun Ajaran</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </li>

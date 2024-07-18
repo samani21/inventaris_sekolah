@@ -59,6 +59,18 @@ $routes->get('/ruangan/edit/(:any)', 'Ruangan::edit/$1');
 $routes->post('/ruangan/update/(:any)', 'Ruangan::update/$1');
 $routes->get('/ruangan/delete/(:any)', 'Ruangan::delete/$1');
 
+//tahun ajaran
+$routes->get('/tahun_ajaran', 'tahunAjaran::index');
+$routes->get('/tahun_ajaran/tambah', 'tahunAjaran::tambah');
+$routes->post('tahun_ajaran/store', 'tahunAjaran::store');
+$routes->get('/tahun_ajaran/edit/(:any)', 'tahunAjaran::edit/$1');
+$routes->post('/tahun_ajaran/update/(:any)', 'tahunAjaran::update/$1');
+$routes->get('/tahun_ajaran/ceklist/(:any)', 'tahunAjaran::ceklist/$1');
+$routes->get('/tahun_ajaran/delete/(:any)', 'tahunAjaran::delete/$1');
+
+
+
+
 //barang masuk
 $routes->get('/sumber_barang', 'BarangMasuk::index');
 $routes->get('/sumber_barang/tambah', 'BarangMasuk::tambah');

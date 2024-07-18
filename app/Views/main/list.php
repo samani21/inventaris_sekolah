@@ -64,6 +64,13 @@ function convertColumnName($columnName)
                         <tr>
                             <th>NO</th>
                             <?php
+                            if (isset($ceklist)) {
+                            ?>
+                                <th>Aktif</th>
+                            <?php
+                            }
+                            ?>
+                            <?php
                             foreach ($column as $col) {
                             ?>
                                 <th><?= convertColumnName($col) ?></th>
@@ -82,6 +89,13 @@ function convertColumnName($columnName)
                     <tfoot>
                         <tr>
                             <th>NO</th>
+                            <?php
+                            if (isset($ceklist)) {
+                            ?>
+                                <th>Aktif</th>
+                            <?php
+                            }
+                            ?>
                             <?php
                             foreach ($column as $col) {
                             ?>
@@ -105,6 +119,23 @@ function convertColumnName($columnName)
                         ?>
                             <tr>
                                 <td><?= $no++ ?></td>
+                                <?php
+                                if (isset($ceklist)) {
+                                ?>
+                                    <td>
+                                        <a href="<?= base_url($page . '/ceklist/' . $r['id']) ?>" class="btn btn-icon btn-round btn btn-outline-secondary btn-sm me-2">
+                                            <?php
+                                            if ($r[$ceklist]) {
+                                            ?>
+                                                <i class="fa fa-check"></i>
+                                            <?php
+                                            }
+                                            ?>
+                                        </a>
+                                    </td>
+                                <?php
+                                }
+                                ?>
                                 <?php
 
                                 foreach ($column as $cl) {
