@@ -68,7 +68,16 @@ $routes->post('/tahun_ajaran/update/(:any)', 'tahunAjaran::update/$1');
 $routes->get('/tahun_ajaran/ceklist/(:any)', 'tahunAjaran::ceklist/$1');
 $routes->get('/tahun_ajaran/delete/(:any)', 'tahunAjaran::delete/$1');
 
-
+//siswa
+$routes->get('/siswa', 'Siswa::index');
+$routes->get('/siswa/tambah', 'Siswa::tambah');
+$routes->post('siswa/store', 'Siswa::store');
+$routes->get('/siswa/edit/(:any)', 'Siswa::edit/$1');
+$routes->post('/siswa/update/(:any)', 'Siswa::update/$1');
+$routes->post('/siswa/profil/(:any)/(:any)', 'Siswa::profil/$1/$2');
+$routes->get('/siswa/delete/(:any)', 'Siswa::delete/$1');
+$routes->get('/siswa/laporan', 'Siswa::laporan');
+$routes->post('siswa/cetak', 'Siswa::cetak');
 
 
 //barang masuk

@@ -3,38 +3,38 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
-use App\Models\GuruModel;
-use App\Models\UserModel;
+use App\Models\SiswaModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
-class Guru extends BaseController
+class Siswa extends BaseController
 {
     public function index()
     {
-        $data = "Tata Usaha";
-        $hover = "Tata Usaha";
-        $model = new GuruModel();
-        $page = 'tata_usaha';
-        $column = ['nip', 'nama', 'ttl', 'agama', 'jenis_kelamin', 'no_hp','foto'];
+        $data = "Siswa";
+        $hover = "Siswa";
+        $model = new SiswaModel();
+        $page = 'siswa';
+        $column = ['nis', 'nama', 'ttl', 'agama', 'jenis_kelamin', 'no_hp', 'foto'];
         $row = $model->getData();
         // $hiddenButtonAdd = true;
-        return view('main/list', compact('data', 'hover', 'row', 'column', 'page'));
+        $foto = true;
+        return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'foto'));
     }
 
     public function tambah()
     {
-        $data = "Tambah Data Tata Usaha";
-        $hover = "Tata Usaha";
-        $page = "tata_usaha";
-        $model = new GuruModel();
-        $jenis_kelamin = $model->getEnumJenisKelamin('j_kelamin');
+        $data = "Tambah Data Siswa";
+        $hover = "Siswa";
+        $page = "siswa";
+        $model = new SiswaModel();
+        $jenis_kelamin = $model->getEnumJenisKelamin('jenis_kelamin');
         $agama = $model->getEnumAgama('agama');
         $enum = [
             'jenis_kelamin' => $jenis_kelamin,
             'agama' => $agama
         ];
         $form = [
-            ['type' => 'text', 'name' => 'nip'],
+            ['type' => 'text', 'name' => 'nis'],
             ['type' => 'text', 'name' => 'nama'],
             ['type' => 'text', 'name' => 'tempat'],
             ['type' => 'date', 'name' => 'tanggal_lahir'],
@@ -50,37 +50,37 @@ class Guru extends BaseController
     {
         $dataBerkas = $this->request->getFile('foto');
         $fileName = $dataBerkas->getRandomName();
-        $guru = new GuruModel();
+        $guru = new SiswaModel();
         $guru->insert([
             'user_id' => 18,
-            'nip' => $this->request->getPost('nip'),
+            'nis' => $this->request->getPost('nis'),
             'nama' => $this->request->getPost('nama'),
             'tempat' => $this->request->getPost('tempat'),
-            't_lahir' => $this->request->getPost('tanggal_lahir'),
-            'j_kelamin' => $this->request->getPost('jenis_kelamin'),
+            'tanggal' => $this->request->getPost('tanggal_lahir'),
+            'jenis_kelamin' => $this->request->getPost('jenis_kelamin'),
             'agama' => $this->request->getPost('agama'),
             'no_hp' => $this->request->getPost('no_hp'),
             'foto' => $fileName,
         ]);
         $dataBerkas->move('public/images', $fileName);
         session()->setFlashdata("success", "Berhasil tambah data");
-        return redirect('/');
+        return redirect('siswa');
     }
 
     public function edit($id)
     {
-        $data = "Edit Tata Usaha";
-        $hover = "Tata Usaha";
-        $page = "tata_usaha";
-        $model = new GuruModel();
-        $jenis_kelamin = $model->getEnumJenisKelamin('j_kelamin');
+        $data = "Edit Siswa";
+        $hover = "Siswa";
+        $page = "siswa";
+        $model = new SiswaModel();
+        $jenis_kelamin = $model->getEnumJenisKelamin('jenis_kelamin');
         $agama = $model->getEnumAgama('agama');
         $enum = [
             'jenis_kelamin' => $jenis_kelamin,
             'agama' => $agama
         ];
         $form = [
-            ['type' => 'text', 'name' => 'nip'],
+            ['type' => 'text', 'name' => 'nis'],
             ['type' => 'text', 'name' => 'nama'],
             ['type' => 'text', 'name' => 'tempat'],
             ['type' => 'date', 'name' => 'tanggal_lahir'],
@@ -89,7 +89,7 @@ class Guru extends BaseController
             ['type' => 'text', 'name' => 'no_hp'],
             ['type' => 'file', 'name' => 'foto'],
         ];
-        $dt = $model->select('nip,nama,tempat,t_lahir as tanggal_lahir,agama,j_kelamin as jenis_kelamin,no_hp,foto,id,foto')->where([
+        $dt = $model->select('nis,nama,tempat,tanggal as tanggal_lahir,agama,jenis_kelamin,no_hp,foto,id,foto')->where([
             'id' => $id,
         ])->first();
         return view('main/edit', compact('data', 'hover', 'dt', 'page', 'form', 'enum'));
@@ -97,16 +97,16 @@ class Guru extends BaseController
 
     public function update($id_guru)
     {
-        $guru = new GuruModel();
+        $guru = new SiswaModel();
         $foto = $this->request->getPost('foto');
         $dataBerkas = $this->request->getFile('foto');
         if ($dataBerkas == "") {
             $guru->update($id_guru, [
-                'nip' => $this->request->getPost('nip'),
+                'nis' => $this->request->getPost('nis'),
                 'nama' => $this->request->getPost('nama'),
                 'tempat' => $this->request->getPost('tempat'),
-                't_lahir' => $this->request->getPost('tanggal_lahir'),
-                'j_kelamin' => $this->request->getPost('jenis_kelamin'),
+                'tanggal' => $this->request->getPost('tanggal_lahir'),
+                'jenis_kelamin' => $this->request->getPost('jenis_kelamin'),
                 'agama' => $this->request->getPost('agama'),
                 'no_hp' => $this->request->getPost('no_hp'),
             ]);
@@ -116,8 +116,8 @@ class Guru extends BaseController
                 'nip' => $this->request->getPost('nip'),
                 'nama' => $this->request->getPost('nama'),
                 'tempat' => $this->request->getPost('tempat'),
-                't_lahir' => $this->request->getPost('tanggal_lahir'),
-                'j_kelamin' => $this->request->getPost('jenis_kelamin'),
+                'tanggal' => $this->request->getPost('tanggal_lahir'),
+                'jenis_kelamin' => $this->request->getPost('jenis_kelamin'),
                 'agama' => $this->request->getPost('agama'),
                 'no_hp' => $this->request->getPost('no_hp'),
                 'foto' => $fileName,
@@ -125,20 +125,20 @@ class Guru extends BaseController
             $dataBerkas->move('public/images', $fileName);
         }
         session()->setFlashdata("success", "Berhasil update data");
-        return redirect('tata_usaha');
+        return redirect('siswa');
     }
 
     public function profil($id_guru, $id_user)
     {
-        $guru = new GuruModel();
+        $guru = new SiswaModel();
         $foto = $this->request->getPost('foto');
         $dataBerkas = $this->request->getFile('foto');
         if ($dataBerkas == "") {
             $guru->update($id_guru, [
-                'nip' => $this->request->getPost('nip'),
+                'nis' => $this->request->getPost('nis'),
                 'nama' => $this->request->getPost('nama'),
                 'tempat' => $this->request->getPost('tempat'),
-                't_lahir' => $this->request->getPost('t_lahir'),
+                'tanggal' => $this->request->getPost('tanggal'),
                 'j_kelamin' => $this->request->getPost('j_kelamin'),
                 'agama' => $this->request->getPost('agama'),
                 'no_hp' => $this->request->getPost('hp'),
@@ -146,55 +146,41 @@ class Guru extends BaseController
         } else {
             $fileName = $dataBerkas->getRandomName();
             $guru->update($id_guru, [
-                'nip' => $this->request->getPost('nip'),
+                'nis' => $this->request->getPost('nis'),
                 'nama' => $this->request->getPost('nama'),
                 'tempat' => $this->request->getPost('tempat'),
-                't_lahir' => $this->request->getPost('t_lahir'),
-                'j_kelamin' => $this->request->getPost('j_kelamin'),
+                'tanggal' => $this->request->getPost('tanggal'),
+                'jenis_kelamin' => $this->request->getPost('jenis_kelamin'),
                 'agama' => $this->request->getPost('agama'),
                 'no_hp' => $this->request->getPost('hp'),
                 'foto' => $fileName,
             ]);
             $dataBerkas->move('public/images', $fileName);
         }
-        $user = new UserModel();
-        $pas = $this->request->getPost('password');
-        if (empty($pas)) {
-            $user->update($id_user, [
-                'username' => $this->request->getPost('username'),
-                'email' => $this->request->getPost('email'),
-            ]);
-        } else {
-            $user->update($id_user, [
-                'username' => $this->request->getPost('username'),
-                'email' => $this->request->getPost('email'),
-                'password' => password_hash($this->request->getVar('password'), PASSWORD_DEFAULT),
-            ]);
-        }
         session()->setFlashdata("success", "Berhasil update data");
-        return redirect('tata_usaha');
+        return redirect('siswa');
     }
 
     public function delete($id)
     {
-        $user = new GuruModel();
+        $user = new SiswaModel();
         $user->delete($id);
         session()->setFlashdata("success", "Berhasil hapus data");
-        return redirect('tata_usaha');
+        return redirect('siswa');
     }
 
     public function laporan()
     {
-        $data = "Laporan Tata Usaha";
-        $hover = "Laporan Tata Usaha";
-        $barang = new GuruModel();
+        $data = "Laporan Siswa";
+        $hover = "Laporan Siswa";
+        $barang = new SiswaModel();
         $d_guru = $barang->getGUru();
-        return view('tata_usaha/laporan', compact('data', 'hover', 'd_guru'));
+        return view('siswa/laporan', compact('data', 'hover', 'd_guru'));
     }
 
     public function cetak()
     {
         $cari = $this->request->getPost('cari');
-        return view('tata_usaha/cetak', compact('cari'));
+        return view('siswa/cetak', compact('cari'));
     }
 }

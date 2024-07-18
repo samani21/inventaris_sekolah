@@ -140,8 +140,18 @@ function convertColumnName($columnName)
 
                                 foreach ($column as $cl) {
                                 ?>
+                                    <td>
+                                        <?php
+                                        if ($cl == 'foto') {
+                                        ?>
+                                            <img src="<?= base_url('public/images/' . $r[$cl]) ?>" width="100px" alt="">
+                                        <?php
+                                        } else {
+                                            echo $r[$cl];
+                                        }
+                                        ?>
+                                    </td>
 
-                                    <td><?= $r[$cl] ?></td>
                                 <?php
                                 }
                                 ?>
