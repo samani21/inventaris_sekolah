@@ -15,22 +15,64 @@ class BarangRuanganModel extends Model
     protected $allowedFields    = ['id', 'id_guru', 'id_barang_masuk', 'tgl_pinjam', 'tgl_selesai', 'ruangan', 'status_r', 'stok', 'stok_selesai'];
 
 
-    public function getData()
+    public function getData($ruangan)
     {
-        return $this->join('guru', 'guru.id =barang_peruangan.id_guru ')
-            ->join('barang_masuk', 'barang_masuk.id_barang_masuk=barang_peruangan.id_barang_masuk')
-            ->join('barang', 'barang.id=barang_masuk.id_barang')
-            ->select('barang.nama_barang,barang.kode_barang,barang_masuk.status,barang_peruangan.id,barang_peruangan.tgl_pinjam as tanggal_pinjam,barang_peruangan.tgl_selesai as tanggal_selesai,barang_peruangan.stok,barang_peruangan.stok_selesai,barang_peruangan.ruangan,barang_peruangan.status_r as status_pinjam')->findAll();
+        if (session()->get('level') == "Guru") {
+            return $this->join('guru', 'guru.id = barang_peruangan.id_guru ')
+                ->join('barang_masuk', 'barang_masuk.id_barang_masuk=barang_peruangan.id_barang_masuk')
+                ->join('barang', 'barang.id=barang_masuk.id_barang')
+                ->select('
+        barang.nama_barang,
+        barang.kode_barang,
+        barang_masuk.status,
+        barang_peruangan.id,
+        barang_peruangan.tgl_pinjam as tanggal_pinjam,
+        barang_peruangan.tgl_selesai as tanggal_selesai,
+        barang_peruangan.stok,
+        barang_peruangan.stok_selesai,
+        barang_peruangan.ruangan,
+        barang_peruangan.status_r as status_pinjam')
+                ->where('guru.user_id', session()->get('id'))
+                ->where('ruangan', $ruangan)->findAll();
+        } else {
+            return $this->join('guru', 'guru.id = barang_peruangan.id_guru ')
+                ->join('barang_masuk', 'barang_masuk.id_barang_masuk=barang_peruangan.id_barang_masuk')
+                ->join('barang', 'barang.id=barang_masuk.id_barang')
+                ->select('
+    barang.nama_barang,
+    barang.kode_barang,
+    barang_masuk.status,
+    barang_peruangan.id,
+    barang_peruangan.tgl_pinjam as tanggal_pinjam,
+    barang_peruangan.tgl_selesai as tanggal_selesai,
+    barang_peruangan.stok,
+    barang_peruangan.stok_selesai,
+    barang_peruangan.ruangan,
+    barang_peruangan.status_r as status_pinjam')->where('ruangan', $ruangan)->findAll();
+        }
     }
-    public function getDataBeetwen($dari, $sampai)
+    public function getDataBeetwen($dari, $sampai, $ruangan)
     {
-        return $this->join('guru', 'guru.id =barang_peruangan.id_guru ')
-            ->join('barang_masuk', 'barang_masuk.id_barang_masuk=barang_peruangan.id_barang_masuk')
-            ->join('barang', 'barang.id=barang_masuk.id_barang')
-            ->select('barang.nama_barang,barang.kode_barang,barang_masuk.status,barang_peruangan.id,barang_peruangan.tgl_pinjam as tanggal_pinjam,barang_peruangan.tgl_selesai as tanggal_selesai,barang_peruangan.stok,barang_peruangan.stok_selesai,barang_peruangan.ruangan,barang_peruangan.status_r as status_pinjam')
-            ->where("tgl_pinjam BETWEEN '$dari' AND '$sampai'")
-            ->orWhere("tgl_selesai BETWEEN '$dari' AND '$sampai'")
-            ->findAll();
+        if (session()->get('level') == "Guru") {
+            return $this->join('guru', 'guru.id =barang_peruangan.id_guru ')
+                ->join('barang_masuk', 'barang_masuk.id_barang_masuk=barang_peruangan.id_barang_masuk')
+                ->join('barang', 'barang.id=barang_masuk.id_barang')
+                ->select('barang.nama_barang,barang.kode_barang,barang_masuk.status,barang_peruangan.id,barang_peruangan.tgl_pinjam as tanggal_pinjam,barang_peruangan.tgl_selesai as tanggal_selesai,barang_peruangan.stok,barang_peruangan.stok_selesai,barang_peruangan.ruangan,barang_peruangan.status_r as status_pinjam')
+                ->where("tgl_pinjam BETWEEN '$dari' AND '$sampai'")
+                ->where('guru.user_id', session()->get('id'))
+                ->where('ruangan', $ruangan)
+                ->orWhere("tgl_selesai BETWEEN '$dari' AND '$sampai'")
+                ->findAll();
+        } else {
+            return $this->join('guru', 'guru.id =barang_peruangan.id_guru ')
+                ->join('barang_masuk', 'barang_masuk.id_barang_masuk=barang_peruangan.id_barang_masuk')
+                ->join('barang', 'barang.id=barang_masuk.id_barang')
+                ->select('barang.nama_barang,barang.kode_barang,barang_masuk.status,barang_peruangan.id,barang_peruangan.tgl_pinjam as tanggal_pinjam,barang_peruangan.tgl_selesai as tanggal_selesai,barang_peruangan.stok,barang_peruangan.stok_selesai,barang_peruangan.ruangan,barang_peruangan.status_r as status_pinjam')
+                ->where("tgl_pinjam BETWEEN '$dari' AND '$sampai'")
+                ->where('ruangan', $ruangan)
+                ->orWhere("tgl_selesai BETWEEN '$dari' AND '$sampai'")
+                ->findAll();
+        }
     }
 
     public function getPeruangan($ruangan)

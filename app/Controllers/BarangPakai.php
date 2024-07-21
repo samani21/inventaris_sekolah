@@ -21,9 +21,9 @@ class BarangPakai extends BaseController
         $page = 'barang_ruangan/' . $ruangan;
         $model = new BarangRuanganModel();
         if (empty($dari)) {
-            $row = $model->getData();
+            $row = $model->getData($ruangan);
         } else {
-            $row = $model->getDataBeetwen($dari, $sampai);
+            $row = $model->getDataBeetwen($dari, $sampai, $ruangan);
         }
         $between = true;
         $verifikasi = true;
@@ -40,7 +40,6 @@ class BarangPakai extends BaseController
         $page = "barang_ruangan/" . $ruangan;
         $enum = [];
         $form = [
-            ['type' => 'relasi', 'name' => 'id_guru'],
             ['type' => 'relasi', 'name' => 'id_barang_masuk'],
             ['type' => 'number', 'name' => 'total'],
             ['type' => 'date', 'name' => 'tanggal_pinjam'],
@@ -73,9 +72,12 @@ class BarangPakai extends BaseController
     public function store($ruangan)
     {
         $ruangan = ucwords(str_replace('_', ' ', $ruangan));
+        $modelGuru = new GuruModel();
+        $guru = $modelGuru->where('user_id', session()->get('id'))->first();
+
         $data = new BarangRuanganModel();
         $data->insert([
-            'id_guru' => $this->request->getPost('id_guru'),
+            'id_guru' => $guru['id'],
             'id_barang_masuk' => $this->request->getPost('id_barang_masuk'),
             'tgl_pinjam' => $this->request->getPost('tanggal_pinjam'),
             'stok' => $this->request->getPost('total'),
@@ -94,7 +96,6 @@ class BarangPakai extends BaseController
         $model = new BarangRuanganModel();
         $enum = [];
         $formAwal = [
-            ['type' => 'relasi', 'name' => 'id_guru'],
             ['type' => 'relasi', 'name' => 'id_barang_masuk'],
             ['type' => 'number', 'name' => 'total_pinjam'],
             ['type' => 'date', 'name' => 'tanggal_pinjam'],
@@ -239,7 +240,7 @@ class BarangPakai extends BaseController
         return redirect()->to('barang_peruangan/' . $ru);
     }
 
-    public function delete($id, $ru)
+    public function delete($ru, $id)
     {
         $data = new BarangRuanganModel();
         $data->delete($id);

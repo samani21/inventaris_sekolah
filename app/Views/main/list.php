@@ -180,7 +180,7 @@ function convertColumnName($columnName)
                                         <td>
                                             <?php
                                             if (isset($hadir)) {
-                                                if (strtotime($r['tanggal']) == strtotime($_GET['tanggal']) && $r['nama_mapel'] == $_GET['mapel']) {
+                                                if ($r['id_absen_siswa']) {
                                             ?>
                                                     <div class="btn btn-icon btn-round btn btn-outline-secondary btn-sm me-2">
                                                         <i class="fa fa-check"></i>
@@ -199,7 +199,13 @@ function convertColumnName($columnName)
                                             } else {
                                             ?>
                                                 <a href="<?= base_url($page . '/ceklist/' . $r['id']) ?>" class="btn btn-icon btn-round btn btn-outline-secondary btn-sm me-2">
-                                                    <i class="fa fa-check"></i>
+                                                    <?php
+                                                    if ($r['aktif'] == 1) {
+                                                    ?>
+                                                        <i class="fa fa-check"></i>
+                                                    <?php
+                                                    }
+                                                    ?>
                                                 </a>
                                             <?php
                                             }
@@ -243,7 +249,7 @@ function convertColumnName($columnName)
                                     if (isset($hadir)) {
                                     ?>
                                         <?php if (@$_GET['penilaian'] == "Absen dan Nilai" || @$_GET['penilaian'] == "Absen dan Ujian") {
-                                            if (strtotime($r['tanggal']) == strtotime($_GET['tanggal']) && $r['nama_mapel'] == $_GET['mapel']) {
+                                            if ($r['id_absen_siswa']) {
 
                                         ?>
                                                 <td>
@@ -312,6 +318,10 @@ function convertColumnName($columnName)
                                                     <a href="<?= base_url($page . '/delete/' . $r['id']) ?>" style="padding: 4px;" data-bs-toggle="tooltip" title="" class="btn btn-link btn-danger delete-button" data-id="<?= $r['id'] ?>" data-original-title="Remove"> <i class="fa fa-times"></i></a>
 
                                                 </td>
+                                            <?php
+                                            } else {
+                                            ?>
+                                                <td></td>
                                             <?php
                                             }
                                         } else {

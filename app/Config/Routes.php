@@ -115,12 +115,15 @@ $routes->get('/barang_baik', 'BarangBaik::index');
 $routes->get('/siswa_perkelas/(:any)', 'SiswaPerkelas::index/$1');
 $routes->get('/siswa/(:any)/tambah', 'SiswaPerkelas::tambah/$1');
 $routes->post('siswa/(:any)/store', 'SiswaPerkelas::store/$1');
+$routes->get('/siswa/(:any)/ceklist/(:any)', 'SiswaPerkelas::ceklist/$1/$2');
+$routes->post('/siswa/nilai/store/(:any)', 'SiswaPerkelas::nilai/$1');
+$routes->get('siswa/(:any)/delete/(:any)', 'SiswaPerkelas::delete/$1/$2');
+
 $routes->get('/siswa_perkelas/edit/(:any)', 'SiswaPerkelas::edit/$1');
 $routes->post('/siswa_perkelas/update/(:any)', 'SiswaPerkelas::update/$1');
-$routes->post('/siswa/nilai/store/(:any)', 'SiswaPerkelas::nilai/$1');
 $routes->post('/siswa_perkelas/profil/(:any)/(:any)', 'SiswaPerkelas::profil/$1/$2');
 $routes->get('/siswa_perkelas/delete/(:any)', 'SiswaPerkelas::delete/$1');
-$routes->get('/siswa/(:any)/ceklist/(:any)', 'SiswaPerkelas::ceklist/$1/$2');
+
 $routes->get('/siswa_perkelas/laporan', 'SiswaPerkelas::laporan');
 $routes->post('siswa_perkelas/cetak', 'SiswaPerkelas::cetak');
 
@@ -163,6 +166,7 @@ $routes->get('/barang_ruangan/(:any)/tambah', 'BarangPakai::tambah/$1');
 $routes->post('barang_ruangan/(:any)/store', 'BarangPakai::store/$1');
 $routes->get('barang_ruangan/(:any)/verifikasi/(:any)', 'BarangPakai::verifikasi/$1/$2');
 $routes->post('/barang_ruangan/(:any)/verifikasi_store/(:any)', 'BarangPakai::verifikasiStore/$1/$2');
+$routes->get('/barang_ruangan/(:any)/delete/(:any)', 'BarangPakai::delete/$1/$2');
 
 
 

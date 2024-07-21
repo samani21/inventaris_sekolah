@@ -25,7 +25,13 @@ class BarangMasuk extends BaseController
         }
         $between = true;
         $column = ['kode_barang', 'nama_barang', 'merek', 'tanggal', 'total', 'status'];
-        return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'between'));
+        if (session()->get('level') == "Tata Usaha" || session()->get('level') == "Admin") {
+            return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'between'));
+        } else {
+            $hiddenButtonAdd = true;
+            $hiddenButtonAction = true;
+            return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'between', 'hiddenButtonAdd', 'hiddenButtonAction'));
+        }
     }
 
     public function tambah()

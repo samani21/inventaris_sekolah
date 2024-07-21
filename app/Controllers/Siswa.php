@@ -128,24 +128,24 @@ class Siswa extends BaseController
         return redirect('siswa');
     }
 
-    public function profil($id_guru, $id_user)
+    public function profil($id_siswa, $id_user)
     {
         $guru = new SiswaModel();
         $foto = $this->request->getPost('foto');
         $dataBerkas = $this->request->getFile('foto');
         if ($dataBerkas == "") {
-            $guru->update($id_guru, [
+            $guru->update($id_siswa, [
                 'nis' => $this->request->getPost('nis'),
                 'nama' => $this->request->getPost('nama'),
                 'tempat' => $this->request->getPost('tempat'),
                 'tanggal' => $this->request->getPost('tanggal'),
-                'j_kelamin' => $this->request->getPost('j_kelamin'),
+                'jenis_kelamin' => $this->request->getPost('jenis_kelamin'),
                 'agama' => $this->request->getPost('agama'),
                 'no_hp' => $this->request->getPost('hp'),
             ]);
         } else {
             $fileName = $dataBerkas->getRandomName();
-            $guru->update($id_guru, [
+            $guru->update($id_siswa, [
                 'nis' => $this->request->getPost('nis'),
                 'nama' => $this->request->getPost('nama'),
                 'tempat' => $this->request->getPost('tempat'),

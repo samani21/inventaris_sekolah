@@ -89,12 +89,11 @@ if (!empty(session()->get('id'))) {
                                             <li>
                                                 <div class="user-box">
                                                     <div class="avatar-lg">
-                                                        <img src="<?= base_url('public/') ?>assets/img/profile.jpg" alt="image profile" class="avatar-img rounded" />
+                                                        <img src="<?= base_url() ?>/public/images/<?= session()->get('foto'); ?>" alt="image profile" class="avatar-img rounded" />
                                                     </div>
                                                     <div class="u-text">
-                                                        <h4><?= session()->get('username'); ?></h4>
+                                                        <h4><?= session()->get('level'); ?></h4>
                                                         <p class="text-muted"><?= session()->get('email'); ?></p>
-                                                        <a href="profile.html" class="btn btn-xs btn-secondary btn-sm">View Profile</a>
                                                     </div>
                                                 </div>
                                             </li>
@@ -193,6 +192,7 @@ if (!empty(session()->get('id'))) {
         <script src="<?= base_url('public/') ?>assets/js/kaiadmin.min.js"></script>
         <!-- Kaiadmin DEMO methods, don't include it in your project! -->
         <script src="<?= base_url('public/') ?>assets/js/setting-demo2.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script>
             $(document).ready(function() {
                 $("#basic-datatables").DataTable({});

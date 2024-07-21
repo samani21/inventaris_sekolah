@@ -10,7 +10,7 @@ class SiswaPerkelasModel extends Model
     protected $primaryKey = 'id';
     protected $allowedFields = ['id_siswa', 'id_kelas', 'id_tahun_ajaran'];
 
-    public function getData($kelas, $tanggal, $mapel)
+    public function getData($kelas, $tanggal, $mapel, $idTahunAjaran)
     {
         return $this->join('siswa', 'siswa.id=siswa_perkelas.id_siswa')
             ->join('kelas', 'kelas.id=siswa_perkelas.id_kelas')
@@ -23,11 +23,12 @@ class SiswaPerkelasModel extends Model
                                 kelas.nama_kelas AS kelas, 
                                 COUNT(absen_siswa.id) AS jumlah_absen, 
                                 GROUP_CONCAT(DISTINCT IF(mapel.nama_mapel = "' . $mapel . '", mapel.nama_mapel, NULL) SEPARATOR ", ") AS nama_mapel,
-                                GROUP_CONCAT(DISTINCT IF(mapel.nama_mapel = "' . $mapel . '", absen_siswa.id, NULL) SEPARATOR ", ") AS id_absen_siswa,
+                                GROUP_CONCAT(DISTINCT IF(mapel.nama_mapel = "' . $mapel . '" AND absen_siswa.tanggal = "' . $tanggal . '", absen_siswa.id, NULL) SEPARATOR ", ") AS id_absen_siswa,
                                 GROUP_CONCAT(DISTINCT IF(absen_siswa.tanggal = "' . $tanggal . '", absen_siswa.tanggal, NULL) SEPARATOR ", ") AS tanggal,
                                 GROUP_CONCAT(DISTINCT IF(absen_siswa.hadir = 1, absen_siswa.hadir, NULL) SEPARATOR ", ") AS hadir')
             ->where([
-                'kelas.nama_kelas' => $kelas
+                'kelas.nama_kelas' => $kelas,
+                'siswa_perkelas.id_tahun_ajaran' => $idTahunAjaran
             ])->groupBy('siswa_perkelas.id, siswa.nama, kelas.nama_kelas')->findAll();
     }
 

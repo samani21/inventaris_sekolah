@@ -10,7 +10,7 @@ if (session()->get('level') == "Siswa") {
             <div class="col-6">
                 <div>
                     <label for="">NIP</label>
-                    <input type="text" name="nis" class="form-control" value="<?= $d_siswa['nip'] ?>">
+                    <input type="text" name="nis" class="form-control" value="<?= $d_siswa['nis'] ?>">
                 </div>
                 <div>
                     <label for="">Nama</label>
@@ -23,13 +23,17 @@ if (session()->get('level') == "Siswa") {
                             <input type="text" name="tempat" class="form-control" value="<?= $d_siswa['tempat'] ?>">
                         </div>
                         <div class="col-6">
-                            <input type="date" name="t_lahir" class="form-control" value="<?= $d_siswa['t_lahir'] ?>">
+                            <input type="date" name="t_lahir" class="form-control" value="<?= $d_siswa['tanggal'] ?>">
                         </div>
                     </div>
                 </div>
                 <div>
                     <label for="">Jenis Kelamin</label>
-                    <input type="text" name="j_kelamin" class="form-control" value="<?= $d_siswa['j_kelamin'] ?>">
+                    <select name="jenis_kelamin" class="form-control" id="">
+                        <option value="<?= $d_siswa['jenis_kelamin'] ?>"><?= $d_siswa['jenis_kelamin'] ?></option>
+                        <option value="Laki-Laki">Laki-Laki</option>
+                        <option value="Perempuan">Perempuan</option>
+                    </select>
                 </div>
                 <div>
                     <label for="">Agama</label>

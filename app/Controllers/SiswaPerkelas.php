@@ -34,7 +34,7 @@ class SiswaPerkelas extends BaseController
         $column = ['nis', 'nama', 'jenis_kelamin', 'kelas'];
         $ceklist = 'hadir';
         if (isset($tanggal) && isset($mapel)) {
-            $row = $model->getData($namaKelas, $tanggal, $mapel);
+            $row = $model->getData($namaKelas, $tanggal, $mapel, $this->idTahunAjaran);
         } else {
             $row = 1;
         }
@@ -133,6 +133,13 @@ class SiswaPerkelas extends BaseController
         }
 
         session()->setFlashdata("success", "Berhasil tambah nilai");
+        return redirect()->back();
+    }
+    public function delete($kelas, $id)
+    {
+        $data = new SiswaPerkelasModel();
+        $data->delete($id);
+        session()->setFlashdata("success", "Berhasil hapus data");
         return redirect()->back();
     }
 }

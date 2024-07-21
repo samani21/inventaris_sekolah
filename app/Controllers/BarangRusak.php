@@ -19,7 +19,13 @@ class BarangRusak extends BaseController
         $row = $model->getData();
         $verifikasi = true;
         $column = ['kode_barang', 'nama_barang', 'tanggal', 'total', 'keterangan', 'status', 'tanggal_perbaikan', 'total_perbaikan', 'biaya_perbaikan'];
-        return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'verifikasi'));
+        if (session()->get('level') == "Tata Usaha" || session()->get('level') == "Admin") {
+            return view('main/list', compact('data', 'hover', 'row', 'column', 'page'));
+        } else {
+            $hiddenButtonAdd = true;
+            $hiddenButtonAction = true;
+            return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'hiddenButtonAdd', 'hiddenButtonAction'));
+        }
     }
 
     public function tambah()

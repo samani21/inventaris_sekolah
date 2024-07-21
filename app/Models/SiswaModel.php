@@ -8,7 +8,7 @@ class SiswaModel extends Model
 {
     protected $table            = 'siswa';
     protected $primaryKey       = 'id';
-    protected $allowedFields    = ['nis','nama','tempat','tanggal','agama','jenis_kelamin','no_hp','foto'];
+    protected $allowedFields    = ['id','nis','nama','tempat','tanggal','agama','jenis_kelamin','no_hp','foto'];
 
 
     public function getData()
