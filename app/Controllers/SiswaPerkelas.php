@@ -38,13 +38,13 @@ class SiswaPerkelas extends BaseController
         } else {
             $row = 1;
         }
-        $hiddenButtonAction = true;
+        $hiddenEdit = true;
         // $hiddenButtonAdd = true;
         $foto = true;
         $hadir = true;
         $modelMapel = new MapelModel();
         $dtMapel = $modelMapel->getData();
-        return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'foto', 'ceklist', 'hadir', 'dtMapel', 'hiddenButtonAction'));
+        return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'foto', 'ceklist', 'hiddenEdit', 'hadir', 'dtMapel'));
     }
 
     public function tambah($kelas)

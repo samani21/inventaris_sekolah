@@ -125,8 +125,15 @@ $routes->get('/siswa/(:any)/ceklist/(:any)', 'SiswaPerkelas::ceklist/$1/$2');
 $routes->get('/siswa_perkelas/laporan', 'SiswaPerkelas::laporan');
 $routes->post('siswa_perkelas/cetak', 'SiswaPerkelas::cetak');
 
-
-
+//siswa Perkelas
+$routes->get('/prestasi_siswa', 'PrestasiSiswa::index');
+$routes->get('/prestasi_siswa/tambah', 'PrestasiSiswa::tambah');
+$routes->post('prestasi_siswa/store', 'PrestasiSiswa::store');
+$routes->get('/prestasi_siswa/edit/(:any)', 'PrestasiSiswa::edit/$1');
+$routes->post('/prestasi_siswa/update/(:any)', 'PrestasiSiswa::update/$1');
+$routes->get('/prestasi_siswa/delete/(:any)', 'PrestasiSiswa::delete/$1');
+$routes->get('/prestasi_siswa/laporan_prestasi_siswa', 'PrestasiSiswa::laporan');
+$routes->post('prestasi_siswa/cetak', 'PrestasiSiswa::cetak');
 
 
 //barang baik

@@ -17,7 +17,7 @@ function convertColumnName($columnName)
         <div class="card-header">
             <div class="row">
                 <div class="col-3">
-                    <h5><?= $data ?> Page</h5>
+                    <h5><?= convertColumnName($data) ?> Page</h5>
                 </div>
                 <div class="col-7">
                     <form action="" method="get">
@@ -286,7 +286,13 @@ function convertColumnName($columnName)
                                             <?php
                                             }
                                             ?>
-                                            <a href=" <?= base_url($page . '/edit/' . $r['id']) ?>" style="padding: 4px;" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i></i></a>
+                                            <?php
+                                            if (!isset($hiddenEdit)) {
+                                            ?>
+                                                <a href=" <?= base_url($page . '/edit/' . $r['id']) ?>" style="padding: 4px;" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i></i></a>
+                                            <?php
+                                            }
+                                            ?>
                                             <a href="<?= base_url($page . '/delete/' . $r['id']) ?>" style="padding: 4px;" data-bs-toggle="tooltip" title="" class="btn btn-link btn-danger delete-button" data-id="<?= $r['id'] ?>" data-original-title="Remove"> <i class="fa fa-times"></i></a>
 
                                         </td>

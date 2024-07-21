@@ -118,7 +118,7 @@ $results = $query->getResultArray();
                 </li>
                 <li class="nav-item 
                 <?php
-                if ($page == "sumber_barang" || $page == "Barang" || $page == "barang_baik") {
+                if ($page == "sumber_barang" || $page == "barang_baik" || $page == "barang_rusak") {
                     echo "active";
                 }
                 ?>">
@@ -154,6 +154,33 @@ $results = $query->getResultArray();
                     </div>
                 </li>
                 <li class="nav-item">
+                    <a data-bs-toggle="collapse" href="#ruangan">
+                        <i class="fa fa-bookmark"></i>
+                        <p>barang Peruangan</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse" id="ruangan">
+                        <ul class="nav nav-collapse">
+                            <?php
+
+                            $query = $db->query('SELECT * FROM ruangan');
+                            $results = $query->getResultArray();
+                            foreach ($results as $kel) {
+                            ?>
+                                <li class="<?php if ($hover == $kel['nm_ruangan']) {
+                                                echo 'active';
+                                            } ?>">
+                                    <a href="<?= base_url('barang_ruangan/' . str_replace(' ', '_', $kel['nm_ruangan'])) ?>">
+                                        <span class="sub-item"><?= $kel['nm_ruangan'] ?></span>
+                                    </a>
+                                </li>
+                            <?php
+                            }
+                            ?>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
                     <a data-bs-toggle="collapse" href="#kelas">
                         <i class="fa fa-server"></i>
                         <p>Kelas</p>
@@ -185,7 +212,7 @@ $results = $query->getResultArray();
                                     } ?>">
                     <a href="<?= base_url('prestasi_siswa') ?>">
                         <i class="fas fa-star"></i>
-                        <p>Dashboard</p>
+                        <p>Prestasi Siswa</p>
                     </a>
                 </li>
             </ul>
