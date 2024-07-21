@@ -94,4 +94,24 @@ class BaranmasukModel extends Model
         }
         return false;
     }
+
+    public function barangSelesaiPakai($id, $totalAwal, $totalBaru)
+    {
+        $item = $this->find($id);
+        if ($item) {
+            $item['total'] =  $item['total'] - $totalAwal + $totalBaru;
+            return $this->update($id, ['total' => $item['total']]);
+        }
+        return false;
+    }
+
+    public function UpdatebarangSelesaiPakai($id, $totalAwal, $totalBaru)
+    {
+        $item = $this->find($id);
+        if ($item) {
+            $item['total'] =  $item['total'] - $totalAwal + $totalBaru;
+            return $this->update($id, ['total' => $item['total']]);
+        }
+        return false;
+    }
 }

@@ -217,9 +217,21 @@ function convertColumnName($columnName)
                                             if ($cl == 'foto') {
                                             ?>
                                                 <img src="<?= base_url('public/images/' . $r[$cl]) ?>" width="100px" alt="">
-                                            <?php
+                                                <?php
                                             } else {
-                                                echo $r[$cl];
+                                                if ($cl == "status_pinjam") {
+                                                    if ($r[$cl] == 1) {
+                                                ?>
+                                                        <span class="badge badge-warning">Dipakai</span>
+                                                    <?php
+                                                    } else {
+                                                    ?>
+                                                        <span class="badge badge-success">Selesai</span>
+                                            <?php
+                                                    }
+                                                } else {
+                                                    echo $r[$cl];
+                                                }
                                             }
                                             ?>
                                         </td>
@@ -278,24 +290,53 @@ function convertColumnName($columnName)
                                     if (isset($hiddenButtonAction)) {
                                     } else {
                                     ?>
-                                        <td>
-                                            <?php
-                                            if (isset($verifikasi)) {
-                                            ?>
-                                                <a href="<?= base_url($page . '/verifikasi/' . $r['id']) ?>" style="padding: 4px;" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-check-circle"></i></i></a>
-                                            <?php
-                                            }
-                                            ?>
-                                            <?php
-                                            if (!isset($hiddenEdit)) {
-                                            ?>
-                                                <a href=" <?= base_url($page . '/edit/' . $r['id']) ?>" style="padding: 4px;" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i></i></a>
-                                            <?php
-                                            }
-                                            ?>
-                                            <a href="<?= base_url($page . '/delete/' . $r['id']) ?>" style="padding: 4px;" data-bs-toggle="tooltip" title="" class="btn btn-link btn-danger delete-button" data-id="<?= $r['id'] ?>" data-original-title="Remove"> <i class="fa fa-times"></i></a>
+                                        <?php
+                                        if (isset($status)) {
+                                            if ($r[$status] == 1) {
+                                        ?>
+                                                <td>
+                                                    <?php
+                                                    if (isset($verifikasi)) {
+                                                    ?>
+                                                        <a href="<?= base_url($page . '/verifikasi/' . $r['id']) ?>" style="padding: 4px;" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-check-circle"></i></i></a>
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                    <?php
+                                                    if (!isset($hiddenEdit)) {
+                                                    ?>
+                                                        <a href=" <?= base_url($page . '/edit/' . $r['id']) ?>" style="padding: 4px;" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i></i></a>
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                    <a href="<?= base_url($page . '/delete/' . $r['id']) ?>" style="padding: 4px;" data-bs-toggle="tooltip" title="" class="btn btn-link btn-danger delete-button" data-id="<?= $r['id'] ?>" data-original-title="Remove"> <i class="fa fa-times"></i></a>
 
-                                        </td>
+                                                </td>
+                                            <?php
+                                            }
+                                        } else {
+                                            ?>
+                                            <td>
+                                                <?php
+                                                if (isset($verifikasi)) {
+                                                ?>
+                                                    <a href="<?= base_url($page . '/verifikasi/' . $r['id']) ?>" style="padding: 4px;" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-check-circle"></i></i></a>
+                                                <?php
+                                                }
+                                                ?>
+                                                <?php
+                                                if (!isset($hiddenEdit)) {
+                                                ?>
+                                                    <a href=" <?= base_url($page . '/edit/' . $r['id']) ?>" style="padding: 4px;" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i></i></a>
+                                                <?php
+                                                }
+                                                ?>
+                                                <a href="<?= base_url($page . '/delete/' . $r['id']) ?>" style="padding: 4px;" data-bs-toggle="tooltip" title="" class="btn btn-link btn-danger delete-button" data-id="<?= $r['id'] ?>" data-original-title="Remove"> <i class="fa fa-times"></i></a>
+
+                                            </td>
+                                        <?php
+                                        }
+                                        ?>
                                 </tr>
                         <?php
                                     }

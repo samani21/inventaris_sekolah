@@ -170,7 +170,7 @@ $results = $query->getResultArray();
                                 <li class="<?php if ($hover == $kel['nm_ruangan']) {
                                                 echo 'active';
                                             } ?>">
-                                    <a href="<?= base_url('barang_ruangan/' . str_replace(' ', '_', $kel['nm_ruangan'])) ?>">
+                                    <a href="<?= base_url('barang_peruangan/' . str_replace(' ', '_', $kel['nm_ruangan'])) ?>">
                                         <span class="sub-item"><?= $kel['nm_ruangan'] ?></span>
                                     </a>
                                 </li>

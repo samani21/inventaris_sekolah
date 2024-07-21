@@ -159,8 +159,12 @@ $routes->post('kondisi_barang/cetak', 'BarangBaik::cetak');
 
 //barang peruangan
 $routes->get('/barang_peruangan/(:any)', 'BarangPakai::index/$1');
-$routes->get('/barang_pakai/tambah/(:any)', 'BarangPakai::tambah/$1');
-$routes->post('barang_pakai/store/(:any)', 'BarangPakai::store/$1');
+$routes->get('/barang_ruangan/(:any)/tambah', 'BarangPakai::tambah/$1');
+$routes->post('barang_ruangan/(:any)/store', 'BarangPakai::store/$1');
+$routes->get('barang_ruangan/(:any)/verifikasi/(:any)', 'BarangPakai::verifikasi/$1/$2');
+$routes->post('/barang_ruangan/(:any)/verifikasi_store/(:any)', 'BarangPakai::verifikasiStore/$1/$2');
+
+
 $routes->get('/barang_pakai/selesai/(:any)', 'BarangPakai::selesai/$1');
 $routes->post('barang_pakai/proses/(:any)', 'BarangPakai::proses/$1');
 $routes->get('/barang_pakai/edit/(:any)', 'BarangPakai::edit/$1');
