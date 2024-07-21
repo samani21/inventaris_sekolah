@@ -87,7 +87,6 @@ $routes->get('/siswa/laporan', 'Siswa::laporan');
 $routes->post('siswa/cetak', 'Siswa::cetak');
 
 
-
 //barang masuk
 $routes->get('/sumber_barang', 'BarangMasuk::index');
 $routes->get('/sumber_barang/tambah', 'BarangMasuk::tambah');
@@ -134,6 +133,18 @@ $routes->post('/prestasi_siswa/update/(:any)', 'PrestasiSiswa::update/$1');
 $routes->get('/prestasi_siswa/delete/(:any)', 'PrestasiSiswa::delete/$1');
 $routes->get('/prestasi_siswa/laporan_prestasi_siswa', 'PrestasiSiswa::laporan');
 $routes->post('prestasi_siswa/cetak', 'PrestasiSiswa::cetak');
+
+
+//kinerja guru
+$routes->get('/kinerja_guru', 'KinerjaGuru::index');
+$routes->get('/kinerja_guru/tambah', 'KinerjaGuru::tambah');
+$routes->post('kinerja_guru/store', 'KinerjaGuru::store');
+$routes->get('/kinerja_guru/edit/(:any)', 'KinerjaGuru::edit/$1');
+$routes->post('/kinerja_guru/update/(:any)', 'KinerjaGuru::update/$1');
+$routes->post('/kinerja_guru/profil/(:any)/(:any)', 'KinerjaGuru::profil/$1/$2');
+$routes->get('/kinerja_guru/delete/(:any)', 'KinerjaGuru::delete/$1');
+$routes->get('/kinerja_guru/laporan', 'KinerjaGuru::laporan');
+$routes->post('kinerja_guru/cetak', 'KinerjaGuru::cetak');
 
 
 //barang baik

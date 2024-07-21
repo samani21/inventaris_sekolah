@@ -215,6 +215,14 @@ $results = $query->getResultArray();
                         <p>Prestasi Siswa</p>
                     </a>
                 </li>
+                <li class="nav-item <?php if ($hover == 'Kinerja Guru') {
+                                        echo 'active';
+                                    } ?>">
+                    <a href="<?= base_url('kinerja_guru') ?>">
+                        <i class="fa fa-user"></i>
+                        <p>Kinerja Guru</p>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
