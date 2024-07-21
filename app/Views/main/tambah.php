@@ -11,7 +11,7 @@ function transformTableName($tableName)
     return $tableName;
 }
 ?>
-<h1><?= $data ?> </h1>
+<h1><?= transformTableName($data) ?> </h1>
 <br>
 <div>
     <form action="<?= base_url($page . '/store') ?>" method="post" enctype="multipart/form-data">

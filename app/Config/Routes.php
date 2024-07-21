@@ -51,6 +51,13 @@ $routes->get('/kelas/edit/(:any)', 'Kelas::edit/$1');
 $routes->post('/kelas/update/(:any)', 'Kelas::update/$1');
 $routes->get('/kelas/delete/(:any)', 'Kelas::delete/$1');
 
+$routes->get('/mapel', 'Mapel::index');
+$routes->get('/mapel/tambah', 'Mapel::tambah');
+$routes->post('mapel/store', 'Mapel::store');
+$routes->get('/mapel/edit/(:any)', 'Mapel::edit/$1');
+$routes->post('/mapel/update/(:any)', 'Mapel::update/$1');
+$routes->get('/mapel/delete/(:any)', 'Mapel::delete/$1');
+
 //ruangan
 $routes->get('/ruangan', 'Ruangan::index');
 $routes->get('/ruangan/tambah', 'Ruangan::tambah');
@@ -80,6 +87,7 @@ $routes->get('/siswa/laporan', 'Siswa::laporan');
 $routes->post('siswa/cetak', 'Siswa::cetak');
 
 
+
 //barang masuk
 $routes->get('/sumber_barang', 'BarangMasuk::index');
 $routes->get('/sumber_barang/tambah', 'BarangMasuk::tambah');
@@ -104,7 +112,18 @@ $routes->post('barang_rusak/cetak', 'BarangRusak::cetak');
 
 $routes->get('/barang_baik', 'BarangBaik::index');
 
-
+//siswa perkelas
+$routes->get('/siswa_perkelas/(:any)', 'SiswaPerkelas::index/$1');
+$routes->get('/siswa/(:any)/tambah', 'SiswaPerkelas::tambah/$1');
+$routes->post('siswa/(:any)/store', 'SiswaPerkelas::store/$1');
+$routes->get('/siswa_perkelas/edit/(:any)', 'SiswaPerkelas::edit/$1');
+$routes->post('/siswa_perkelas/update/(:any)', 'SiswaPerkelas::update/$1');
+$routes->post('/siswa/nilai/store/(:any)', 'SiswaPerkelas::nilai/$1');
+$routes->post('/siswa_perkelas/profil/(:any)/(:any)', 'SiswaPerkelas::profil/$1/$2');
+$routes->get('/siswa_perkelas/delete/(:any)', 'SiswaPerkelas::delete/$1');
+$routes->get('/siswa/(:any)/ceklist/(:any)', 'SiswaPerkelas::ceklist/$1/$2');
+$routes->get('/siswa_perkelas/laporan', 'SiswaPerkelas::laporan');
+$routes->post('siswa_perkelas/cetak', 'SiswaPerkelas::cetak');
 
 
 

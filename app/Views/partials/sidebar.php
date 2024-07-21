@@ -1,4 +1,7 @@
 <?php
+
+$db = \Config\Database::connect();
+
 function transformTableNama($tableName)
 {
     // Remove 'tb' and replace '_' with capitalized letter
@@ -7,7 +10,8 @@ function transformTableNama($tableName)
 
     return $tableName;
 }
-
+$query = $db->query('SELECT * FROM kelas');
+$results = $query->getResultArray();
 ?>
 <div class="sidebar" data-background-color="dark">
     <div class="sidebar-logo">
@@ -41,7 +45,7 @@ function transformTableNama($tableName)
                 </li>
                 <li class="nav-item
                 <?php
-                if ($page == "user" || $page == "barang" || $page == "tata_usaha" || $page == "kelas" || $page == "ruangan") {
+                if ($page == "user" || $page == "barang" || $page == "mapel" || $page == "tata_usaha" || $page == "kelas" || $page == "ruangan") {
                     echo "active";
                 }
                 ?>
@@ -95,6 +99,13 @@ function transformTableNama($tableName)
                                     <span class="sub-item">Tahun Ajaran</span>
                                 </a>
                             </li>
+                            <li class="<?php if ($hover == 'Mapel') {
+                                            echo 'active';
+                                        } ?>">
+                                <a href="<?= base_url('mapel') ?>">
+                                    <span class="sub-item">Mapel</span>
+                                </a>
+                            </li>
                             <li class="<?php if ($hover == 'Siswa') {
                                             echo 'active';
                                         } ?>">
@@ -105,7 +116,12 @@ function transformTableNama($tableName)
                         </ul>
                     </div>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item 
+                <?php
+                if ($page == "sumber_barang" || $page == "Barang" || $page == "barang_baik") {
+                    echo "active";
+                }
+                ?>">
                     <a data-bs-toggle="collapse" href="#barang">
                         <i class="fa fa-archive"></i>
                         <p>Barang</p>
@@ -137,6 +153,42 @@ function transformTableNama($tableName)
                         </ul>
                     </div>
                 </li>
+                <li class="nav-item">
+                    <a data-bs-toggle="collapse" href="#kelas">
+                        <i class="fa fa-server"></i>
+                        <p>Kelas</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse" id="kelas">
+                        <ul class="nav nav-collapse">
+                            <?php
+
+                            $query = $db->query('SELECT * FROM kelas');
+                            $results = $query->getResultArray();
+                            foreach ($results as $kel) {
+                            ?>
+                                <li class="<?php if ($hover == $kel['nama_kelas']) {
+                                                echo 'active';
+                                            } ?>">
+                                    <a href="<?= base_url('siswa_perkelas/' . str_replace(' ', '_', $kel['nama_kelas'])) ?>">
+                                        <span class="sub-item"><?= $kel['nama_kelas'] ?></span>
+                                    </a>
+                                </li>
+                            <?php
+                            }
+                            ?>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item <?php if ($hover == 'Prestasi Siswa') {
+                                        echo 'active';
+                                    } ?>">
+                    <a href="<?= base_url('prestasi_siswa') ?>">
+                        <i class="fas fa-star"></i>
+                        <p>Dashboard</p>
+                    </a>
+                </li>
+            </ul>
         </div>
     </div>
 </div>
