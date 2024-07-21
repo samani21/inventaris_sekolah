@@ -165,6 +165,7 @@ $routes->get('barang_ruangan/(:any)/verifikasi/(:any)', 'BarangPakai::verifikasi
 $routes->post('/barang_ruangan/(:any)/verifikasi_store/(:any)', 'BarangPakai::verifikasiStore/$1/$2');
 
 
+
 $routes->get('/barang_pakai/selesai/(:any)', 'BarangPakai::selesai/$1');
 $routes->post('barang_pakai/proses/(:any)', 'BarangPakai::proses/$1');
 $routes->get('/barang_pakai/edit/(:any)', 'BarangPakai::edit/$1');
@@ -173,6 +174,16 @@ $routes->post('/barang_pakai/update1/(:any)', 'BarangPakai::update1/$1');
 $routes->get('/barang_pakai/delete/(:any)', 'BarangPakai::delete/$1');
 $routes->get('/barang_pakai/laporan_(:any)', 'BarangPakai::laporan_pakai/$1');
 $routes->post('barang_pakai/cetak_pakai', 'BarangPakai::cetak_pakai/$1');
+
+//prestasi guru
+$routes->get('/prestasi_guru', 'PrestasiGuru::index');
+$routes->get('/prestasi_guru/tambah', 'PrestasiGuru::tambah');
+$routes->post('prestasi_guru/store', 'PrestasiGuru::store');
+$routes->get('/prestasi_guru/edit/(:any)', 'PrestasiGuru::edit/$1');
+$routes->post('/prestasi_guru/update/(:any)', 'PrestasiGuru::update/$1');
+$routes->get('/prestasi_guru/delete/(:any)', 'PrestasiGuru::delete/$1');
+$routes->get('/prestasi_guru/laporan_prestasi_guru', 'PrestasiGuru::laporan');
+$routes->post('prestasi_guru/cetak', 'PrestasiGuru::cetak');
 
 //ruangan
 $routes->get('/ruangan', 'Ruangan::index');

@@ -223,6 +223,14 @@ $results = $query->getResultArray();
                         <p>Kinerja Guru</p>
                     </a>
                 </li>
+                <li class="nav-item <?php if ($hover == 'Prestasi Guru') {
+                                        echo 'active';
+                                    } ?>">
+                    <a href="<?= base_url('prestasi_guru') ?>">
+                        <i class="fas fa-star"></i>
+                        <p>Prestasi Guru</p>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

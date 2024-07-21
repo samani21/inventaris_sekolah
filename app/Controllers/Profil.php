@@ -12,6 +12,7 @@ class Profil extends BaseController
     {
         $data = "Profil";
         $hover = "Profil";
+        $page = "profil";
         $id_user = session()->get('id');
         $guru = new GuruModel();
         $dt = $guru->where([
@@ -23,7 +24,7 @@ class Profil extends BaseController
             $d_guru = $guru->where([
                 'id' => session()->get('id_guru')
             ])->first();
-            return view('tata_usaha/profil', compact('data', 'd_guru', 'hover'));
+            return view('tata_usaha/profil', compact('data', 'd_guru', 'hover', 'page'));
         }
     }
 }

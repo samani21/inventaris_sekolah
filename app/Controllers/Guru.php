@@ -15,7 +15,7 @@ class Guru extends BaseController
         $hover = "Tata Usaha";
         $model = new GuruModel();
         $page = 'tata_usaha';
-        $column = ['nip', 'nama', 'ttl', 'agama', 'jenis_kelamin', 'no_hp','foto'];
+        $column = ['nip', 'nama', 'ttl', 'agama', 'jenis_kelamin', 'no_hp', 'foto'];
         $row = $model->getData();
         // $hiddenButtonAdd = true;
         return view('main/list', compact('data', 'hover', 'row', 'column', 'page'));
@@ -52,7 +52,7 @@ class Guru extends BaseController
         $fileName = $dataBerkas->getRandomName();
         $guru = new GuruModel();
         $guru->insert([
-            'user_id' => 18,
+            'user_id' => $this->request->getPost('user_id'),
             'nip' => $this->request->getPost('nip'),
             'nama' => $this->request->getPost('nama'),
             'tempat' => $this->request->getPost('tempat'),
