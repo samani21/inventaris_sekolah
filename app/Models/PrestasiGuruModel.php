@@ -16,4 +16,9 @@ class PrestasiGuruModel extends Model
         return $this->join('guru', 'guru.id=prestasi_guru.id_guru')
             ->select('guru.nama,guru.nip,prestasi_guru.*')->findAll();
     }
+    public function getDataPerGuru()
+    {
+        return $this->join('guru', 'guru.id=prestasi_guru.id_guru')
+            ->select('guru.nama,guru.nip,prestasi_guru.*')->where('guru.id', session()->get('id_guru'))->findAll();
+    }
 }

@@ -16,7 +16,7 @@ $results = $query->getResultArray();
 <div class="sidebar" data-background-color="dark">
     <div class="sidebar-logo">
         <div class="logo-header" data-background-color="dark">
-            <a href="index.html" class="logo">
+            <a href="<?= base_url('dashboard') ?>" class="logo">
                 <p class="text-white">SDN KELAYAN SELATAN 1</p>
             </a>
             <div class="nav-toggle">
@@ -129,7 +129,7 @@ $results = $query->getResultArray();
                 }
                 ?>
                 <?php
-                if (!session()->get('level') == "Siswa") {
+                if (session()->get('level') == "Admin" || session()->get('level') == "Guru" || session()->get('level') == "Tata Usaha") {
                 ?>
                     <li class="nav-item 
                 <?php
@@ -233,23 +233,17 @@ $results = $query->getResultArray();
                         <p>Prestasi Siswa</p>
                     </a>
                     <?php
-                    if (!session()->get('level') == "Siswa") {
+                    if (session()->get('level') == "Admin" || session()->get('level') == "Guru" || session()->get('level') == "Tata Usaha") {
                     ?>
                 </li>
-                <?php
-                        if (session()->get('level') == "Admin") {
-                ?>
-                    <li class="nav-item <?php if ($hover == 'Kinerja Guru') {
-                                            echo 'active';
-                                        } ?>">
-                        <a href="<?= base_url('kinerja_guru') ?>">
-                            <i class="fa fa-user"></i>
-                            <p>Kinerja Guru</p>
-                        </a>
-                    </li>
-                <?php
-                        }
-                ?>
+                <li class="nav-item <?php if ($hover == 'Kinerja Guru') {
+                                        echo 'active';
+                                    } ?>">
+                    <a href="<?= base_url('kinerja_guru') ?>">
+                        <i class="fa fa-user"></i>
+                        <p>Kinerja Guru</p>
+                    </a>
+                </li>
                 <li class="nav-item <?php if ($hover == 'Prestasi Guru') {
                                         echo 'active';
                                     } ?>">
@@ -260,6 +254,28 @@ $results = $query->getResultArray();
                 </li>
             <?php
                     }
+            ?>
+            <?php
+            if (session()->get('level') == "Admin" || session()->get('level') == "Tata Usaha") {
+            ?>
+                <li class="nav-item <?php if ($hover == 'Jadwal Kelas') {
+                                        echo 'active';
+                                    } ?>">
+                    <a href="<?= base_url('jadwal_kelas') ?>">
+                        <i class="fa fa-clock"></i>
+                        <p>Jadwal kelas</p>
+                    </a>
+                </li>
+                <li class="nav-item <?php if ($hover == 'Agenda') {
+                                        echo 'active';
+                                    } ?>">
+                    <a href="<?= base_url('agenda') ?>">
+                        <i class="fa fa-calendar"></i>
+                        <p>Agenda</p>
+                    </a>
+                </li>
+            <?php
+            }
             ?>
             </ul>
         </div>

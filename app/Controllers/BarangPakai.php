@@ -14,6 +14,7 @@ class BarangPakai extends BaseController
 {
     public function index($ruangan)
     {
+        $ruangan = ucwords(str_replace('_', ' ', $ruangan));
         @$dari = $_GET['dari'];
         @$sampai = $_GET['sampai'];
         $data = "Barang di " . $ruangan;

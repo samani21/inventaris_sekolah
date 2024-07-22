@@ -158,7 +158,7 @@ class Siswa extends BaseController
             $dataBerkas->move('public/images', $fileName);
         }
         session()->setFlashdata("success", "Berhasil update data");
-        return redirect('siswa');
+        return redirect()->back();
     }
 
     public function delete($id)

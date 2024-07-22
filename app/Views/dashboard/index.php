@@ -136,18 +136,18 @@ if (session()->get('level') == "Siswa") {
 ?>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<script>
-    const ctxN = document.getElementById('myNilai').getContext('2d');
-    const ctx = document.getElementById('myChart');
-    const ctxs = document.getElementById('mySiswa');
-
-    new Chart(ctxN, {
-        type: 'radar',
-        data: {
-            labels: [
-                <?php
-                $db = \Config\Database::connect();
-                $query = $db->query('SELECT 
+<?php
+if (session()->get('level') == "Siswa") {
+?>
+    <script>
+        const ctxN = document.getElementById('myNilai').getContext('2d');
+        new Chart(ctxN, {
+            type: 'radar',
+            data: {
+                labels: [
+                    <?php
+                    $db = \Config\Database::connect();
+                    $query = $db->query('SELECT 
     siswa.id AS siswa_id, 
     siswa.nama, 
     mapel.id AS mapel_id, 
@@ -174,116 +174,130 @@ GROUP BY
     mapel.nama_mapel
 ORDER BY 
     siswa.id');
-                $results = $query->getResultArray();
-                $labels = [];
-                foreach ($results as $br) {
-                    $labels[] = '"' . $br['nama_mapel'] . '"';
-                }
-                echo implode(',', $labels);
-                ?>
-            ],
-            datasets: [{
-                label: 'Total Rata-rata Nilai',
-                data: [
-                    <?php
-                    $data = [];
+                    $results = $query->getResultArray();
+                    $labels = [];
                     foreach ($results as $br) {
-                        $data[] = $br['total_rata_rata_nilai']; // Sesuaikan dengan field yang ingin Anda gunakan
+                        $labels[] = '"' . $br['nama_mapel'] . '"';
                     }
-                    echo implode(',', $data);
+                    echo implode(',', $labels);
                     ?>
                 ],
-                borderWidth: 1,
-                backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                pointBackgroundColor: 'rgba(54, 162, 235, 1)',
-                pointBorderColor: '#fff',
-                pointHoverBackgroundColor: '#fff',
-                pointHoverBorderColor: 'rgba(54, 162, 235, 1)'
-            }]
-        },
-        options: {
-            scales: {
-                r: {
-                    beginAtZero: true
+                datasets: [{
+                    label: 'Total Rata-rata Nilai',
+                    data: [
+                        <?php
+                        $data = [];
+                        foreach ($results as $br) {
+                            $data[] = $br['total_rata_rata_nilai']; // Sesuaikan dengan field yang ingin Anda gunakan
+                        }
+                        echo implode(',', $data);
+                        ?>
+                    ],
+                    borderWidth: 1,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    pointBackgroundColor: 'rgba(54, 162, 235, 1)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgba(54, 162, 235, 1)'
+                }]
+            },
+            options: {
+                scales: {
+                    r: {
+                        beginAtZero: true
+                    }
                 }
             }
-        }
-    });
-    new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: [
-                <?php
-                $db = \Config\Database::connect();
-                $query = $db->query('SELECT nama_barang,SUM(barang_masuk.total) as jumlah_barang FROM `barang_masuk` JOIN barang ON barang.id = barang_masuk.id_barang GROUP BY barang.id ORDER BY barang.nama_barang');
-                $results = $query->getResultArray();
-                $labels = [];
-                foreach ($results as $br) {
-                    $labels[] = '"' . $br['nama_barang'] . '"';
-                }
-                echo implode(',', $labels);
-                ?>
-            ],
-            datasets: [{
-                label: '# Barang',
-                data: [
+        });
+    </script>
+
+<?php
+} else {
+?>
+    <script>
+        const ctx = document.getElementById('myChart');
+        const ctxs = document.getElementById('mySiswa');
+
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [
                     <?php
-                    $data = [];
+                    $db = \Config\Database::connect();
+                    $query = $db->query('SELECT nama_barang,SUM(barang_masuk.total) as jumlah_barang FROM `barang_masuk` JOIN barang ON barang.id = barang_masuk.id_barang GROUP BY barang.id ORDER BY barang.nama_barang');
+                    $results = $query->getResultArray();
+                    $labels = [];
                     foreach ($results as $br) {
-                        $data[] = $br['jumlah_barang']; // Sesuaikan dengan field yang ingin Anda gunakan
+                        $labels[] = '"' . $br['nama_barang'] . '"';
                     }
-                    echo implode(',', $data);
+                    echo implode(',', $labels);
                     ?>
                 ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
+                datasets: [{
+                    label: '# Barang',
+                    data: [
+                        <?php
+                        $data = [];
+                        foreach ($results as $br) {
+                            $data[] = $br['jumlah_barang']; // Sesuaikan dengan field yang ingin Anda gunakan
+                        }
+                        echo implode(',', $data);
+                        ?>
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
                 }
             }
-        }
-    });
-    new Chart(ctxs, {
-        type: 'line',
-        data: {
-            labels: [
-                <?php
-                $db = \Config\Database::connect();
-                $query = $db->query('SELECT COUNT(semester) as jumlah_siswa,tahun,semester FROM `siswa_perkelas` JOIN tahun_ajaran ON tahun_ajaran.id = siswa_perkelas.id_tahun_ajaran GROUP BY semester,tahun,semester');
-                $results = $query->getResultArray();
-                $labels = [];
-                foreach ($results as $br) {
-                    $labels[] = '"' . $br['tahun'] . ' Sem ' . $br['semester'] . '"';
-                }
-                echo implode(',', $labels);
-                ?>
-            ],
-            datasets: [{
-                label: '# Barang',
-                data: [
+        });
+        new Chart(ctxs, {
+            type: 'line',
+            data: {
+                labels: [
                     <?php
-                    $data = [];
+                    $db = \Config\Database::connect();
+                    $query = $db->query('SELECT COUNT(semester) as jumlah_siswa,tahun,semester FROM `siswa_perkelas` JOIN tahun_ajaran ON tahun_ajaran.id = siswa_perkelas.id_tahun_ajaran GROUP BY semester,tahun,semester');
+                    $results = $query->getResultArray();
+                    $labels = [];
                     foreach ($results as $br) {
-                        $data[] = $br['jumlah_siswa']; // Sesuaikan dengan field yang ingin Anda gunakan
+                        $labels[] = '"' . $br['tahun'] . ' Sem ' . $br['semester'] . '"';
                     }
-                    echo implode(',', $data);
+                    echo implode(',', $labels);
                     ?>
                 ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
+                datasets: [{
+                    label: '# Barang',
+                    data: [
+                        <?php
+                        $data = [];
+                        foreach ($results as $br) {
+                            $data[] = $br['jumlah_siswa']; // Sesuaikan dengan field yang ingin Anda gunakan
+                        }
+                        echo implode(',', $data);
+                        ?>
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
                 }
             }
-        }
-    });
-</script>
+        });
+    </script>
+
+<?php
+}
+?>
 
 <?= $this->endSection() ?>

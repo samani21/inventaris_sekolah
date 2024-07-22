@@ -11,13 +11,23 @@ class PrestasiGuru extends BaseController
 {
     public function index()
     {
-        $data = "Prestasi Guru";
-        $hover = "Prestasi Guru";
-        $page = 'prestasi_guru';
-        $model = new PrestasiGuruModel();
-        $row = $model->getData();
-        $column = ['nip', 'nama', 'tanggal', 'tingkat', 'pencapaian'];
-        return view('main/list', compact('data', 'hover', 'row', 'column', 'page'));
+        if (session()->get('level') == "Guru") {
+            $data = "Prestasi Guru";
+            $hover = "Prestasi Guru";
+            $page = 'prestasi_guru';
+            $model = new PrestasiGuruModel();
+            $row = $model->getDataPerGuru();
+            $column = ['nip', 'nama', 'tanggal', 'tingkat', 'pencapaian'];
+            return view('main/list', compact('data', 'hover', 'row', 'column', 'page'));
+        } else {
+            $data = "Prestasi Guru";
+            $hover = "Prestasi Guru";
+            $page = 'prestasi_guru';
+            $model = new PrestasiGuruModel();
+            $row = $model->getData();
+            $column = ['nip', 'nama', 'tanggal', 'tingkat', 'pencapaian'];
+            return view('main/list', compact('data', 'hover', 'row', 'column', 'page'));
+        }
     }
 
     public function tambah()
@@ -32,9 +42,9 @@ class PrestasiGuru extends BaseController
             ['type' => 'text', 'name' => 'tingkat'],
             ['type' => 'text', 'name' => 'pencapaian'],
         ];
-        $column = ['nip', 'nama', 'ttl'];
+        $column = ['nip', 'nama', 'ttl', 'level'];
         $model = new GuruModel();
-        $rowRelasi = $model->getData();
+        $rowRelasi = $model->getDataSelct();
         $relasi = true;
         $relasi = [
             [
@@ -80,9 +90,9 @@ class PrestasiGuru extends BaseController
             ])
             ->select('guru.nama,guru.nip,prestasi_guru.*')->first();
 
-        $column = ['nip', 'nama', 'ttl'];
+        $column = ['nip', 'nama', 'ttl', 'level'];
         $model = new GuruModel();
-        $rowRelasi = $model->getData();
+        $rowRelasi = $model->getDataSelct();
         $relasi = true;
         $relasi = [
             [

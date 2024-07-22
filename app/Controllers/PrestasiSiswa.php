@@ -14,13 +14,25 @@ class PrestasiSiswa extends BaseController
 {
     public function index()
     {
-        $data = "Prestasi Siswa";
-        $hover = "Prestasi Siswa";
-        $page = 'prestasi_siswa';
-        $model = new PrestasiSiswaModel();
-        $row = $model->getData();
-        $column = ['nis', 'nama', 'tanggal', 'tingkat', 'pencapaian'];
-        return view('main/list', compact('data', 'hover', 'row', 'column', 'page'));
+        if (session()->get('level') == "Siswa") {
+            $data = "Prestasi Siswa";
+            $hover = "Prestasi Siswa";
+            $page = 'prestasi_siswa';
+            $model = new PrestasiSiswaModel();
+            $row = $model->getData();
+            $hiddenButtonAction = true;
+            $hiddenButtonAdd = true;
+            $column = ['nis', 'nama', 'tanggal', 'tingkat', 'pencapaian'];
+            return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'hiddenButtonAction', 'hiddenButtonAdd'));
+        } else {
+            $data = "Prestasi Siswa";
+            $hover = "Prestasi Siswa";
+            $page = 'prestasi_siswa';
+            $model = new PrestasiSiswaModel();
+            $row = $model->getData();
+            $column = ['nis', 'nama', 'tanggal', 'tingkat', 'pencapaian'];
+            return view('main/list', compact('data', 'hover', 'row', 'column', 'page'));
+        }
     }
 
     public function tambah()

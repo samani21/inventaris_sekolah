@@ -24,27 +24,61 @@ class SiswaPerkelas extends BaseController
     }
     public function index($kelas)
     {
-        $tanggal = $this->request->getVar('tanggal');
-        $mapel = $this->request->getVar('mapel');
-        $namaKelas = ucwords(str_replace('_', ' ', $kelas));
-        $data = "Siswa " . $kelas;
-        $hover = "Siswa " . $kelas;
-        $model = new SiswaPerkelasModel();
-        $page = 'siswa/' . $kelas;
-        $column = ['nis', 'nama', 'jenis_kelamin', 'kelas'];
-        $ceklist = 'hadir';
-        if (isset($tanggal) && isset($mapel)) {
-            $row = $model->getData($namaKelas, $tanggal, $mapel, $this->idTahunAjaran);
+        if (session()->get('level') == "Siswa") {
+            $tanggal = $this->request->getVar('tanggal');
+            $mapel = $this->request->getVar('mapel');
+            $namaKelas = ucwords(str_replace('_', ' ', $kelas));
+            $data = "Siswa " . $kelas;
+            $hover = "Siswa " . $kelas;
+            $model = new SiswaPerkelasModel();
+            $page = 'siswa/' . $kelas;
+            $column = ['nama', 'nilai', 'nilai_ujian', 'kelas', 'mapel', 'tahun', 'semester'];
+            $ceklist = 'hadir';
+            if (isset($tanggal) && isset($mapel)) {
+                $row = $model->getData($namaKelas, $tanggal, $mapel, $this->idTahunAjaran);
+            } else {
+                $row = $model->getDataPersiswa($namaKelas, $tanggal, $mapel, $this->idTahunAjaran);
+            }
+            $hiddenEdit = true;
+            // $hiddenButtonAdd = true;
+            $foto = true;
+            $hadir = true;
+            $modelMapel = new MapelModel();
+            $hiddenButtonAction = true;
+            $dtMapel = $modelMapel->getData();
+            $hiddenButtonAdd = true;
+            return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'dtMapel', 'hiddenButtonAction', 'hiddenButtonAdd'));
         } else {
-            $row = 1;
+            $tanggal = $this->request->getVar('tanggal');
+            $mapel = $this->request->getVar('mapel');
+            $namaKelas = ucwords(str_replace('_', ' ', $kelas));
+            $data = "Siswa " . $kelas;
+            $hover = "Siswa " . $kelas;
+            $model = new SiswaPerkelasModel();
+            $page = 'siswa/' . $kelas;
+            $column = ['nis', 'nama', 'jenis_kelamin', 'kelas'];
+            $hadir = true;
+            if (isset($tanggal) && isset($mapel)) {
+                $ceklist = 'hadir';
+                $row = $model->getData($namaKelas, $tanggal, $mapel, $this->idTahunAjaran);
+                $hiddenEdit = true;
+                // $hiddenButtonAdd = true;
+                $foto = true;
+                $hadir = true;
+                $modelMapel = new MapelModel();
+                $dtMapel = $modelMapel->getData();
+                return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'foto', 'ceklist', 'hiddenEdit', 'hadir', 'dtMapel'));
+            } else {
+                $row = $model->getDataKelas($namaKelas, $this->idTahunAjaran);
+                $hiddenEdit = true;
+                // $hiddenButtonAdd = true;
+                $foto = true;
+
+                $modelMapel = new MapelModel();
+                $dtMapel = $modelMapel->getData();
+                return view('main/list', compact('data', 'hover', 'row', 'hadir', 'column', 'page', 'foto', 'hiddenEdit', 'dtMapel'));
+            }
         }
-        $hiddenEdit = true;
-        // $hiddenButtonAdd = true;
-        $foto = true;
-        $hadir = true;
-        $modelMapel = new MapelModel();
-        $dtMapel = $modelMapel->getData();
-        return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'foto', 'ceklist', 'hiddenEdit', 'hadir', 'dtMapel'));
     }
 
     public function tambah($kelas)

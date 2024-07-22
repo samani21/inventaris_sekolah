@@ -15,7 +15,7 @@ class BarangRusakModel extends Model
     {
         return $this->join('barang_masuk', 'barang_masuk.id_barang_masuk=barang_rusak.id_barang_masuk')
             ->join('barang', 'barang.id=barang_masuk.id_barang')
-            ->join('barang_perbaikan', 'barang_perbaikan.id_barang_rusak=barang_rusak.id')
+            ->join('barang_perbaikan', 'barang_perbaikan.id_barang_rusak=barang_rusak.id', 'left')
             ->select('barang.kode_barang,barang.nama_barang,barang_masuk.status,barang_rusak.*,barang_perbaikan.tanggal as tanggal_perbaikan,barang_perbaikan.total as total_perbaikan,barang_perbaikan.biaya as biaya_perbaikan')->findAll();
     }
 }

@@ -20,7 +20,7 @@ class BarangRusak extends BaseController
         $verifikasi = true;
         $column = ['kode_barang', 'nama_barang', 'tanggal', 'total', 'keterangan', 'status', 'tanggal_perbaikan', 'total_perbaikan', 'biaya_perbaikan'];
         if (session()->get('level') == "Tata Usaha" || session()->get('level') == "Admin") {
-            return view('main/list', compact('data', 'hover', 'row', 'column', 'page'));
+            return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'verifikasi'));
         } else {
             $hiddenButtonAdd = true;
             $hiddenButtonAction = true;

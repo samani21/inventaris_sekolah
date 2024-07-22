@@ -13,7 +13,12 @@ class PrestasiSiswaModel extends Model
 
     public function getData()
     {
-        return $this->join('siswa', 'siswa.id=prestasi_siswa.id_siswa')
-            ->select('siswa.nama,siswa.nis,prestasi_siswa.*')->findAll();
+        if (session()->get('level') == "Siswa") {
+            return $this->join('siswa', 'siswa.id=prestasi_siswa.id_siswa')
+                ->select('siswa.nama,siswa.nis,prestasi_siswa.*')->where('siswa.id', session()->get('id_siswa'))->findAll();
+        } else {
+            return $this->join('siswa', 'siswa.id=prestasi_siswa.id_siswa')
+                ->select('siswa.nama,siswa.nis,prestasi_siswa.*')->findAll();
+        }
     }
 }

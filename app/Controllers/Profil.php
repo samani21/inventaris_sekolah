@@ -20,7 +20,15 @@ class Profil extends BaseController
             'user_id' => $id_user,
         ])->first();
         if (empty($dt)) {
-            return view('tata_usaha/tambah', compact('id_user'));
+            if (session()->get('level') == "Siswa") {
+                $model = new SiswaModel();
+                $d_siswa = $model->where([
+                    'id' => session()->get('id_siswa')
+                ])->first();
+                return view('main/profil', compact('data', 'd_siswa', 'hover', 'page'));
+            } else {
+                return view('tata_usaha/tambah', compact('id_user'));
+            }
         } else {
             if (session()->get('level') == "Siswa") {
                 $model = new SiswaModel();

@@ -189,6 +189,26 @@ $routes->get('/prestasi_guru/delete/(:any)', 'PrestasiGuru::delete/$1');
 $routes->get('/prestasi_guru/laporan_prestasi_guru', 'PrestasiGuru::laporan');
 $routes->post('prestasi_guru/cetak', 'PrestasiGuru::cetak');
 
+$routes->get('/jadwal_kelas', 'JadwalKelas::index');
+$routes->get('/jadwal_kelas/tambah', 'JadwalKelas::tambah');
+$routes->post('jadwal_kelas/store', 'JadwalKelas::store');
+$routes->get('/jadwal_kelas/edit/(:any)', 'JadwalKelas::edit/$1');
+$routes->post('/jadwal_kelas/update/(:any)', 'JadwalKelas::update/$1');
+$routes->get('/jadwal_kelas/delete/(:any)', 'JadwalKelas::delete/$1');
+$routes->get('/jadwal_kelas/laporan_sumber', 'JadwalKelas::laporan_sumber');
+$routes->post('jadwal_kelas/cetak_sumber', 'JadwalKelas::cetak_sumber');
+
+
+$routes->get('/agenda', 'Agenda::index');
+$routes->get('/agenda/tambah', 'Agenda::tambah');
+$routes->post('agenda/store', 'Agenda::store');
+$routes->get('/agenda/edit/(:any)', 'Agenda::edit/$1');
+$routes->post('/agenda/update/(:any)', 'Agenda::update/$1');
+$routes->get('/agenda/delete/(:any)', 'Agenda::delete/$1');
+$routes->get('/agenda/laporan_sumber', 'Agenda::laporan_sumber');
+$routes->post('agenda/cetak_sumber', 'Agenda::cetak_sumber');
+
+
 //ruangan
 $routes->get('/ruangan', 'Ruangan::index');
 $routes->get('/ruangan/tambah', 'Ruangan::tambah');

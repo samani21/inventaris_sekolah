@@ -63,7 +63,7 @@ class Login extends BaseController
 				$session->setFlashdata('msg', 'Email/Password invalid');
 				return redirect()->to('/login');
 			}
-		} else if ($siswa) {
+		} else if ($siswas) {
 			$session = session();
 			//create session
 			$siswa = new SiswaModel();
@@ -89,6 +89,8 @@ class Login extends BaseController
 			}
 			$session->set($login);
 			return redirect()->to('/dashboard');
+		} else {
+			return redirect()->back();
 		}
 	}
 

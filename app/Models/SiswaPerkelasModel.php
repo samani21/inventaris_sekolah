@@ -10,6 +10,18 @@ class SiswaPerkelasModel extends Model
     protected $primaryKey = 'id';
     protected $allowedFields = ['id_siswa', 'id_kelas', 'id_tahun_ajaran'];
 
+    public function getDataKelas($kelas, $idTahunAjaran)
+    {
+        return $this->join('siswa', 'siswa.id=siswa_perkelas.id_siswa')
+            ->join('kelas', 'kelas.id=siswa_perkelas.id_kelas')
+            ->where([
+                'nama_kelas' => $kelas,
+                'id_tahun_ajaran' => $idTahunAjaran
+            ])
+            ->select('siswa.nis,siswa.nama,siswa.jenis_kelamin,kelas.nama_kelas as kelas,siswa_perkelas.*')
+            ->findAll();
+    }
+
     public function getData($kelas, $tanggal, $mapel, $idTahunAjaran)
     {
         return $this->join('siswa', 'siswa.id=siswa_perkelas.id_siswa')
@@ -48,5 +60,52 @@ class SiswaPerkelasModel extends Model
     public function getList($id)
     {
         return $this->where('id', $id)->first();
+    }
+
+    public function getDataPersiswa($kelas, $tanggal, $mapel, $idTahunAjaran)
+    {
+        $db = \Config\Database::connect();
+        $query = $db->query("SELECT 
+            siswa.id AS siswa_id, 
+            siswa.nama, 
+            mapel.id AS mapel_id, 
+            AVG(nilai.nilai) AS nilai, 
+            AVG(nilai_ujian.nilai) AS nilai_ujian, 
+            AVG(COALESCE(nilai.nilai, 0) + COALESCE(nilai_ujian.nilai, 0)) AS total_rata_rata_nilai, 
+            mapel.nama_mapel as mapel, 
+            kelas.nama_kelas as kelas,
+            tahun_ajaran.tahun,
+            tahun_ajaran.semester
+        FROM 
+            siswa_perkelas 
+        JOIN 
+            siswa ON siswa.id = siswa_perkelas.id_siswa 
+        JOIN 
+            absen_siswa ON siswa_perkelas.id = absen_siswa.id_siswa_perkelas 
+        LEFT JOIN 
+            nilai ON absen_siswa.id = nilai.id_absen_siswa 
+        LEFT JOIN 
+            nilai_ujian ON absen_siswa.id = nilai_ujian.id_absen_siswa 
+        JOIN 
+            mapel ON absen_siswa.id_mapel = mapel.id 
+        JOIN 
+            kelas ON siswa_perkelas.id_kelas = kelas.id 
+        JOIN 
+            tahun_ajaran ON tahun_ajaran.id = siswa_perkelas.id_tahun_ajaran
+        WHERE 
+            kelas.nama_kelas = '" . $kelas . "' AND siswa.id = '" . session()->get('id_siswa') . "'
+        GROUP BY 
+            siswa.id, 
+            siswa.nama, 
+            mapel.id, 
+            mapel.nama_mapel, 
+            kelas.id, 
+            kelas.nama_kelas,
+            tahun_ajaran.tahun,
+            tahun_ajaran.semester
+        ORDER BY 
+            siswa.id");
+
+        return $query->getResultArray();
     }
 }

@@ -14,13 +14,25 @@ class KinerjaGuru extends BaseController
 {
     public function index()
     {
-        $data = "Kinerja Guru";
-        $hover = "Kinerja Guru";
-        $page = 'kinerja_guru';
-        $model = new KinerjaGuruModel();
-        $row = $model->getData();
-        $column = ['nip', 'nama', 'tanggal', 'kompetensi_pedagogik', 'kompetensi_kepribadian', 'kompetensi_profesional', 'kompetensi_sosial', 'keterangan'];
-        return view('main/list', compact('data', 'hover', 'row', 'column', 'page'));
+        if (session()->get('level') == "Guru") {
+            $data = "Kinerja Guru";
+            $hover = "Kinerja Guru";
+            $page = 'kinerja_guru';
+            $model = new KinerjaGuruModel();
+            $row = $model->getDataPerguru();
+            $hiddenButtonAction = true;
+            $hiddenButtonAdd = true;
+            $column = ['nip', 'nama', 'tanggal', 'kompetensi_pedagogik', 'kompetensi_kepribadian', 'kompetensi_profesional', 'kompetensi_sosial', 'keterangan'];
+            return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'hiddenButtonAction', 'hiddenButtonAdd'));
+        } else {
+            $data = "Kinerja Guru";
+            $hover = "Kinerja Guru";
+            $page = 'kinerja_guru';
+            $model = new KinerjaGuruModel();
+            $row = $model->getData();
+            $column = ['nip', 'nama', 'tanggal', 'kompetensi_pedagogik', 'kompetensi_kepribadian', 'kompetensi_profesional', 'kompetensi_sosial', 'keterangan'];
+            return view('main/list', compact('data', 'hover', 'row', 'column', 'page'));
+        }
     }
 
     public function tambah()
@@ -38,9 +50,9 @@ class KinerjaGuru extends BaseController
             ['type' => 'number', 'name' => 'kompetensi_sosial'],
             ['type' => 'textArea', 'name' => 'keterangan'],
         ];
-        $column = ['nip', 'nama', 'ttl'];
+        $column = ['nip', 'nama', 'ttl', 'level'];
         $model = new GuruModel();
-        $rowRelasi = $model->getData();
+        $rowRelasi = $model->getDataSelct();
         $relasi = true;
         $relasi = [
             [
@@ -93,9 +105,9 @@ class KinerjaGuru extends BaseController
             ])
             ->select('guru.nama,guru.nip,kinerja_guru.*')->first();
 
-        $column = ['nip', 'nama', 'ttl'];
+        $column = ['nip', 'nama', 'ttl', 'level'];
         $model = new GuruModel();
-        $rowRelasi = $model->getData();
+        $rowRelasi = $model->getDataSelct();
         $relasi = true;
         $relasi = [
             [

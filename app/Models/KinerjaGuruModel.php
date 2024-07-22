@@ -14,6 +14,14 @@ class KinerjaGuruModel extends Model
     public function getData()
     {
         return $this->join('guru', 'guru.id=kinerja_guru.id_guru')
-            ->select('guru.nama,guru.nip,kinerja_guru.*')->findAll();
+            ->join('users', 'users.id=guru.user_id')
+            ->select('guru.nama,guru.nip,kinerja_guru.*,users.level')->findAll();
+    }
+
+    public function getDataPerguru()
+    {
+        return $this->join('guru', 'guru.id=kinerja_guru.id_guru')
+            ->join('users', 'users.id=guru.user_id')
+            ->select('guru.nama,guru.nip,kinerja_guru.*,users.level')->where('guru.id', session()->get('id_guru'))->findAll();
     }
 }

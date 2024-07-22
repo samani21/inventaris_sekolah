@@ -13,7 +13,14 @@ class GuruModel extends Model
 
     public function getData()
     {
-        return $this->select('concat(tempat,",",t_lahir) as ttl,id,nip,nama,tempat,j_kelamin as jenis_kelamin,agama,no_hp,foto')->findAll();
+        return $this->join('users', 'users.id=guru.user_id')
+            ->select('concat(tempat,",",t_lahir) as ttl,guru.id,nip,nama,tempat,j_kelamin as jenis_kelamin,agama,no_hp,foto,level')->findAll();
+    }
+
+    public function getDataSelct()
+    {
+        return $this->join('users', 'users.id=guru.user_id')
+            ->select('concat(tempat,",",t_lahir) as ttl,guru.id,nip,nama,tempat,j_kelamin as jenis_kelamin,agama,no_hp,foto,level')->where('level', 'Guru')->findAll();
     }
 
     public function getEnumAgama($field)

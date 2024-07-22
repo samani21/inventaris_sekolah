@@ -10,10 +10,10 @@ class Barang extends BaseController
 {
     public function index()
     {
-        $data = "Kelas";
-        $hover = "Kelas";
+        $data = "Barang";
+        $hover = "Barang";
         $model = new BarangModel();
-        $page = 'kelas';
+        $page = 'barang';
         $column = ['kode_barang', 'nama_barang', 'satuan', 'merek'];
         $row = $model->getData();
         return view('main/list', compact('data', 'hover', 'row', 'column', 'page'));
