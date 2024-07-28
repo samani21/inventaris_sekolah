@@ -8,11 +8,13 @@ class JadwalKelasModel extends Model
 {
     protected $table = 'jadwal_kelas';
     protected $primaryKey = 'id';
-    protected $allowedFields = ['id', 'hari', 'jam', 'id_kelas'];
+    protected $allowedFields = ['id', 'hari', 'jam', 'id_kelas', 'id_mapel'];
 
     public function getData()
     {
-        return $this->join('kelas', 'kelas.id=jadwal_kelas.id_kelas')->select('kelas.nama_kelas,jadwal_kelas.*')->findAll();
+        return $this->join('kelas', 'kelas.id=jadwal_kelas.id_kelas')
+            ->join('mapel', 'mapel.id=jadwal_kelas.id_mapel')
+            ->select('kelas.nama_kelas,jadwal_kelas.*,mapel.nama_mapel')->findAll();
     }
     public function getEnumValues($field)
     {

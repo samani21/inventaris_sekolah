@@ -98,9 +98,7 @@ function transformTableName($tableName)
                                                 }
                                             ?>"  placeholder="Input <?= transformTableName($f['name']) ?>" required autofocus readonly>
                     </div>
-                    <div class="col-2">
-                        <button type="button" class="btn btn-secondary" onclick="openRelationModal('<?= $f['name'] ?>')">Cari</button>
-                    </div>
+                  
                 </div>
         <?php
             }

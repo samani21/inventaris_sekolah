@@ -23,7 +23,7 @@ if (session()->get('level') == "Siswa") {
                             <input type="text" name="tempat" class="form-control" value="<?= $d_siswa['tempat'] ?>">
                         </div>
                         <div class="col-6">
-                            <input type="date" name="t_lahir" class="form-control" value="<?= $d_siswa['tanggal'] ?>">
+                            <input type="date" name="tanggal" class="form-control" value="<?= $d_siswa['tanggal'] ?>">
                         </div>
                     </div>
                 </div>

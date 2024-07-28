@@ -7,6 +7,7 @@ use App\Models\BarangModel;
 use App\Models\BarangRusakModel;
 use App\Models\JadwalKelasModel;
 use App\Models\KelasModel;
+use App\Models\MapelModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class JadwalKelas extends BaseController
@@ -19,7 +20,7 @@ class JadwalKelas extends BaseController
         $model = new JadwalKelasModel();
         $row = $model->getData();
         $between = true;
-        $column = ['hari', 'jam', 'nama_kelas'];
+        $column = ['hari', 'jam', 'nama_kelas', 'nama_mapel'];
         return view('main/list', compact('data', 'hover', 'row', 'column', 'page'));
     }
 
@@ -35,12 +36,16 @@ class JadwalKelas extends BaseController
         ];
         $form = [
             ['type' => 'relasi', 'name' => 'id_kelas'],
+            ['type' => 'relasi', 'name' => 'id_mapel'],
             ['type' => 'enum', 'name' => 'hari'],
             ['type' => 'text', 'name' => 'jam'],
         ];
         $column = ['nama_kelas'];
         $model = new KelasModel();
         $rowKelas = $model->getData();
+        $columnMapel = ['nama_mapel'];
+        $modelMapel = new MapelModel();
+        $rowMapel = $modelMapel->getData();
         $relasi = true;
         $relasi = [
             [
@@ -48,6 +53,12 @@ class JadwalKelas extends BaseController
                 'rows' => $rowKelas,
                 'fieldName' => 'id_kelas',
                 'select' => ['nama_kelas']
+            ],
+            [
+                'columns' => $columnMapel,
+                'rows' => $rowMapel,
+                'fieldName' => 'id_mapel',
+                'select' => ['nama_mapel']
             ],
         ];
 
@@ -59,6 +70,7 @@ class JadwalKelas extends BaseController
         $data = new JadwalKelasModel();
         $data->insert([
             'id_kelas' => $this->request->getPost('id_kelas'),
+            'id_mapel' => $this->request->getPost('id_mapel'),
             'tanggal' => $this->request->getPost('tanggal'),
             'jam' => $this->request->getPost('jam'),
         ]);
@@ -78,16 +90,21 @@ class JadwalKelas extends BaseController
         ];
         $form = [
             ['type' => 'relasi', 'name' => 'id_kelas'],
+            ['type' => 'relasi', 'name' => 'id_mapel'],
             ['type' => 'enum', 'name' => 'hari'],
             ['type' => 'text', 'name' => 'jam'],
         ];
-        $dt = $model->join('kelas', 'kelas.id=jadwal_kelas.id_kelas')->where([
-            'jadwal_kelas.id' => $id,
-        ])->select('kelas.nama_kelas,jadwal_kelas.*')->first();
+        $dt = $model->join('kelas', 'kelas.id=jadwal_kelas.id_kelas')
+            ->join('mapel', 'mapel.id=jadwal_kelas.id_mapel')->where([
+                'jadwal_kelas.id' => $id,
+            ])->select('kelas.nama_kelas,jadwal_kelas.*,mapel.nama_mapel')->first();
 
         $column = ['nama_kelas'];
-        $modelKelas = new KelasModel();
-        $rowKelas = $modelKelas->getData();
+        $model = new KelasModel();
+        $rowKelas = $model->getData();
+        $columnMapel = ['nama_mapel'];
+        $modelMapel = new MapelModel();
+        $rowMapel = $modelMapel->getData();
         $relasi = true;
         $relasi = [
             [
@@ -95,6 +112,12 @@ class JadwalKelas extends BaseController
                 'rows' => $rowKelas,
                 'fieldName' => 'id_kelas',
                 'select' => ['nama_kelas']
+            ],
+            [
+                'columns' => $columnMapel,
+                'rows' => $rowMapel,
+                'fieldName' => 'id_mapel',
+                'select' => ['nama_mapel']
             ],
         ];
         return view('main/edit', compact('data', 'hover', 'dt', 'page', 'form', 'enum', 'relasi'));
