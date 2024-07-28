@@ -108,6 +108,20 @@ $results = $query->getResultArray();
                                         <span class="sub-item">Tahun Ajaran</span>
                                     </a>
                                 </li>
+                                <li class="<?php if ($hover == 'Metode') {
+                                                echo 'active';
+                                            } ?>">
+                                    <a href="<?= base_url('metode') ?>">
+                                        <span class="sub-item">Metode</span>
+                                    </a>
+                                </li>
+                                <li class="<?php if ($hover == 'Media') {
+                                                echo 'active';
+                                            } ?>">
+                                    <a href="<?= base_url('media') ?>">
+                                        <span class="sub-item">Media</span>
+                                    </a>
+                                </li>
                                 <li class="<?php if ($hover == 'Mapel') {
                                                 echo 'active';
                                             } ?>">

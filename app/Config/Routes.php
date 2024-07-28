@@ -210,6 +210,23 @@ $routes->post('agenda/cetak_sumber', 'Agenda::cetak_sumber');
 
 
 
+//Metode
+$routes->get('/metode', 'Metode::index');
+$routes->get('/metode/tambah', 'Metode::tambah');
+$routes->post('metode/store', 'Metode::store');
+$routes->get('/metode/edit/(:any)', 'Metode::edit/$1');
+$routes->post('/metode/update/(:any)', 'Metode::update/$1');
+$routes->get('/metode/delete/(:any)', 'Metode::delete/$1');
+
+//Media
+$routes->get('/media', 'Media::index');
+$routes->get('/media/tambah', 'Media::tambah');
+$routes->post('media/store', 'Media::store');
+$routes->get('/media/edit/(:any)', 'Media::edit/$1');
+$routes->post('/media/update/(:any)', 'Media::update/$1');
+$routes->get('/media/delete/(:any)', 'Media::delete/$1');
+
+
 //perancanaa dan persiapan pembelajaran
 $routes->get('perancaan_persiapan_pembelajaran', 'PerancanaanPembelajaranPersiapan::index');
 $routes->get('perancaan_persiapan_pembelajaran/tambah', 'PerancanaanPembelajaranPersiapan::tambah');

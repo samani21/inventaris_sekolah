@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\GuruModel;
 use App\Models\MapelModel;
+use App\Models\MediaModel;
 use App\Models\PerancaanPersiapanPembelajaranModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
@@ -18,7 +19,7 @@ class PerancanaanPembelajaranPersiapan  extends BaseController
             $page = 'perancaan_persiapan_pembelajaran';
             $model = new PerancaanPersiapanPembelajaranModel();
             $row = $model->getDataPerguru();
-            $column = ['nip', 'nama', 'nama_mapel', 'materi', 'tanggal', 'alat_bahan', 'tujuan'];
+            $column = ['nip', 'nama', 'nama_mapel', 'materi', 'tanggal', 'media', 'tujuan'];
             return view('main/list', compact('data', 'hover', 'row', 'column', 'page'));
         } else {
             $data = "Persiapan dan Perancanaan Pembelajaran";
@@ -26,7 +27,7 @@ class PerancanaanPembelajaranPersiapan  extends BaseController
             $page = 'perancaan_persiapan_pembelajaran';
             $model = new PerancaanPersiapanPembelajaranModel();
             $row = $model->getData();
-            $column = ['nama_mapel', 'materi', 'tanggal', 'alat_bahan', 'tujuan'];
+            $column = ['nama_mapel', 'materi', 'tanggal', 'media', 'tujuan'];
             return view('main/list', compact('data', 'hover', 'row', 'column', 'page'));
         }
     }
@@ -40,18 +41,19 @@ class PerancanaanPembelajaranPersiapan  extends BaseController
         if (session()->get('level') == "Guru") {
             $form = [
                 ['type' => 'relasi', 'name' => 'id_mapel'],
+                ['type' => 'relasi', 'name' => 'id_media'],
                 ['type' => 'text', 'name' => 'materi'],
+                ['type' => 'text', 'name' => 'media'],
                 ['type' => 'date', 'name' => 'tanggal'],
-                ['type' => 'textArea', 'name' => 'alat_bahan'],
                 ['type' => 'textArea', 'name' => 'tujuan'],
             ];
         } else {
             $form = [
                 ['type' => 'relasi', 'name' => 'id_guru'],
                 ['type' => 'relasi', 'name' => 'id_mapel'],
+                ['type' => 'relasi', 'name' => 'id_media'],
                 ['type' => 'text', 'name' => 'materi'],
                 ['type' => 'date', 'name' => 'tanggal'],
-                ['type' => 'textArea', 'name' => 'alat_bahan'],
                 ['type' => 'textArea', 'name' => 'tujuan'],
             ];
         }
@@ -61,6 +63,9 @@ class PerancanaanPembelajaranPersiapan  extends BaseController
         $columnMapel = ['nama_mapel'];
         $modelMapel = new MapelModel();
         $rowMapel = $modelMapel->getData();
+        $columnMedia = ['media'];
+        $modelMedia = new MediaModel();
+        $rowMedia = $modelMedia->getData();
         $relasi = true;
         $relasi = [
             [
@@ -74,6 +79,12 @@ class PerancanaanPembelajaranPersiapan  extends BaseController
                 'rows' => $rowMapel,
                 'fieldName' => 'id_mapel',
                 'select' => ['nama_mapel']
+            ],
+            [
+                'columns' => $columnMedia,
+                'rows' => $rowMedia,
+                'fieldName' => 'id_media',
+                'select' => ['media']
             ],
         ];
 
@@ -89,7 +100,7 @@ class PerancanaanPembelajaranPersiapan  extends BaseController
                 'id_mapel' => $this->request->getPost('id_mapel'),
                 'materi' => $this->request->getPost('materi'),
                 'tanggal' => $this->request->getPost('tanggal'),
-                'alat_bahan' => $this->request->getPost('alat_bahan'),
+                'id_media' => $this->request->getPost('id_media'),
                 'tujuan' => $this->request->getPost('tujuan'),
             ]);
         } else {
@@ -98,7 +109,7 @@ class PerancanaanPembelajaranPersiapan  extends BaseController
                 'id_mapel' => $this->request->getPost('id_mapel'),
                 'materi' => $this->request->getPost('materi'),
                 'tanggal' => $this->request->getPost('tanggal'),
-                'alat_bahan' => $this->request->getPost('alat_bahan'),
+                'id_media' => $this->request->getPost('id_media'),
                 'tujuan' => $this->request->getPost('tujuan'),
             ]);
         }
@@ -117,28 +128,29 @@ class PerancanaanPembelajaranPersiapan  extends BaseController
         if (session()->get('level') == "Guru") {
             $form = [
                 ['type' => 'relasi', 'name' => 'id_mapel'],
+                ['type' => 'relas', 'name' => 'id_media'],
                 ['type' => 'text', 'name' => 'materi'],
                 ['type' => 'date', 'name' => 'tanggal'],
-                ['type' => 'textArea', 'name' => 'alat_bahan'],
                 ['type' => 'textArea', 'name' => 'tujuan'],
             ];
         } else {
             $form = [
                 ['type' => 'relasi', 'name' => 'id_guru'],
                 ['type' => 'relasi', 'name' => 'id_mapel'],
+                ['type' => 'relasi', 'name' => 'id_media'],
                 ['type' => 'text', 'name' => 'materi'],
                 ['type' => 'date', 'name' => 'tanggal'],
-                ['type' => 'textArea', 'name' => 'alat_bahan'],
                 ['type' => 'textArea', 'name' => 'tujuan'],
             ];
         }
         $dt = $model->join('guru', 'guru.id=perencanaan_persiapan_pembelajaran.id_guru')
             ->join('users', 'users.id=guru.user_id')
             ->join('mapel', 'mapel.id=perencanaan_persiapan_pembelajaran.id_mapel')
+            ->join('media', 'media.id=perencanaan_persiapan_pembelajaran.id_media')
             ->where([
                 'perencanaan_persiapan_pembelajaran.id' => $id,
             ])
-            ->select('guru.nama,guru.nip,perencanaan_persiapan_pembelajaran.*,users.level,mapel.nama_mapel')->first();
+            ->select('guru.nama,guru.nip,perencanaan_persiapan_pembelajaran.*,users.level,mapel.nama_mapel,media.media')->first();
 
         $column = ['nip', 'nama', 'ttl', 'level'];
         $model = new GuruModel();
@@ -146,6 +158,9 @@ class PerancanaanPembelajaranPersiapan  extends BaseController
         $columnMapel = ['nama_mapel'];
         $modelMapel = new MapelModel();
         $rowMapel = $modelMapel->getData();
+        $columnMedia = ['media'];
+        $modelMedia = new MediaModel();
+        $rowMedia = $modelMedia->getData();
         $relasi = true;
         $relasi = [
             [
@@ -160,6 +175,12 @@ class PerancanaanPembelajaranPersiapan  extends BaseController
                 'fieldName' => 'id_mapel',
                 'select' => ['nama_mapel']
             ],
+            [
+                'columns' => $columnMedia,
+                'rows' => $rowMedia,
+                'fieldName' => 'id_media',
+                'select' => ['media']
+            ],
         ];
         return view('main/edit', compact('data', 'hover', 'dt', 'page', 'form', 'enum', 'relasi'));
     }
@@ -170,7 +191,7 @@ class PerancanaanPembelajaranPersiapan  extends BaseController
         $data->update($id, [
             'materi' => $this->request->getPost('materi'),
             'tanggal' => $this->request->getPost('tanggal'),
-            'alat_bahan' => $this->request->getPost('alat_bahan'),
+            'id_media' => $this->request->getPost('id_media'),
             'tujuan' => $this->request->getPost('tujuan'),
         ]);
         session()->setFlashdata("success", "Berhasil update data");

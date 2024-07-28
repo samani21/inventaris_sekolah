@@ -14,7 +14,7 @@ class Mapel extends BaseController
         $hover = "mapel";
         $model = new MapelModel();
         $page = 'mapel';
-        $column = ['nama_mapel'];
+        $column = ['nama_mapel', 'kategori'];
         $row = $model->getData();
         return view('main/list', compact('data', 'hover', 'row', 'column', 'page'));
     }
@@ -25,9 +25,13 @@ class Mapel extends BaseController
         $hover = "Mapel";
         $page = "mapel";
         $model = new MapelModel();
-        $enum = [];
+        $kategori = $model->getEnumKategori('kategori');
+        $enum = [
+            'kategori' => $kategori,
+        ];
         $form = [
             ['type' => 'text', 'name' => 'nama_mapel'],
+            ['type' => 'enum', 'name' => 'kategori'],
         ];
         return view('main/tambah', compact('data', 'hover', 'page', 'form', 'enum'));
     }
@@ -37,6 +41,7 @@ class Mapel extends BaseController
         $data = new MapelModel();
         $data->insert([
             'nama_mapel' => $this->request->getPost('nama_mapel'),
+            'kategori' => $this->request->getPost('kategori'),
         ]);
         session()->setFlashdata("success", "Berhasil Tambah data");
         return redirect('mapel');
@@ -48,9 +53,13 @@ class Mapel extends BaseController
         $hover = "Mapel";
         $page = "mapel";
         $model = new MapelModel();
-        $enum = [];
+        $kategori = $model->getEnumKategori('kategori');
+        $enum = [
+            'kategori' => $kategori,
+        ];
         $form = [
             ['type' => 'text', 'name' => 'nama_mapel'],
+            ['type' => 'enum', 'name' => 'kategori'],
         ];
         $dt = $model->where([
             'id' => $id,
@@ -62,6 +71,7 @@ class Mapel extends BaseController
         $data = new MapelModel();
         $data->update($id, [
             'nama_mapel' => $this->request->getPost('nama_mapel'),
+            'kategori' => $this->request->getPost('kategori'),
         ]);
         session()->setFlashdata("success", "Berhasil update data");
         return redirect('mapel');

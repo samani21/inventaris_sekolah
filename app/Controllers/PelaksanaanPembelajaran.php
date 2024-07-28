@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\GuruModel;
 use App\Models\MapelModel;
+use App\Models\MetodeModel;
 use App\Models\PelaksanaanPembelajaranModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
@@ -40,18 +41,18 @@ class PelaksanaanPembelajaran  extends BaseController
         if (session()->get('level') == "Guru") {
             $form = [
                 ['type' => 'relasi', 'name' => 'id_mapel'],
+                ['type' => 'relasi', 'name' => 'metode'],
                 ['type' => 'text', 'name' => 'materi'],
                 ['type' => 'date', 'name' => 'tanggal'],
-                ['type' => 'textArea', 'name' => 'metode'],
                 ['type' => 'textArea', 'name' => 'evaluasi'],
             ];
         } else {
             $form = [
                 ['type' => 'relasi', 'name' => 'id_guru'],
                 ['type' => 'relasi', 'name' => 'id_mapel'],
+                ['type' => 'relasi', 'name' => 'id_metode'],
                 ['type' => 'text', 'name' => 'materi'],
                 ['type' => 'date', 'name' => 'tanggal'],
-                ['type' => 'textArea', 'name' => 'metode'],
                 ['type' => 'textArea', 'name' => 'evaluasi'],
             ];
         }
@@ -61,6 +62,9 @@ class PelaksanaanPembelajaran  extends BaseController
         $columnMapel = ['nama_mapel'];
         $modelMapel = new MapelModel();
         $rowMapel = $modelMapel->getData();
+        $columnMetode = ['metode'];
+        $modelMetode = new MetodeModel();
+        $rowMetode = $modelMetode->getData();
         $relasi = true;
         $relasi = [
             [
@@ -74,6 +78,12 @@ class PelaksanaanPembelajaran  extends BaseController
                 'rows' => $rowMapel,
                 'fieldName' => 'id_mapel',
                 'select' => ['nama_mapel']
+            ],
+            [
+                'columns' => $columnMetode,
+                'rows' => $rowMetode,
+                'fieldName' => 'id_metode',
+                'select' => ['metode']
             ],
         ];
 
@@ -89,7 +99,7 @@ class PelaksanaanPembelajaran  extends BaseController
                 'id_mapel' => $this->request->getPost('id_mapel'),
                 'materi' => $this->request->getPost('materi'),
                 'tanggal' => $this->request->getPost('tanggal'),
-                'metode' => $this->request->getPost('metode'),
+                'id_metode' => $this->request->getPost('id_metode'),
                 'evaluasi' => $this->request->getPost('evaluasi'),
             ]);
         } else {
@@ -98,7 +108,7 @@ class PelaksanaanPembelajaran  extends BaseController
                 'id_mapel' => $this->request->getPost('id_mapel'),
                 'materi' => $this->request->getPost('materi'),
                 'tanggal' => $this->request->getPost('tanggal'),
-                'metode' => $this->request->getPost('metode'),
+                'id_metode' => $this->request->getPost('id_metode'),
                 'evaluasi' => $this->request->getPost('evaluasi'),
             ]);
         }
@@ -117,28 +127,29 @@ class PelaksanaanPembelajaran  extends BaseController
         if (session()->get('level') == "Guru") {
             $form = [
                 ['type' => 'relasi', 'name' => 'id_mapel'],
+                ['type' => 'relasi', 'name' => 'id_metode'],
                 ['type' => 'text', 'name' => 'materi'],
                 ['type' => 'date', 'name' => 'tanggal'],
-                ['type' => 'textArea', 'name' => 'metode'],
                 ['type' => 'textArea', 'name' => 'evaluasi'],
             ];
         } else {
             $form = [
                 ['type' => 'relasi', 'name' => 'id_guru'],
                 ['type' => 'relasi', 'name' => 'id_mapel'],
+                ['type' => 'relasi', 'name' => 'id_metode'],
                 ['type' => 'text', 'name' => 'materi'],
                 ['type' => 'date', 'name' => 'tanggal'],
-                ['type' => 'textArea', 'name' => 'metode'],
                 ['type' => 'textArea', 'name' => 'evaluasi'],
             ];
         }
         $dt = $model->join('guru', 'guru.id=pelaksanaan_pembelajaran.id_guru')
             ->join('users', 'users.id=guru.user_id')
             ->join('mapel', 'mapel.id=pelaksanaan_pembelajaran.id_mapel')
+            ->join('metode', 'metode.id=pelaksanaan_pembelajaran.id_metode')
             ->where([
                 'pelaksanaan_pembelajaran.id' => $id,
             ])
-            ->select('guru.nama,guru.nip,pelaksanaan_pembelajaran.*,users.level,mapel.nama_mapel')->first();
+            ->select('guru.nama,guru.nip,pelaksanaan_pembelajaran.*,users.level,mapel.nama_mapel,metode')->first();
 
         $column = ['nip', 'nama', 'ttl', 'level'];
         $model = new GuruModel();
@@ -146,6 +157,9 @@ class PelaksanaanPembelajaran  extends BaseController
         $columnMapel = ['nama_mapel'];
         $modelMapel = new MapelModel();
         $rowMapel = $modelMapel->getData();
+        $columnMetode = ['metode'];
+        $modelMetode = new MetodeModel();
+        $rowMetode = $modelMetode->getData();
         $relasi = true;
         $relasi = [
             [
@@ -160,6 +174,12 @@ class PelaksanaanPembelajaran  extends BaseController
                 'fieldName' => 'id_mapel',
                 'select' => ['nama_mapel']
             ],
+            [
+                'columns' => $columnMetode,
+                'rows' => $rowMetode,
+                'fieldName' => 'id_metode',
+                'select' => ['metode']
+            ],
         ];
         return view('main/edit', compact('data', 'hover', 'dt', 'page', 'form', 'enum', 'relasi'));
     }
@@ -170,7 +190,7 @@ class PelaksanaanPembelajaran  extends BaseController
         $data->update($id, [
             'materi' => $this->request->getPost('materi'),
             'tanggal' => $this->request->getPost('tanggal'),
-            'metode' => $this->request->getPost('metode'),
+            'id_metode' => $this->request->getPost('id_metode'),
             'evaluasi' => $this->request->getPost('evaluasi'),
         ]);
         session()->setFlashdata("success", "Berhasil update data");
