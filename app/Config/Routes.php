@@ -209,14 +209,38 @@ $routes->get('/agenda/laporan_sumber', 'Agenda::laporan_sumber');
 $routes->post('agenda/cetak_sumber', 'Agenda::cetak_sumber');
 
 
-//ruangan
-$routes->get('/ruangan', 'Ruangan::index');
-$routes->get('/ruangan/tambah', 'Ruangan::tambah');
-$routes->post('ruangan/store', 'Ruangan::store');
-$routes->get('/ruangan/edit/(:any)', 'Ruangan::edit/$1');
-$routes->post('/ruangan/update/(:any)', 'Ruangan::update/$1');
-$routes->get('/ruangan/delete/(:any)', 'Ruangan::delete/$1');
 
+//perancanaa dan persiapan pembelajaran
+$routes->get('perancaan_persiapan_pembelajaran', 'PerancanaanPembelajaranPersiapan::index');
+$routes->get('perancaan_persiapan_pembelajaran/tambah', 'PerancanaanPembelajaranPersiapan::tambah');
+$routes->post('perancaan_persiapan_pembelajaran/store', 'PerancanaanPembelajaranPersiapan::store');
+$routes->get('perancaan_persiapan_pembelajaran/edit/(:any)', 'PerancanaanPembelajaranPersiapan::edit/$1');
+$routes->post('perancaan_persiapan_pembelajaran/update/(:any)', 'PerancanaanPembelajaranPersiapan::update/$1');
+$routes->get('perancaan_persiapan_pembelajaran/delete/(:any)', 'PerancanaanPembelajaranPersiapan::delete/$1');
+
+//Pelaksanaan pembelajaran
+$routes->get('pelaksanaan_pembelajaran', 'PelaksanaanPembelajaran::index');
+$routes->get('pelaksanaan_pembelajaran/tambah', 'PelaksanaanPembelajaran::tambah');
+$routes->post('pelaksanaan_pembelajaran/store', 'PelaksanaanPembelajaran::store');
+$routes->get('pelaksanaan_pembelajaran/edit/(:any)', 'PelaksanaanPembelajaran::edit/$1');
+$routes->post('pelaksanaan_pembelajaran/update/(:any)', 'PelaksanaanPembelajaran::update/$1');
+$routes->get('pelaksanaan_pembelajaran/delete/(:any)', 'PelaksanaanPembelajaran::delete/$1');
+
+//Pelaksanaan pembelajaran
+$routes->get('penilaian_guru', 'SikapPrilakuKedisiplinan::index');
+$routes->get('penilaian_guru/tambah', 'SikapPrilakuKedisiplinan::tambah');
+$routes->post('penilaian_guru/store', 'SikapPrilakuKedisiplinan::store');
+$routes->get('penilaian_guru/edit/(:any)', 'SikapPrilakuKedisiplinan::edit/$1');
+$routes->post('penilaian_guru/update/(:any)', 'SikapPrilakuKedisiplinan::update/$1');
+$routes->get('penilaian_guru/delete/(:any)', 'SikapPrilakuKedisiplinan::delete/$1');
+
+//Inovasi guru
+$routes->get('inovasi_guru', 'InovasiGuru::index');
+$routes->get('inovasi_guru/tambah', 'InovasiGuru::tambah');
+$routes->post('inovasi_guru/store', 'InovasiGuru::store');
+$routes->get('inovasi_guru/edit/(:any)', 'InovasiGuru::edit/$1');
+$routes->post('inovasi_guru/update/(:any)', 'InovasiGuru::update/$1');
+$routes->get('inovasi_guru/delete/(:any)', 'InovasiGuru::delete/$1');
 
 //profil
 $routes->get('/profil', 'Profil::index');

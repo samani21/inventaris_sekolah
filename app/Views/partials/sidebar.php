@@ -198,6 +198,51 @@ $results = $query->getResultArray();
                 <?php
                 }
                 ?>
+                <?php
+                if (session()->get('level') == "Admin" || session()->get('level') == "Guru" || session()->get('level') == "Tata Usaha") {
+                ?>
+                    <li class="nav-item">
+                        <a data-bs-toggle="collapse" href="#kinerjaGuru">
+                            <i class="fa fa-tasks" aria-hidden="true"></i>
+                            <p>Kinerja Guru</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="kinerjaGuru">
+                            <ul class="nav nav-collapse">
+                                <li class="<?php if ($hover == "Persiapan dan Perancanaan Pembelajaran") {
+                                                echo 'active';
+                                            } ?>">
+                                    <a href="<?= base_url('/perancaan_persiapan_pembelajaran') ?>">
+                                        <span class="sub-item">Persiapan dan Perancanaan Pembelajaran</span>
+                                    </a>
+                                </li>
+                                <li class="<?php if ($hover == "Pelaksanaan Pembelajaran") {
+                                                echo 'active';
+                                            } ?>">
+                                    <a href="<?= base_url('/pelaksanaan_pembelajaran') ?>">
+                                        <span class="sub-item">Persiapan dan Perancanaan Pembelajaran</span>
+                                    </a>
+                                </li>
+                                <li class="<?php if ($hover == "Penilaian Guru") {
+                                                echo 'active';
+                                            } ?>">
+                                    <a href="<?= base_url('/penilaian_guru') ?>">
+                                        <span class="sub-item">Penilaian Guru</span>
+                                    </a>
+                                </li>
+                                <li class="<?php if ($hover == "Inovasi Guru") {
+                                                echo 'active';
+                                            } ?>">
+                                    <a href="<?= base_url('/inovasi_guru') ?>">
+                                        <span class="sub-item">Inovasi Guru</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                <?php
+                }
+                ?>
                 <li class="nav-item">
                     <a data-bs-toggle="collapse" href="#kelas">
                         <i class="fa fa-server"></i>
