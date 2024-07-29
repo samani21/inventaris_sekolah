@@ -112,12 +112,12 @@ $routes->post('barang_rusak/cetak', 'BarangRusak::cetak');
 $routes->get('/barang_baik', 'BarangBaik::index');
 
 //siswa perkelas
-$routes->get('/siswa_perkelas/(:any)', 'SiswaPerkelas::index/$1');
-$routes->get('/siswa/(:any)/tambah', 'SiswaPerkelas::tambah/$1');
-$routes->post('siswa/(:any)/store', 'SiswaPerkelas::store/$1');
-$routes->get('/siswa/(:any)/ceklist/(:any)', 'SiswaPerkelas::ceklist/$1/$2');
-$routes->post('/siswa/nilai/store/(:any)', 'SiswaPerkelas::nilai/$1');
-$routes->get('siswa/(:any)/delete/(:any)', 'SiswaPerkelas::delete/$1/$2');
+$routes->get('/siswa_perkelas/(:any)/absen_nilai', 'SiswaPerkelas::index/$1');
+$routes->get('/siswa/(:any)/absen_nilai/tambah', 'SiswaPerkelas::tambah/$1');
+$routes->post('siswa/(:any)/absen_nilai/store', 'SiswaPerkelas::store/$1');
+$routes->get('/siswa/(:any)/absen_nilai/ceklist/(:any)', 'SiswaPerkelas::ceklist/$1/$2');
+$routes->post('/siswa/nilai/absen_nilai/store/(:any)', 'SiswaPerkelas::nilai/$1');
+$routes->get('siswa/(:any)/absen_nilai/delete/(:any)', 'SiswaPerkelas::delete/$1/$2');
 
 $routes->get('/siswa_perkelas/edit/(:any)', 'SiswaPerkelas::edit/$1');
 $routes->post('/siswa_perkelas/update/(:any)', 'SiswaPerkelas::update/$1');

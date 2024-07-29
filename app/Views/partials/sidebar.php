@@ -260,7 +260,7 @@ $results = $query->getResultArray();
                 <li class="nav-item">
                     <a data-bs-toggle="collapse" href="#kelas">
                         <i class="fa fa-server"></i>
-                        <p>Kelas</p>
+                        <p>Absen dan nilai</p>
                         <span class="caret"></span>
                     </a>
                     <div class="collapse" id="kelas">
@@ -274,7 +274,7 @@ $results = $query->getResultArray();
                                 <li class="<?php if ($hover == $kel['nama_kelas']) {
                                                 echo 'active';
                                             } ?>">
-                                    <a href="<?= base_url('siswa_perkelas/' . str_replace(' ', '_', $kel['nama_kelas'])) ?>">
+                                    <a href="<?= base_url('siswa_perkelas/' . str_replace(' ', '_', $kel['nama_kelas']) . '/absen_nilai') ?>">
                                         <span class="sub-item"><?= $kel['nama_kelas'] ?></span>
                                     </a>
                                 </li>

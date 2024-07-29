@@ -8,6 +8,7 @@ use App\Models\KelasModel;
 use App\Models\MapelModel;
 use App\Models\NilaiModel;
 use App\Models\NilaiUjianModel;
+use App\Models\PortofolioProyekModel;
 use App\Models\SiswaModel;
 use App\Models\SiswaPerkelasModel;
 use App\Models\TahunAjaranModel;
@@ -31,7 +32,7 @@ class SiswaPerkelas extends BaseController
             $data = "Siswa " . $kelas;
             $hover = "Siswa " . $kelas;
             $model = new SiswaPerkelasModel();
-            $page = 'siswa/' . $kelas;
+            $page = 'siswa/' . $kelas . '/absen_nilai';
             $column = ['nama', 'nilai', 'nilai_ujian', 'kelas', 'mapel', 'tahun', 'semester'];
             $ceklist = 'hadir';
             if (isset($tanggal) && isset($mapel)) {
@@ -55,9 +56,9 @@ class SiswaPerkelas extends BaseController
             $data = "Siswa " . $kelas;
             $hover = "Siswa " . $kelas;
             $model = new SiswaPerkelasModel();
-            $page = 'siswa/' . $kelas;
+            $page = 'siswa/' . $kelas . '/absen_nilai';
             $column = ['nis', 'nama', 'jenis_kelamin', 'kelas'];
-            $hadir = true;
+            $hadirHarian = true;
             if (isset($tanggal) && isset($mapel)) {
                 $ceklist = 'hadir';
                 $row = $model->getData($namaKelas, $tanggal, $mapel, $this->idTahunAjaran);
@@ -67,7 +68,7 @@ class SiswaPerkelas extends BaseController
                 $hadir = true;
                 $modelMapel = new MapelModel();
                 $dtMapel = $modelMapel->getData();
-                return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'foto', 'ceklist', 'hiddenEdit', 'hadir', 'dtMapel'));
+                return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'foto', 'ceklist', 'hiddenEdit', 'hadir', 'hadirHarian', 'dtMapel'));
             } else {
                 $row = $model->getDataKelas($namaKelas, $this->idTahunAjaran);
                 $hiddenEdit = true;
@@ -76,7 +77,7 @@ class SiswaPerkelas extends BaseController
 
                 $modelMapel = new MapelModel();
                 $dtMapel = $modelMapel->getData();
-                return view('main/list', compact('data', 'hover', 'row', 'hadir', 'column', 'page', 'foto', 'hiddenEdit', 'dtMapel'));
+                return view('main/list', compact('data', 'hover', 'row', 'hadirHarian', 'column', 'page', 'foto', 'hiddenEdit', 'dtMapel'));
             }
         }
     }
@@ -120,7 +121,7 @@ class SiswaPerkelas extends BaseController
             'id_tahun_ajaran' => $this->idTahunAjaran
         ]);
         session()->setFlashdata("success", "Berhasil Tambah data");
-        return redirect()->to('/siswa_perkelas/' . $kelas);
+        return redirect()->to('/siswa_perkelas/' . $kelas . '/absen_nilai');
     }
     public function ceklist($kelas, $id)
     {
@@ -139,7 +140,7 @@ class SiswaPerkelas extends BaseController
         ]);
 
         session()->setFlashdata("success", "Berhasil update data");
-        return redirect()->to('/siswa_perkelas/' . $kelas . '?tanggal=' . $tanggal . '&mapel=' . $mapel . '&penilaian=' . $penilaian);
+        return redirect()->to('/siswa_perkelas/' . $kelas . '/absen_nilai?tanggal=' . $tanggal . '&mapel=' . $mapel . '&penilaian=' . $penilaian);
     }
 
     public function nilai($id)
@@ -148,22 +149,41 @@ class SiswaPerkelas extends BaseController
         $mapel = $this->request->getPost('mapel');
         $penilaian = $this->request->getPost('penilaian');
         $nilai = $this->request->getPost('nilai');
-        if ($penilaian == "Absen dan Nilai") {
-            $data = new NilaiModel();
-            $data->insert([
-                'id_absen_siswa' => $id,
-                'id_tahun_ajaran' => $this->idTahunAjaran,
-                'tanggal' => $tanggal,
+        $materi = $this->request->getPost('materi');
+        $data = new NilaiModel();
+        $nilaiharian = $data->where('id_absen_siswa', $id)->first();
+        $dataProyek = new PortofolioProyekModel();
+        $nilaiProyek = $dataProyek->where('id_absen_siswa', $id)->first();
+        if (isset($nilaiharian)) {
+            $data->update($nilaiharian['id'], [
+                'nilai' => $nilai,
+            ]);
+        } else if (isset($nilaiProyek)) {
+            $deskripsi = $this->request->getPost('deskripsi');
+            $dataProyek->update($nilaiProyek['id'], [
+                'deskripsi' => $deskripsi,
                 'nilai' => $nilai,
             ]);
         } else {
-            $data = new NilaiUjianModel();
-            $data->insert([
-                'id_absen_siswa' => $id,
-                'id_tahun_ajaran' => $this->idTahunAjaran,
-                'tanggal' => $tanggal,
-                'nilai' => $nilai,
-            ]);
+            if ($penilaian == "Portofolio dan Proyek") {
+                $deskripsi = $this->request->getPost('deskripsi');
+                $dataProyek->insert([
+                    'id_absen_siswa' => $id,
+                    'id_tahun_ajaran' => $this->idTahunAjaran,
+                    'tanggal' => $tanggal,
+                    'nilai' => $nilai,
+                    'deskripsi' => $deskripsi,
+                ]);
+            } else {
+                $data->insert([
+                    'id_absen_siswa' => $id,
+                    'id_tahun_ajaran' => $this->idTahunAjaran,
+                    'tanggal' => $tanggal,
+                    'nilai' => $nilai,
+                    'jenis' => $penilaian,
+                    'materi' => $materi,
+                ]);
+            }
         }
 
         session()->setFlashdata("success", "Berhasil tambah nilai");

@@ -8,5 +8,5 @@ class NilaiModel extends Model
 {
     protected $table = 'nilai';
     protected $primaryKey = 'id';
-    protected $allowedFields = ['id_absen_siswa', 'tanggal', 'nilai', 'id_tahun_ajaran'];
+    protected $allowedFields = ['id_absen_siswa', 'tanggal', 'nilai', 'id_tahun_ajaran','jenis','materi'];
 }
