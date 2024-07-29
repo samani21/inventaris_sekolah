@@ -51,6 +51,15 @@ $routes->get('/kelas/edit/(:any)', 'Kelas::edit/$1');
 $routes->post('/kelas/update/(:any)', 'Kelas::update/$1');
 $routes->get('/kelas/delete/(:any)', 'Kelas::delete/$1');
 
+//ekskul
+$routes->get('/ekskul', 'Ekstrakurikuler::index');
+$routes->get('/ekskul/tambah', 'Ekstrakurikuler::tambah');
+$routes->post('ekskul/store', 'Ekstrakurikuler::store');
+$routes->get('/ekskul/edit/(:any)', 'Ekstrakurikuler::edit/$1');
+$routes->post('/ekskul/update/(:any)', 'Ekstrakurikuler::update/$1');
+$routes->get('/ekskul/delete/(:any)', 'Ekstrakurikuler::delete/$1');
+
+//mapel
 $routes->get('/mapel', 'Mapel::index');
 $routes->get('/mapel/tambah', 'Mapel::tambah');
 $routes->post('mapel/store', 'Mapel::store');
@@ -135,7 +144,13 @@ $routes->get('/siswa/(:any)/ujian/ceklist/(:any)', 'UjianSiswa::ceklist/$1/$2');
 $routes->post('/siswa/nilai/ujian/store/(:any)', 'UjianSiswa::nilai/$1');
 $routes->get('siswa/(:any)/ujian/delete/(:any)', 'UjianSiswa::delete/$1/$2');
 
-//siswa Perkelas
+//ekskul siswa
+$routes->get('/ekstrakurikuler/(:any)', 'EkstrakurikulerSiswa::index/$1');
+$routes->get('/ekskul/(:any)/tambah', 'EkstrakurikulerSiswa::tambah/$1');
+$routes->post('ekskul/(:any)/store', 'EkstrakurikulerSiswa::store/$1');
+$routes->get('ekskul/ekskul(:any)/delete/(:any)', 'EkstrakurikulerSiswa::delete/$1/$2');
+
+//prestasi siswa
 $routes->get('/prestasi_siswa', 'PrestasiSiswa::index');
 $routes->get('/prestasi_siswa/tambah', 'PrestasiSiswa::tambah');
 $routes->post('prestasi_siswa/store', 'PrestasiSiswa::store');

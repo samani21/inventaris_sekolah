@@ -122,6 +122,13 @@ $results = $query->getResultArray();
                                         <span class="sub-item">Media</span>
                                     </a>
                                 </li>
+                                <li class="<?php if ($hover == 'Ekstrakurikuler') {
+                                                echo 'active';
+                                            } ?>">
+                                    <a href="<?= base_url('ekskul') ?>">
+                                        <span class="sub-item">Ekstrakurikuler</span>
+                                    </a>
+                                </li>
                                 <li class="<?php if ($hover == 'Mapel') {
                                                 echo 'active';
                                             } ?>">
@@ -303,6 +310,33 @@ $results = $query->getResultArray();
                                             } ?>">
                                     <a href="<?= base_url('siswa_perkelas/' . str_replace(' ', '_', $kel['nama_kelas']) . '/ujian') ?>">
                                         <span class="sub-item"><?= $kel['nama_kelas'] ?></span>
+                                    </a>
+                                </li>
+                            <?php
+                            }
+                            ?>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a data-bs-toggle="collapse" href="#kegiatan">
+                        <i class="fa fa-server"></i>
+                        <p>Ekstrakurikuler</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse" id="kegiatan">
+                        <ul class="nav nav-collapse">
+                            <?php
+
+                            $query = $db->query('SELECT * FROM ekskul');
+                            $results = $query->getResultArray();
+                            foreach ($results as $kel) {
+                            ?>
+                                <li class="<?php if ($hover == $kel['kegiatan']) {
+                                                echo 'active';
+                                            } ?>">
+                                    <a href="<?= base_url('ekstrakurikuler/' . str_replace(' ', '_', $kel['kegiatan']) . '') ?>">
+                                        <span class="sub-item"><?= $kel['kegiatan'] ?></span>
                                     </a>
                                 </li>
                             <?php
