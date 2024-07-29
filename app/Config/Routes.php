@@ -127,6 +127,14 @@ $routes->get('/siswa_perkelas/delete/(:any)', 'SiswaPerkelas::delete/$1');
 $routes->get('/siswa_perkelas/laporan', 'SiswaPerkelas::laporan');
 $routes->post('siswa_perkelas/cetak', 'SiswaPerkelas::cetak');
 
+//nilai Semester
+$routes->get('/siswa_perkelas/(:any)/ujian', 'UjianSiswa::index/$1');
+$routes->get('/siswa/(:any)/ujian/tambah', 'UjianSiswa::tambah/$1');
+$routes->post('siswa/(:any)/ujian/store', 'UjianSiswa::store/$1');
+$routes->get('/siswa/(:any)/ujian/ceklist/(:any)', 'UjianSiswa::ceklist/$1/$2');
+$routes->post('/siswa/nilai/ujian/store/(:any)', 'UjianSiswa::nilai/$1');
+$routes->get('siswa/(:any)/ujian/delete/(:any)', 'UjianSiswa::delete/$1/$2');
+
 //siswa Perkelas
 $routes->get('/prestasi_siswa', 'PrestasiSiswa::index');
 $routes->get('/prestasi_siswa/tambah', 'PrestasiSiswa::tambah');

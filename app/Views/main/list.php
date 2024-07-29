@@ -50,7 +50,17 @@ function convertColumnName($columnName)
                                 </div>
                                 <div class="col-3">
                                     <select name="mapel" class="form-control" id="" required>
-                                        <option value="">--Pilih mapel</option>
+                                        <?php
+                                        if (isset($_GET['mapel'])) {
+                                        ?>
+                                            <option value="<?= $_GET['mapel'] ?>"><?= $_GET['mapel'] ?></option>
+                                        <?php
+                                        } else {
+                                        ?>
+                                            <option value="">--Pilih mapel</option>
+                                        <?php
+                                        }
+                                        ?>
                                         <?php
                                         foreach ($dtMapel as $mapel) {
                                         ?>
@@ -62,7 +72,17 @@ function convertColumnName($columnName)
                                 </div>
                                 <div class="col-3">
                                     <select name="penilaian" class="form-control" id="" required>
-                                        <option value="">--Pilih penilaian</option>
+                                        <?php
+                                        if (isset($_GET['penilaian'])) {
+                                        ?>
+                                            <option value="<?= $_GET['penilaian'] ?>"><?= $_GET['penilaian'] ?></option>
+                                        <?php
+                                        } else {
+                                        ?>
+                                            <option value="">--Pilih penilaian</option>
+                                        <?php
+                                        }
+                                        ?>
                                         <option value="Absen">Absen</option>
                                         <option value="Tugas">Tugas</option>
                                         <option value="Kuis">Kuis</option>
@@ -93,7 +113,17 @@ function convertColumnName($columnName)
                                 </div>
                                 <div class="col-3">
                                     <select name="mapel" class="form-control" id="" required>
-                                        <option value="">--Pilih mapel</option>
+                                        <?php
+                                        if (isset($_GET['mapel'])) {
+                                        ?>
+                                            <option value="<?= $_GET['mapel'] ?>"><?= $_GET['mapel'] ?></option>
+                                        <?php
+                                        } else {
+                                        ?>
+                                            <option value="">--Pilih mapel</option>
+                                        <?php
+                                        }
+                                        ?>
                                         <?php
                                         foreach ($dtMapel as $mapel) {
                                         ?>
@@ -105,10 +135,19 @@ function convertColumnName($columnName)
                                 </div>
                                 <div class="col-3">
                                     <select name="penilaian" class="form-control" id="" required>
-                                        <option value="">--Pilih penilaian</option>
+                                        <?php
+                                        if (isset($_GET['penilaian'])) {
+                                        ?>
+                                            <option value="<?= $_GET['penilaian'] ?>"><?= $_GET['penilaian'] ?></option>
+                                        <?php
+                                        } else {
+                                        ?>
+                                            <option value="">--Pilih penilaian</option>
+                                        <?php
+                                        }
+                                        ?>
                                         <option value="PTS">PTS</option>
                                         <option value="PAS">PAS</option>
-                                        <option value="Ulangan">Ulangan</option>
                                     </select>
                                     <br>
                                 </div>
@@ -292,60 +331,68 @@ function convertColumnName($columnName)
                                     <?php
                                     if (isset($hadir)) {
                                     ?>
-                                        <?php if (@$_GET['penilaian'] == "Tugas" || @$_GET['penilaian'] == "Kuis" || @$_GET['penilaian'] == "Ulangan" || $_GET['penilaian'] == "Portofolio dan Proyek") {
+                                        <?php if (@$_GET['penilaian'] == "Tugas" || @$_GET['penilaian'] == "Kuis" || @$_GET['penilaian'] == "Ulangan" || $_GET['penilaian'] == "Portofolio dan Proyek" || $_GET['penilaian'] == "PTS" || $_GET['penilaian'] == "PAS") {
                                             if ($r['id_absen_siswa']) {
 
                                         ?>
                                                 <td>
-                                                    <form action="<?= base_url('siswa/nilai/absen_nilai/store/' . $r['id_absen_siswa']) ?>" method="post">
-                                                        <div class="row">
+                                                    <?php
+                                                    if ($_GET['penilaian'] == "PTS" || $_GET['penilaian'] == "PAS") {
+                                                    ?>
+                                                        <form action="<?= base_url('siswa/nilai/ujian/store/' . $r['id_absen_siswa']) ?>" method="post">
+                                                        <?php
+                                                    } else {
+                                                        ?>
+                                                            <form action="<?= base_url('siswa/nilai/absen_nilai/store/' . $r['id_absen_siswa']) ?>" method="post">
                                                             <?php
-                                                            $db = \Config\Database::connect();
-                                                            if ($_GET['penilaian'] == "Portofolio dan Proyek") {
-                                                                $stringProyek = "";
-                                                                $queryProyek = $db->query('SELECT * FROM protofolio_proyek');
-                                                                $resultsProyek = $queryProyek->getResultArray();
-                                                                foreach ($resultsProyek as $Proyek) {
-                                                                    if ($Proyek['id_absen_siswa'] == $r['id_absen_siswa']) {
-                                                                        $stringProyek = $Proyek['deskripsi'];
-                                                                        break;
+                                                        }
+                                                            ?>
+                                                            <div class="row">
+                                                                <?php
+                                                                $db = \Config\Database::connect();
+                                                                if ($_GET['penilaian'] == "Portofolio dan Proyek") {
+                                                                    $stringProyek = "";
+                                                                    $queryProyek = $db->query('SELECT * FROM protofolio_proyek');
+                                                                    $resultsProyek = $queryProyek->getResultArray();
+                                                                    foreach ($resultsProyek as $Proyek) {
+                                                                        if ($Proyek['id_absen_siswa'] == $r['id_absen_siswa']) {
+                                                                            $stringProyek = $Proyek['deskripsi'];
+                                                                            break;
+                                                                        }
                                                                     }
+                                                                ?>
+                                                                    <div class="col-12">
+                                                                        <textarea name="deskripsi" class="form-control" id="" required><?= @$stringProyek ?></textarea>
+                                                                    </div>
+                                                                <?php
                                                                 }
-                                                            ?>
-                                                                <div class="col-12">
-                                                                    <textarea name="deskripsi" class="form-control" id="" required><?= @$stringProyek ?></textarea>
-                                                                </div>
-                                                            <?php
-                                                            }
-                                                            ?>
-                                                            <div class="col-9">
-                                                                <input type="hidden" name="tanggal" value="<?= $_GET['tanggal'] ?>">
-                                                                <input type="hidden" name="mapel" value="<?= $_GET['mapel'] ?>">
-                                                                <input type="hidden" name="penilaian" value="<?= $_GET['penilaian'] ?>">
-                                                                <input type="hidden" name="materi" value="<?= @$_GET['materi'] ?>" class="form-control" id="" required>
-                                                                <input type="number" class="form-control" value="<?php
-
-
-                                                                                                                    if ($_GET['penilaian'] == "Tugas" || $_GET['penilaian'] == "Kuis" || $_GET['penilaian'] == "Ulangan") {
-                                                                                                                        $query = $db->query('SELECT * FROM nilai');
-                                                                                                                    } else if ($_GET['penilaian'] == "Absen dan Ujian") {
-                                                                                                                        $query = $db->query('SELECT * FROM nilai_ujian');
-                                                                                                                    } else if ($_GET['penilaian'] == "Portofolio dan Proyek") {
-                                                                                                                        $query = $db->query('SELECT * FROM protofolio_proyek');
-                                                                                                                    }
-                                                                                                                    $results = $query->getResultArray();
-                                                                                                                    foreach ($results as $nil) {
-                                                                                                                        if ($nil['id_absen_siswa'] == $r['id_absen_siswa']) {
-                                                                                                                            echo $nil['nilai'];
+                                                                ?>
+                                                                <div class="col-9">
+                                                                    <input type="hidden" name="tanggal" value="<?= $_GET['tanggal'] ?>">
+                                                                    <input type="hidden" name="mapel" value="<?= $_GET['mapel'] ?>">
+                                                                    <input type="hidden" name="penilaian" value="<?= $_GET['penilaian'] ?>">
+                                                                    <input type="hidden" name="materi" value="<?= @$_GET['materi'] ?>" class="form-control" id="" required>
+                                                                    <input type="number" class="form-control" value="<?php
+                                                                                                                        if ($_GET['penilaian'] == "Tugas" || $_GET['penilaian'] == "Kuis" || $_GET['penilaian'] == "Ulangan") {
+                                                                                                                            $query = $db->query('SELECT * FROM nilai');
+                                                                                                                        } else if ($_GET['penilaian'] == "PTS" || $_GET['penilaian'] == "PAS") {
+                                                                                                                            $query = $db->query('SELECT * FROM nilai_ujian');
+                                                                                                                        } else if ($_GET['penilaian'] == "Portofolio dan Proyek") {
+                                                                                                                            $query = $db->query('SELECT * FROM protofolio_proyek');
                                                                                                                         }
-                                                                                                                    }
-                                                                                                                    ?>" name="nilai" required>
+                                                                                                                        $results = $query->getResultArray();
+                                                                                                                        foreach ($results as $nil) {
+                                                                                                                            if ($nil['id_absen_siswa'] == $r['id_absen_siswa']) {
+                                                                                                                                echo $nil['nilai'];
+                                                                                                                            }
+                                                                                                                        }
+                                                                                                                        ?>" name="nilai" required>
+                                                                </div>
+                                                                <div class="col-2">
+                                                                    <button class="btn btn-warning">Save</button>
+                                                                </div>
                                                             </div>
-                                                            <div class="col-2">
-                                                                <button class="btn btn-warning">Save</button>
-                                                            </div>
-                                                        </div>
-                                                    </form>
+                                                            </form>
                                                 </td>
                                             <?php
                                             } else {

@@ -284,6 +284,33 @@ $results = $query->getResultArray();
                         </ul>
                     </div>
                 </li>
+                <li class="nav-item">
+                    <a data-bs-toggle="collapse" href="#semester">
+                        <i class="fa fa-random" aria-hidden="true"></i>
+                        <p>Nilai Semester</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse" id="semester">
+                        <ul class="nav nav-collapse">
+                            <?php
+
+                            $query = $db->query('SELECT * FROM kelas');
+                            $results = $query->getResultArray();
+                            foreach ($results as $kel) {
+                            ?>
+                                <li class="<?php if ($hover == $kel['nama_kelas']) {
+                                                echo 'active';
+                                            } ?>">
+                                    <a href="<?= base_url('siswa_perkelas/' . str_replace(' ', '_', $kel['nama_kelas']) . '/ujian') ?>">
+                                        <span class="sub-item"><?= $kel['nama_kelas'] ?></span>
+                                    </a>
+                                </li>
+                            <?php
+                            }
+                            ?>
+                        </ul>
+                    </div>
+                </li>
                 <li class="nav-item <?php if ($hover == 'Prestasi Siswa') {
                                         echo 'active';
                                     } ?>">
