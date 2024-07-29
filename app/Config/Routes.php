@@ -161,6 +161,17 @@ $routes->get('/prestasi_siswa/laporan_prestasi_siswa', 'PrestasiSiswa::laporan')
 $routes->post('prestasi_siswa/cetak', 'PrestasiSiswa::cetak');
 
 
+//Bimbingan Konsling siswa
+$routes->get('/bimbingan_konseling', 'BimbinganKonseling::index');
+$routes->get('/bimbingan_konseling/tambah', 'BimbinganKonseling::tambah');
+$routes->post('bimbingan_konseling/store', 'BimbinganKonseling::store');
+$routes->get('/bimbingan_konseling/edit/(:any)', 'BimbinganKonseling::edit/$1');
+$routes->post('/bimbingan_konseling/update/(:any)', 'BimbinganKonseling::update/$1');
+$routes->get('/bimbingan_konseling/delete/(:any)', 'BimbinganKonseling::delete/$1');
+$routes->get('/bimbingan_konseling/laporan_bimbingan_konseling', 'BimbinganKonseling::laporan');
+$routes->post('bimbingan_konseling/cetak', 'BimbinganKonseling::cetak');
+
+
 //kinerja guru
 $routes->get('/kinerja_guru', 'KinerjaGuru::index');
 $routes->get('/kinerja_guru/tambah', 'KinerjaGuru::tambah');

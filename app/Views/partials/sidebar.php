@@ -345,6 +345,14 @@ $results = $query->getResultArray();
                         </ul>
                     </div>
                 </li>
+                <li class="nav-item <?php if ($hover == 'Bimbingan dan Konseling') {
+                                        echo 'active';
+                                    } ?>">
+                    <a href="<?= base_url('bimbingan_konseling') ?>">
+                        <i class="fa fa-puzzle-piece" aria-hidden="true"></i>
+                        <p>Bimbingan dan Konseling</p>
+                    </a>
+                </li>
                 <li class="nav-item <?php if ($hover == 'Prestasi Siswa') {
                                         echo 'active';
                                     } ?>">
