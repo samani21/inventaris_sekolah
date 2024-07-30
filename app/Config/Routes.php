@@ -95,6 +95,14 @@ $routes->get('/siswa/delete/(:any)', 'Siswa::delete/$1');
 $routes->get('/siswa/laporan', 'Siswa::laporan');
 $routes->post('siswa/cetak', 'Siswa::cetak');
 
+//Data Sekolah
+$routes->get('/sekolah', 'Sekolah::index');
+$routes->get('/sekolah/tambah', 'Sekolah::tambah');
+$routes->post('sekolah/store', 'Sekolah::store');
+$routes->get('/sekolah/edit/(:any)', 'Sekolah::edit/$1');
+$routes->post('/sekolah/update/(:any)', 'Sekolah::update/$1');
+$routes->get('/sekolah/delete/(:any)', 'Sekolah::delete/$1');
+
 
 //barang masuk
 $routes->get('/sumber_barang', 'BarangMasuk::index');

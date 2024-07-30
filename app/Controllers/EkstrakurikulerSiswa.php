@@ -27,7 +27,7 @@ class EkstrakurikulerSiswa extends BaseController
             $hadir = true;
             $hiddenButtonAction = true;
             $hiddenButtonAdd = true;
-            return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'dtMapel', 'hiddenButtonAction', 'hiddenButtonAdd'));
+            return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'hiddenButtonAction', 'hiddenButtonAdd'));
         } else {
             $namaKegiatan = ucwords(str_replace('_', ' ', $kegiatan));
             $data = $namaKegiatan;
@@ -36,7 +36,7 @@ class EkstrakurikulerSiswa extends BaseController
             $page = 'ekskul/' . $kegiatan;
             $column = ['nis', 'nama', 'kegiatan', 'tanggal_bergabung'];
             $hadirHarian = true;
-            $row = $model->getDataEkskul($kegiatan);
+            $row = $model->getDataEkskul($namaKegiatan);
             $hiddenEdit = true;
             return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'hiddenEdit'));
         }

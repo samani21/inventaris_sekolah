@@ -14,8 +14,8 @@ class JadwalKelas extends BaseController
 {
     public function index()
     {
-        $data = "Jadwal kelas";
-        $hover = "Jadwal kelas";
+        $data = "Jadwal Kelas";
+        $hover = "Jadwal Kelas";
         $page = 'jadwal_kelas';
         $model = new JadwalKelasModel();
         $row = $model->getData();
@@ -26,8 +26,8 @@ class JadwalKelas extends BaseController
 
     public function tambah()
     {
-        $data = "Tambah Jadwal kelas";
-        $hover = "Jadwal kelas";
+        $data = "Tambah Jadwal Kelas";
+        $hover = "Jadwal Kelas";
         $page = "jadwal_kelas";
         $model = new JadwalKelasModel();
         $enumValues = $model->getEnumValues('hari');
@@ -80,8 +80,8 @@ class JadwalKelas extends BaseController
 
     public function edit($id)
     {
-        $data = "Edit Jadwal kelas";
-        $hover = "Jadwal kelas";
+        $data = "Edit Jadwal Kelas";
+        $hover = "Jadwal Kelas";
         $page = "jadwal_kelas";
         $model = new JadwalKelasModel();
         $enumValues = $model->getEnumValues('hari');

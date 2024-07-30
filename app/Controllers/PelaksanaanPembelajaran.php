@@ -19,7 +19,7 @@ class PelaksanaanPembelajaran  extends BaseController
             $page = 'pelaksanaan_pembelajaran';
             $model = new PelaksanaanPembelajaranModel();
             $row = $model->getDataPerguru();
-            $column = ['nip', 'nama', 'nama_mapel', 'materi', 'tanggal', 'metode', 'evaluasi'];
+            $column = ['nama_mapel', 'materi', 'tanggal', 'metode', 'evaluasi'];
             return view('main/list', compact('data', 'hover', 'row', 'column', 'page'));
         } else {
             $data = "Pelaksanaan Pembelajaran";
@@ -27,7 +27,7 @@ class PelaksanaanPembelajaran  extends BaseController
             $page = 'pelaksanaan_pembelajaran';
             $model = new PelaksanaanPembelajaranModel();
             $row = $model->getData();
-            $column = ['nama_mapel', 'materi', 'tanggal', 'metode', 'evaluasi'];
+            $column = ['nip', 'nama', 'nama_mapel', 'materi', 'tanggal', 'metode', 'evaluasi'];
             return view('main/list', compact('data', 'hover', 'row', 'column', 'page'));
         }
     }

@@ -19,7 +19,7 @@ class PerancanaanPembelajaranPersiapan  extends BaseController
             $page = 'perancaan_persiapan_pembelajaran';
             $model = new PerancaanPersiapanPembelajaranModel();
             $row = $model->getDataPerguru();
-            $column = ['nip', 'nama', 'nama_mapel', 'materi', 'tanggal', 'media', 'tujuan'];
+            $column = ['nama_mapel', 'materi', 'tanggal', 'media', 'tujuan'];
             return view('main/list', compact('data', 'hover', 'row', 'column', 'page'));
         } else {
             $data = "Persiapan dan Perancanaan Pembelajaran";
@@ -27,7 +27,7 @@ class PerancanaanPembelajaranPersiapan  extends BaseController
             $page = 'perancaan_persiapan_pembelajaran';
             $model = new PerancaanPersiapanPembelajaranModel();
             $row = $model->getData();
-            $column = ['nama_mapel', 'materi', 'tanggal', 'media', 'tujuan'];
+            $column = ['nip', 'nama', 'nama_mapel', 'materi', 'tanggal', 'media', 'tujuan'];
             return view('main/list', compact('data', 'hover', 'row', 'column', 'page'));
         }
     }

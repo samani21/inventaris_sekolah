@@ -108,4 +108,96 @@ class SiswaPerkelasModel extends Model
 
         return $query->getResultArray();
     }
+
+    public function getDataPersiswaHarian($kelas, $tanggal, $mapel, $idTahunAjaran)
+    {
+        $db = \Config\Database::connect();
+        $query = $db->query("SELECT siswa.nama,kelas.nama_kelas as kelas,mapel.nama_mapel as mapel,nilai.nilai,tahun_ajaran.tahun,tahun_ajaran.semester,materi,jenis,nilai.tanggal 
+        FROM `nilai` 
+        JOIN absen_siswa ON absen_siswa.id = nilai.id_absen_siswa 
+        JOIN mapel ON mapel.id = absen_siswa.id_mapel 
+        JOIN siswa_perkelas ON siswa_perkelas.id = absen_siswa.id_siswa_perkelas 
+        JOIN siswa ON siswa_perkelas.id_siswa = siswa.id 
+        JOIN tahun_ajaran ON tahun_ajaran.id = nilai.id_tahun_ajaran
+        JOIN kelas ON siswa_perkelas.id_kelas = kelas.id
+        WHERE 
+            kelas.nama_kelas = '" . $kelas . "' AND siswa.id = '" . session()->get('id_siswa') . "'");
+
+        //     $query = $db->query("SELECT 
+        //     siswa.id AS siswa_id, 
+        //     siswa.nama, 
+        //     mapel.id AS mapel_id, 
+        //     nilai.nilai AS nilai,   
+        //     mapel.nama_mapel as mapel, 
+        //     kelas.nama_kelas as kelas,
+        //     tahun_ajaran.tahun,
+        //     tahun_ajaran.semester
+        // FROM 
+        //     siswa_perkelas 
+        // JOIN 
+        //     siswa ON siswa.id = siswa_perkelas.id_siswa 
+        // JOIN 
+        //     absen_siswa ON siswa_perkelas.id = absen_siswa.id_siswa_perkelas 
+        // LEFT JOIN 
+        //     nilai ON absen_siswa.id = nilai.id_absen_siswa 
+        // LEFT JOIN 
+        //     nilai_ujian ON absen_siswa.id = nilai_ujian.id_absen_siswa 
+        // JOIN 
+        //     mapel ON absen_siswa.id_mapel = mapel.id 
+        // JOIN 
+        //     kelas ON siswa_perkelas.id_kelas = kelas.id 
+        // JOIN 
+        //     tahun_ajaran ON tahun_ajaran.id = siswa_perkelas.id_tahun_ajaran
+        // WHERE 
+        //     kelas.nama_kelas = '" . $kelas . "' AND siswa.id = '" . session()->get('id_siswa') . "'");
+
+
+        return $query->getResultArray();
+    }
+
+    public function getDataPersiswaUjian($kelas, $tanggal, $mapel, $idTahunAjaran)
+    {
+        $db = \Config\Database::connect();
+        $query = $db->query("SELECT siswa.nama,kelas.nama_kelas as kelas,mapel.nama_mapel as mapel,nilai_ujian.nilai,tahun_ajaran.tahun,tahun_ajaran.semester,jenis,nilai_ujian.tanggal 
+        FROM `nilai_ujian` 
+        JOIN absen_siswa ON absen_siswa.id = nilai_ujian.id_absen_siswa 
+        JOIN mapel ON mapel.id = absen_siswa.id_mapel 
+        JOIN siswa_perkelas ON siswa_perkelas.id = absen_siswa.id_siswa_perkelas 
+        JOIN siswa ON siswa_perkelas.id_siswa = siswa.id 
+        JOIN tahun_ajaran ON tahun_ajaran.id = nilai_ujian.id_tahun_ajaran
+        JOIN kelas ON siswa_perkelas.id_kelas = kelas.id
+        WHERE 
+            kelas.nama_kelas = '" . $kelas . "' AND siswa.id = '" . session()->get('id_siswa') . "'");
+
+        //     $query = $db->query("SELECT 
+        //     siswa.id AS siswa_id, 
+        //     siswa.nama, 
+        //     mapel.id AS mapel_id, 
+        //     nilai.nilai AS nilai,   
+        //     mapel.nama_mapel as mapel, 
+        //     kelas.nama_kelas as kelas,
+        //     tahun_ajaran.tahun,
+        //     tahun_ajaran.semester
+        // FROM 
+        //     siswa_perkelas 
+        // JOIN 
+        //     siswa ON siswa.id = siswa_perkelas.id_siswa 
+        // JOIN 
+        //     absen_siswa ON siswa_perkelas.id = absen_siswa.id_siswa_perkelas 
+        // LEFT JOIN 
+        //     nilai ON absen_siswa.id = nilai.id_absen_siswa 
+        // LEFT JOIN 
+        //     nilai_ujian ON absen_siswa.id = nilai_ujian.id_absen_siswa 
+        // JOIN 
+        //     mapel ON absen_siswa.id_mapel = mapel.id 
+        // JOIN 
+        //     kelas ON siswa_perkelas.id_kelas = kelas.id 
+        // JOIN 
+        //     tahun_ajaran ON tahun_ajaran.id = siswa_perkelas.id_tahun_ajaran
+        // WHERE 
+        //     kelas.nama_kelas = '" . $kelas . "' AND siswa.id = '" . session()->get('id_siswa') . "'");
+
+
+        return $query->getResultArray();
+    }
 }
