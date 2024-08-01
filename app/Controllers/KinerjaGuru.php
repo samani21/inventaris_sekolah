@@ -22,8 +22,20 @@ class KinerjaGuru extends BaseController
             $row = $model->getDataPerguru();
             $hiddenButtonAction = true;
             $hiddenButtonAdd = true;
-            $column = ['nip', 'nama', 'tanggal', 'kompetensi_pedagogik', 'kompetensi_kepribadian', 'kompetensi_profesional', 'kompetensi_sosial', 'keterangan'];
+            $column = ['tanggal', 'kompetensi_pedagogik', 'kompetensi_kepribadian', 'kompetensi_profesional', 'kompetensi_sosial', 'keterangan'];
+            
             return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'hiddenButtonAction', 'hiddenButtonAdd'));
+        } else if (session()->get('level') == "Kepala Sekolah") {
+            $data = "Kinerja Guru";
+            $hover = "Kinerja Guru";
+            $page = 'kinerja_guru';
+            $model = new KinerjaGuruModel();
+            $row = $model->getData();
+            $hiddenButtonAction = true;
+            $hiddenButtonAdd = true;
+            $verif = true;
+            $column = ['nip', 'nama', 'tanggal', 'kompetensi_pedagogik', 'kompetensi_kepribadian', 'kompetensi_profesional', 'kompetensi_sosial', 'keterangan'];
+            return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'hiddenButtonAction', 'hiddenButtonAdd', 'verif'));
         } else {
             $data = "Kinerja Guru";
             $hover = "Kinerja Guru";
@@ -135,6 +147,17 @@ class KinerjaGuru extends BaseController
         session()->setFlashdata("success", "Berhasil update data");
         return redirect('kinerja_guru');
     }
+
+    public function verifikasi($id)
+    {
+        $data = new KinerjaGuruModel();
+        $data->update($id, [
+            'id_user_verifikasi' => session()->get('id'),
+        ]);
+        session()->setFlashdata("success", "Berhasil Verifikasi data");
+        return redirect('kinerja_guru');
+    }
+
 
     public function delete($id)
     {

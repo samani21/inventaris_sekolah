@@ -33,7 +33,7 @@ class SiswaPerkelas extends BaseController
             $hover = "Siswa " . $kelas;
             $model = new SiswaPerkelasModel();
             $page = 'siswa/' . $kelas . '/absen_nilai';
-            $column = ['nilai', 'kelas', 'mapel', 'materi', 'tanggal', 'tahun', 'semester'];
+            $column = ['nilai', 'kelas', 'mapel', 'materi', 'tanggal','jenis', 'tahun', 'semester'];
             $ceklist = 'hadir';
             $row = $model->getDataPersiswaHarian($namaKelas, $tanggal, $mapel, $this->idTahunAjaran);
             $hiddenEdit = true;
@@ -137,7 +137,7 @@ class SiswaPerkelas extends BaseController
         ]);
 
         session()->setFlashdata("success", "Berhasil update data");
-        return redirect()->to('/siswa_perkelas/' . $kelas . '/absen_nilai?tanggal=' . $tanggal . '&mapel=' . $mapel . '&penilaian=' . $penilaian . '&materi=' . $materi);
+        return redirect()->back();
     }
 
     public function nilai($id)

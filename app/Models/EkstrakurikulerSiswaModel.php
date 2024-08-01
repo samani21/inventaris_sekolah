@@ -16,9 +16,10 @@ class EkstrakurikulerSiswaModel extends Model
         return $this->findAll();
     }
 
-    public function getDataPersiswa()
+    public function getDataPersiswa($kegiatan)
     {
         return $this->join('ekskul', 'ekskul.id=ekskul_siswa.id_ekskul')->where('id_siswa', session()->get('id_siswa'))
+            ->where('ekskul.kegiatan', $kegiatan)
             ->select('kegiatan,ekskul_siswa.*')
             ->findAll();
     }

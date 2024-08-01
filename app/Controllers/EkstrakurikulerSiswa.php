@@ -20,7 +20,7 @@ class EkstrakurikulerSiswa extends BaseController
             $page = 'ekskul/' . $kegiatan;
             $column = ['kegiatan', 'tanggal_bergabung'];
             $ceklist = 'hadir';
-            $row = $model->getDataPersiswa();
+            $row = $model->getDataPersiswa($namaKegiatan);
             $hiddenEdit = true;
             // $hiddenButtonAdd = true;
             $foto = true;
@@ -72,7 +72,7 @@ class EkstrakurikulerSiswa extends BaseController
     {
         $namakegiatan = ucwords(str_replace('_', ' ', $kegiatan));
         $model = new EkstrakurikulerModel();
-        $dataKegiatan = $model->where('kegiatan', $kegiatan)->first();
+        $dataKegiatan = $model->where('kegiatan', $namakegiatan)->first();
         $id_kegiatan = $dataKegiatan['id'];
 
         $data = new EkstrakurikulerSiswaModel();
@@ -83,5 +83,13 @@ class EkstrakurikulerSiswa extends BaseController
         ]);
         session()->setFlashdata("success", "Berhasil Tambah data");
         return redirect()->to('/ekstrakurikuler/' . $kegiatan . '');
+    }
+
+    public function delete($kelas, $id)
+    {
+        $data = new EkstrakurikulerSiswaModel();
+        $data->delete($id);
+        session()->setFlashdata("success", "Berhasil hapus data");
+        return redirect()->back();
     }
 }

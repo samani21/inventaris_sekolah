@@ -20,7 +20,19 @@ class PelaksanaanPembelajaran  extends BaseController
             $model = new PelaksanaanPembelajaranModel();
             $row = $model->getDataPerguru();
             $column = ['nama_mapel', 'materi', 'tanggal', 'metode', 'evaluasi'];
-            return view('main/list', compact('data', 'hover', 'row', 'column', 'page'));
+            $statusVerif = "id_user_verifikasi";
+            return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'statusVerif'));
+        } else if (session()->get('level') == "Kepala Sekolah") {
+            $data = "Pelaksanaan Pembelajaran";
+            $hover = "Pelaksanaan Pembelajaran";
+            $page = 'pelaksanaan_pembelajaran';
+            $model = new PelaksanaanPembelajaranModel();
+            $row = $model->getData();
+            $hiddenButtonAdd = true;
+            $hiddenButtonAction = true;
+            $verif = true;
+            $column = ['nip', 'nama', 'nama_mapel', 'materi', 'tanggal', 'metode', 'evaluasi'];
+            return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'hiddenButtonAdd', 'hiddenButtonAction', 'verif'));
         } else {
             $data = "Pelaksanaan Pembelajaran";
             $hover = "Pelaksanaan Pembelajaran";
@@ -28,7 +40,8 @@ class PelaksanaanPembelajaran  extends BaseController
             $model = new PelaksanaanPembelajaranModel();
             $row = $model->getData();
             $column = ['nip', 'nama', 'nama_mapel', 'materi', 'tanggal', 'metode', 'evaluasi'];
-            return view('main/list', compact('data', 'hover', 'row', 'column', 'page'));
+            $statusVerif = "id_user_verifikasi";
+            return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'statusVerif'));
         }
     }
 
@@ -41,7 +54,7 @@ class PelaksanaanPembelajaran  extends BaseController
         if (session()->get('level') == "Guru") {
             $form = [
                 ['type' => 'relasi', 'name' => 'id_mapel'],
-                ['type' => 'relasi', 'name' => 'metode'],
+                ['type' => 'relasi', 'name' => 'id_metode'],
                 ['type' => 'text', 'name' => 'materi'],
                 ['type' => 'date', 'name' => 'tanggal'],
                 ['type' => 'textArea', 'name' => 'evaluasi'],
@@ -194,6 +207,16 @@ class PelaksanaanPembelajaran  extends BaseController
             'evaluasi' => $this->request->getPost('evaluasi'),
         ]);
         session()->setFlashdata("success", "Berhasil update data");
+        return redirect('pelaksanaan_pembelajaran');
+    }
+
+    public function verifikasi($id)
+    {
+        $data = new PelaksanaanPembelajaranModel();
+        $data->update($id, [
+            'id_user_verifikasi' => session()->get('id'),
+        ]);
+        session()->setFlashdata("success", "Berhasil Verifikasi data");
         return redirect('pelaksanaan_pembelajaran');
     }
 

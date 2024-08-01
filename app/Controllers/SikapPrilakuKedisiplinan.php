@@ -20,10 +20,20 @@ class SikapPrilakuKedisiplinan extends BaseController
             $page = 'penilaian_guru';
             $model = new SikapPrilakuKedisiplinanModel();
             $row = $model->getDataPerguru();
-            $hiddenButtonAction = true;
-            $hiddenButtonAdd = true;
             $column = ['nip', 'nama', 'tanggal', 'sikap', 'prilaku', 'kedisiplinan', 'masukkan'];
-            return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'hiddenButtonAction', 'hiddenButtonAdd'));
+            $statusVerif = "id_user_verifikasi";
+            return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'statusVerif'));
+        } else  if (session()->get('level') == "Kepala Sekolah") {
+            $data = "Penilaian Guru";
+            $hover = "Penilaian Guru";
+            $page = 'penilaian_guru';
+            $model = new SikapPrilakuKedisiplinanModel();
+            $row = $model->getData();
+            $hiddenButtonAdd = true;
+            $hiddenButtonAction = true;
+            $verif = true;
+            $column = ['nip', 'nama', 'tanggal', 'sikap', 'prilaku', 'kedisiplinan', 'masukkan'];
+            return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'hiddenButtonAdd', 'hiddenButtonAction', 'verif'));
         } else {
             $data = "Penilaian Guru";
             $hover = "Penilaian Guru";
@@ -31,7 +41,8 @@ class SikapPrilakuKedisiplinan extends BaseController
             $model = new SikapPrilakuKedisiplinanModel();
             $row = $model->getData();
             $column = ['nip', 'nama', 'tanggal', 'sikap', 'prilaku', 'kedisiplinan', 'masukkan'];
-            return view('main/list', compact('data', 'hover', 'row', 'column', 'page'));
+            $statusVerif = "id_user_verifikasi";
+            return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'statusVerif'));
         }
     }
 
@@ -41,14 +52,24 @@ class SikapPrilakuKedisiplinan extends BaseController
         $hover = "Penilaian Guru";
         $page = 'penilaian_guru';
         $enum = [];
-        $form = [
-            ['type' => 'relasi', 'name' => 'id_guru'],
-            ['type' => 'date', 'name' => 'tanggal'],
-            ['type' => 'textArea', 'name' => 'sikap'],
-            ['type' => 'textArea', 'name' => 'prilaku'],
-            ['type' => 'textArea', 'name' => 'kedisiplinan'],
-            ['type' => 'textArea', 'name' => 'masukkan'],
-        ];
+        if (session()->get('level') == "Guru") {
+            $form = [
+                ['type' => 'date', 'name' => 'tanggal'],
+                ['type' => 'textArea', 'name' => 'sikap'],
+                ['type' => 'textArea', 'name' => 'prilaku'],
+                ['type' => 'textArea', 'name' => 'kedisiplinan'],
+                ['type' => 'textArea', 'name' => 'masukkan'],
+            ];
+        } else {
+            $form = [
+                ['type' => 'relasi', 'name' => 'id_guru'],
+                ['type' => 'date', 'name' => 'tanggal'],
+                ['type' => 'textArea', 'name' => 'sikap'],
+                ['type' => 'textArea', 'name' => 'prilaku'],
+                ['type' => 'textArea', 'name' => 'kedisiplinan'],
+                ['type' => 'textArea', 'name' => 'masukkan'],
+            ];
+        }
         $column = ['nip', 'nama', 'ttl', 'level'];
         $model = new GuruModel();
         $rowRelasi = $model->getDataSelct();
@@ -68,14 +89,25 @@ class SikapPrilakuKedisiplinan extends BaseController
     public function store()
     {
         $data = new SikapPrilakuKedisiplinanModel();
-        $data->insert([
-            'id_guru' => $this->request->getPost('id_guru'),
-            'tanggal' => $this->request->getPost('tanggal'),
-            'sikap' => $this->request->getPost('sikap'),
-            'prilaku' => $this->request->getPost('prilaku'),
-            'kedisiplinan' => $this->request->getPost('kedisiplinan'),
-            'masukkan' => $this->request->getPost('masukkan'),
-        ]);
+        if (session()->get('level') == "Guru") {
+            $data->insert([
+                'id_guru' => session()->get('id_guru'),
+                'tanggal' => $this->request->getPost('tanggal'),
+                'sikap' => $this->request->getPost('sikap'),
+                'prilaku' => $this->request->getPost('prilaku'),
+                'kedisiplinan' => $this->request->getPost('kedisiplinan'),
+                'masukkan' => $this->request->getPost('masukkan'),
+            ]);
+        } else {
+            $data->insert([
+                'id_guru' => $this->request->getPost('id_guru'),
+                'tanggal' => $this->request->getPost('tanggal'),
+                'sikap' => $this->request->getPost('sikap'),
+                'prilaku' => $this->request->getPost('prilaku'),
+                'kedisiplinan' => $this->request->getPost('kedisiplinan'),
+                'masukkan' => $this->request->getPost('masukkan'),
+            ]);
+        }
         session()->setFlashdata("success", "Berhasil Tambah data");
         return redirect('penilaian_guru');
     }
@@ -121,7 +153,6 @@ class SikapPrilakuKedisiplinan extends BaseController
     {
         $data = new SikapPrilakuKedisiplinanModel();
         $data->update($id, [
-            'id_guru' => $this->request->getPost('id_guru'),
             'tanggal' => $this->request->getPost('tanggal'),
             'sikap' => $this->request->getPost('sikap'),
             'prilaku' => $this->request->getPost('prilaku'),
@@ -131,6 +162,17 @@ class SikapPrilakuKedisiplinan extends BaseController
         session()->setFlashdata("success", "Berhasil update data");
         return redirect('penilaian_guru');
     }
+
+    public function verifikasi($id)
+    {
+        $data = new SikapPrilakuKedisiplinanModel();
+        $data->update($id, [
+            'id_user_verifikasi' => session()->get('id'),
+        ]);
+        session()->setFlashdata("success", "Berhasil Verifikasi data");
+        return redirect('penilaian_guru');
+    }
+
 
     public function delete($id)
     {

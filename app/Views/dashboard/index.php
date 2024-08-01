@@ -105,32 +105,65 @@ if (session()->get('level') == "Siswa") {
             </div>
         </div>
     </div>
-    <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
-        <div class="col-md-6">
+    <?php
+    if (session()->get('level') == "Guru") {
+    ?>
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title">Line Chart</div>
+                    <div class="card-title">Pie Chart Total Penilaian</div>
                 </div>
                 <div class="card-body">
                     <div class="chart-container">
-                        <canvas id="myChart"></canvas>
+                        <canvas id="pieChart" style="width: 100%; height: 100%"></canvas>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">Line Chart</div>
+    <?php
+    } else {
+    ?>
+        <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Line Chart</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="myChart"></canvas>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <div class="chart-container">
-                        <canvas id="mySiswa"></canvas>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Line Chart</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="mySiswa"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Multiple Line Chart Penilaian Kinerja Guru</div>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container">
+                        <canvas id="multipleLineChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php
+    }
+    ?>
 <?php
 }
 ?>
@@ -213,12 +246,58 @@ ORDER BY
     </script>
 
 <?php
+} else if (session()->get('level') == "Guru") {
+?>
+    <script>
+        pieChart = document.getElementById("pieChart").getContext("2d");
+        var myPieChart = new Chart(pieChart, {
+            type: "doughnut",
+            data: {
+                datasets: [{
+                    data: [<?= $perancanaan ?>, <?= $pelaksanaan ?>, <?= $sikap ?>, <?= $inovasi ?>],
+                    backgroundColor: ["#1d7af3", "#f3545d", "#fdaf4b", "#3CB371"],
+                    borderWidth: 0,
+                }, ],
+                labels: ["Perancanaan", "Pelaksanaan", "Sikap", 'Inovasi'],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                legend: {
+                    position: "bottom",
+                    labels: {
+                        fontColor: "rgb(154, 154, 154)",
+                        fontSize: 11,
+                        usePointStyle: true,
+                        padding: 20,
+                    },
+                },
+                pieceLabel: {
+                    render: "percentage",
+                    fontColor: "white",
+                    fontSize: 14,
+                },
+                tooltips: false,
+                layout: {
+                    padding: {
+                        left: 20,
+                        right: 20,
+                        top: 20,
+                        bottom: 20,
+                    },
+                },
+            },
+        });
+    </script>
+<?php
 } else {
 ?>
     <script>
         const ctx = document.getElementById('myChart');
         const ctxs = document.getElementById('mySiswa');
-
+        const ctxg = multipleLineChart = document
+            .getElementById("multipleLineChart")
+            .getContext("2d");
 
         new Chart(ctx, {
             type: 'line',
@@ -293,6 +372,118 @@ ORDER BY
                     }
                 }
             }
+        });
+        <?php
+        $db = \Config\Database::connect();
+        $query = $db->query("SELECT guru.*, users.level FROM guru JOIN users ON users.id = guru.user_id WHERE users.level = 'Guru'");
+        $results = $query->getResultArray();
+
+        $labels = [];
+        $angkaPerancanaan = [];
+        $angkaPelaksanaan = [];
+        $angkaSikap = [];
+        $angkaInovasi = [];
+        foreach ($results as $br) {
+            $labels[] = '"' . $br['nama'] . '"';
+            $queryCountPerancanaan = $db->query("SELECT * FROM perencanaan_persiapan_pembelajaran WHERE id_guru = " . $br['id'] . " AND id_user_verifikasi > 0 AND id_user_verifikasi IS NOT NULL");
+            $angkaPerancanaan[] = count($queryCountPerancanaan->getResultArray());
+
+            $queryCountPelaksanaan = $db->query("SELECT * FROM pelaksanaan_pembelajaran WHERE id_guru = " . $br['id'] . " AND id_user_verifikasi > 0 AND id_user_verifikasi IS NOT NULL");
+            $angkaPelaksanaan[] = count($queryCountPelaksanaan->getResultArray());
+
+            $queryCountSikap = $db->query("SELECT * FROM sikap_perilaku_kedisiplinan WHERE id_guru = " . $br['id'] . " AND id_user_verifikasi > 0 AND id_user_verifikasi IS NOT NULL");
+            $angkaSikap[] = count($queryCountSikap->getResultArray());
+
+            $queryCountInovasi = $db->query("SELECT * FROM inovasi_guru WHERE id_guru = " . $br['id'] . " AND id_user_verifikasi > 0 AND id_user_verifikasi IS NOT NULL");
+            $angkaInovasi[] = count($queryCountInovasi->getResultArray());
+        }
+        ?>
+        new Chart(ctxg, {
+            type: "line",
+            data: {
+                labels: [<?= implode(',', $labels) ?>],
+                datasets: [{
+                        label: "Perancanaan",
+                        borderColor: "#1d7af3",
+                        pointBorderColor: "#FFF",
+                        pointBackgroundColor: "#1d7af3",
+                        pointBorderWidth: 2,
+                        pointHoverRadius: 4,
+                        pointHoverBorderWidth: 1,
+                        pointRadius: 4,
+                        backgroundColor: "transparent",
+                        fill: true,
+                        borderWidth: 2,
+                        data: [<?= implode(',', $angkaPerancanaan) ?>],
+                    },
+                    {
+                        label: "Pelaksanaan",
+                        borderColor: "#59d05d",
+                        pointBorderColor: "#FFF",
+                        pointBackgroundColor: "#59d05d",
+                        pointBorderWidth: 2,
+                        pointHoverRadius: 4,
+                        pointHoverBorderWidth: 1,
+                        pointRadius: 4,
+                        backgroundColor: "transparent",
+                        fill: true,
+                        borderWidth: 2,
+                        data: [<?= implode(',', $angkaPelaksanaan) ?>],
+                    },
+                    {
+                        label: "Sikap",
+                        borderColor: "#f3545d",
+                        pointBorderColor: "#FFF",
+                        pointBackgroundColor: "#f3545d",
+                        pointBorderWidth: 2,
+                        pointHoverRadius: 4,
+                        pointHoverBorderWidth: 1,
+                        pointRadius: 4,
+                        backgroundColor: "transparent",
+                        fill: true,
+                        borderWidth: 2,
+                        data: [<?= implode(',', $angkaSikap) ?>],
+                    },
+                    {
+                        label: "Inovasi",
+                        borderColor: "#DAEE01",
+                        pointBorderColor: "#FFF",
+                        pointBackgroundColor: "#DAEE01",
+                        pointBorderWidth: 2,
+                        pointHoverRadius: 4,
+                        pointHoverBorderWidth: 1,
+                        pointRadius: 4,
+                        backgroundColor: "transparent",
+                        fill: true,
+                        borderWidth: 2,
+                        data: [<?= implode(',', $angkaInovasi) ?>],
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                legend: {
+                    position: "top",
+                },
+                tooltips: {
+                    bodySpacing: 4,
+                    mode: "nearest",
+                    intersect: 0,
+                    position: "nearest",
+                    xPadding: 10,
+                    yPadding: 10,
+                    caretPadding: 10,
+                },
+                layout: {
+                    padding: {
+                        left: 15,
+                        right: 15,
+                        top: 15,
+                        bottom: 15
+                    },
+                },
+            },
         });
     </script>
 

@@ -210,6 +210,20 @@ function convertColumnName($columnName)
                                 </th>
                             <?php
                             }
+                            if (isset($verif)) {
+                            ?>
+                                <th>
+                                    action
+                                </th>
+                            <?php
+                            }
+                            if (isset($statusVerif)) {
+                            ?>
+                                <th>
+                                    status
+                                </th>
+                            <?php
+                            }
                             ?>
                         </tr>
                     </thead>
@@ -240,6 +254,13 @@ function convertColumnName($columnName)
                                 ?>
                                 <th>
                                     action
+                                </th>
+                            <?php
+                            }
+                            if (isset($statusVerif)) {
+                            ?>
+                                <th>
+                                    status
                                 </th>
                             <?php
                             }
@@ -404,11 +425,28 @@ function convertColumnName($columnName)
 
                                         <?php
                                         } ?>
-                                    <?php
+                                        <?php
                                     }
                                     if (isset($hiddenButtonAction)) {
+                                        if (isset($verif)) {
+                                        ?>
+                                            <td>
+                                                <?php
+                                                if ($r['id_user_verifikasi']) {
+                                                ?>
+                                                    <span class="badge badge-success">Verifikasi</span>
+                                                <?php
+                                                } else {
+                                                ?>
+                                                    <a class="btn btn-warning" href="<?= base_url('verifikasi/' . $page . '/' . $r['id']) ?>">Verifikasi</a>
+                                                <?php
+                                                }
+                                                ?>
+                                            </td>
+                                        <?php
+                                        }
                                     } else {
-                                    ?>
+                                        ?>
                                         <?php
                                         if (isset($status)) {
                                             if ($r[$status] == 1) {
@@ -456,6 +494,24 @@ function convertColumnName($columnName)
                                                 ?>
                                                 <a href="<?= base_url($page . '/delete/' . $r['id']) ?>" style="padding: 4px;" data-bs-toggle="tooltip" title="" class="btn btn-link btn-danger delete-button" data-id="<?= $r['id'] ?>" data-original-title="Remove"> <i class="fa fa-times"></i></a>
 
+                                            </td>
+                                        <?php
+                                        }
+                                        if (isset($statusVerif)) {
+                                        ?>
+                                            <td>
+                                                <?php
+                                                if ($r['id_user_verifikasi'] > 1) {
+                                                ?>
+                                                    <span class="badge badge-success">Verifikasi</span>
+                                                <?php
+                                                }
+                                                if ($r['id_user_verifikasi'] == NULL || $r['id_user_verifikasi'] == 0) {
+                                                ?>
+                                                    <span class="badge badge-warning">Proses</span>
+                                                <?php
+                                                }
+                                                ?>
                                             </td>
                                         <?php
                                         }

@@ -112,16 +112,7 @@ class SiswaPerkelasModel extends Model
     public function getDataPersiswaHarian($kelas, $tanggal, $mapel, $idTahunAjaran)
     {
         $db = \Config\Database::connect();
-        $query = $db->query("SELECT siswa.nama,kelas.nama_kelas as kelas,mapel.nama_mapel as mapel,nilai.nilai,tahun_ajaran.tahun,tahun_ajaran.semester,materi,jenis,nilai.tanggal 
-        FROM `nilai` 
-        JOIN absen_siswa ON absen_siswa.id = nilai.id_absen_siswa 
-        JOIN mapel ON mapel.id = absen_siswa.id_mapel 
-        JOIN siswa_perkelas ON siswa_perkelas.id = absen_siswa.id_siswa_perkelas 
-        JOIN siswa ON siswa_perkelas.id_siswa = siswa.id 
-        JOIN tahun_ajaran ON tahun_ajaran.id = nilai.id_tahun_ajaran
-        JOIN kelas ON siswa_perkelas.id_kelas = kelas.id
-        WHERE 
-            kelas.nama_kelas = '" . $kelas . "' AND siswa.id = '" . session()->get('id_siswa') . "'");
+        $query = $db->query("SELECT siswa.nama,kelas.nama_kelas as kelas,mapel.nama_mapel as mapel,COALESCE(nilai.nilai, protofolio_proyek.nilai) AS nilai,COALESCE(nilai.materi, protofolio_proyek.deskripsi) AS materi,tahun_ajaran.tahun,tahun_ajaran.semester,COALESCE(nilai.jenis,'Protofolio dan Proyek') AS jenis,absen_siswa.tanggal FROM `absen_siswa` JOIN siswa_perkelas ON siswa_perkelas.id = absen_siswa.id_siswa_perkelas JOIN siswa ON siswa.id = siswa_perkelas.id_siswa JOIN mapel ON mapel.id = absen_siswa.id_mapel JOIN kelas ON kelas.id = siswa_perkelas.id_kelas JOIN tahun_ajaran ON tahun_ajaran.id = absen_siswa.id_tahun_ajaran LEFT JOIN nilai ON nilai.id_absen_siswa = absen_siswa.id left JOIN protofolio_proyek ON protofolio_proyek.id_absen_siswa = absen_siswa.id WHERE kelas.nama_kelas = '" . $kelas . "' AND siswa.id = '" . session()->get('id_siswa') . "' AND nilai.id IS NOT null OR protofolio_proyek.id IS NOT null");
 
         //     $query = $db->query("SELECT 
         //     siswa.id AS siswa_id, 
@@ -158,7 +149,7 @@ class SiswaPerkelasModel extends Model
     public function getDataPersiswaUjian($kelas, $tanggal, $mapel, $idTahunAjaran)
     {
         $db = \Config\Database::connect();
-        $query = $db->query("SELECT siswa.nama,kelas.nama_kelas as kelas,mapel.nama_mapel as mapel,nilai_ujian.nilai,tahun_ajaran.tahun,tahun_ajaran.semester,jenis,nilai_ujian.tanggal 
+        $query = $db->query("SELECT siswa.nama,kelas.nama_kelas as kelas,mapel.nama_mapel as mapel,nilai_ujian.nilai as nilai_ujian,tahun_ajaran.tahun,tahun_ajaran.semester,jenis,nilai_ujian.tanggal 
         FROM `nilai_ujian` 
         JOIN absen_siswa ON absen_siswa.id = nilai_ujian.id_absen_siswa 
         JOIN mapel ON mapel.id = absen_siswa.id_mapel 

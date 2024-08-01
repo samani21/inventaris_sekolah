@@ -10,13 +10,26 @@ class Sekolah extends BaseController
 {
     public function index()
     {
-        $data = "Sekolah";
-        $hover = "Sekolah";
-        $model = new SekolahModel();
-        $page = 'sekolah';
-        $column = ['nama_sekolah', 'alamat', 'kepala_sekolah', 'telepon', 'email'];
-        $row = $model->getData();
-        return view('main/list', compact('data', 'hover', 'row', 'column', 'page'));
+        if (session()->get('level') == "Siswa" || session()->get('level') == "Guru") {
+            $data = "Sekolah";
+            $hover = "Sekolah";
+            $model = new SekolahModel();
+            $page = 'sekolah';
+            $column = ['nama_sekolah', 'alamat', 'kepala_sekolah', 'telepon', 'email'];
+            $row = $model->getData();
+            $hiddenButtonAction = true;
+            $hiddenButtonAdd = true;
+            return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'hiddenButtonAction', 'hiddenButtonAdd'));
+        } else {
+            $data = "Sekolah";
+            $hover = "Sekolah";
+            $model = new SekolahModel();
+            $page = 'sekolah';
+            $column = ['nama_sekolah', 'alamat', 'kepala_sekolah', 'telepon', 'email'];
+            $row = $model->getData();
+
+            return view('main/list', compact('data', 'hover', 'row', 'column', 'page'));
+        }
     }
 
     public function tambah()

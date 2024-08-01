@@ -44,7 +44,7 @@ $results = $query->getResultArray();
                     </a>
                 </li>
                 <?php
-                if (session()->get('level') == "Admin") {
+                if (session()->get('level') == "Admin" || session()->get('level') == "Tata Usaha") {
                 ?>
                     <li class="nav-item
                 <?php
@@ -152,43 +152,49 @@ $results = $query->getResultArray();
                 <?php
                 if (session()->get('level') == "Admin" || session()->get('level') == "Guru" || session()->get('level') == "Tata Usaha") {
                 ?>
-                    <li class="nav-item 
+                    <?php
+                    if (session()->get('level') == "Admin"  || session()->get('level') == "Tata Usaha") {
+                    ?>
+                        <li class="nav-item 
                 <?php
-                    if ($page == "sumber_barang" || $page == "barang_baik" || $page == "barang_rusak") {
-                        echo "active";
-                    }
+                        if ($page == "sumber_barang" || $page == "barang_baik" || $page == "barang_rusak") {
+                            echo "active";
+                        }
                 ?>">
-                        <a data-bs-toggle="collapse" href="#barang">
-                            <i class="fa fa-archive"></i>
-                            <p>Barang</p>
-                            <span class="caret"></span>
-                        </a>
-                        <div class="collapse" id="barang">
-                            <ul class="nav nav-collapse">
-                                <li class="<?php if ($hover == 'Sumber Barang') {
-                                                echo 'active';
-                                            } ?>">
-                                    <a href="<?= base_url('sumber_barang') ?>">
-                                        <span class="sub-item">Sumber Barang</span>
-                                    </a>
-                                </li>
-                                <li class="<?php if ($hover == 'Barang Rusak') {
-                                                echo 'active';
-                                            } ?>">
-                                    <a href="<?= base_url('barang_rusak') ?>">
-                                        <span class="sub-item">Barang Rusak</span>
-                                    </a>
-                                </li>
-                                <li class="<?php if ($hover == 'Barang Baik') {
-                                                echo 'active';
-                                            } ?>">
-                                    <a href="<?= base_url('barang_baik') ?>">
-                                        <span class="sub-item">Barang Baik</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
+                            <a data-bs-toggle="collapse" href="#barang">
+                                <i class="fa fa-archive"></i>
+                                <p>Barang</p>
+                                <span class="caret"></span>
+                            </a>
+                            <div class="collapse" id="barang">
+                                <ul class="nav nav-collapse">
+                                    <li class="<?php if ($hover == 'Sumber Barang') {
+                                                    echo 'active';
+                                                } ?>">
+                                        <a href="<?= base_url('sumber_barang') ?>">
+                                            <span class="sub-item">Sumber Barang</span>
+                                        </a>
+                                    </li>
+                                    <li class="<?php if ($hover == 'Barang Rusak') {
+                                                    echo 'active';
+                                                } ?>">
+                                        <a href="<?= base_url('barang_rusak') ?>">
+                                            <span class="sub-item">Barang Rusak</span>
+                                        </a>
+                                    </li>
+                                    <li class="<?php if ($hover == 'Barang Baik') {
+                                                    echo 'active';
+                                                } ?>">
+                                        <a href="<?= base_url('barang_baik') ?>">
+                                            <span class="sub-item">Barang Baik</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    <?php
+                    }
+                    ?>
                     <li class="nav-item">
                         <a data-bs-toggle="collapse" href="#ruangan">
                             <i class="fa fa-bookmark"></i>
@@ -241,7 +247,7 @@ $results = $query->getResultArray();
                                                 echo 'active';
                                             } ?>">
                                     <a href="<?= base_url('/pelaksanaan_pembelajaran') ?>">
-                                        <span class="sub-item">Persiapan dan Perancanaan Pembelajaran</span>
+                                        <span class="sub-item">Pelaksanaan Pembelajaran</span>
                                     </a>
                                 </li>
                                 <li class="<?php if ($hover == "Penilaian Guru") {
@@ -265,7 +271,7 @@ $results = $query->getResultArray();
                 }
                 ?>
                 <?php
-                if (!session()->get('level' == "Kepala Sekolah")) {
+                if (session()->get('level') == "Admin" || session()->get('level') == "Guru") {
                 ?>
                     <li class="nav-item">
                         <a data-bs-toggle="collapse" href="#kelas">
@@ -356,70 +362,74 @@ $results = $query->getResultArray();
                             <p>Bimbingan dan Konseling</p>
                         </a>
                     </li>
-                    <li class="nav-item <?php if ($hover == 'Prestasi Siswa') {
+                    <?php
+                    if (session()->get('level') == "Tata Usaha") {
+                    ?>
+                        <li class="nav-item <?php if ($hover == 'Prestasi Siswa') {
+                                                echo 'active';
+                                            } ?>">
+                            <a href="<?= base_url('prestasi_siswa') ?>">
+                                <i class="fas fa-star"></i>
+                                <p>Prestasi Siswa</p>
+                            </a>
+                        </li>
+                    <?php
+                    }
+                    if (session()->get('level') == "Admin" || session()->get('level') == "Guru" || session()->get('level') == "Tata Usaha" || session()->get('level') == "Kepala Sekolah") {
+                    ?>
+                        <li class="nav-item <?php if ($hover == 'Prestasi Guru') {
+                                                echo 'active';
+                                            } ?>">
+                            <a href="<?= base_url('prestasi_guru') ?>">
+                                <i class="fas fa-star"></i>
+                                <p>Prestasi Guru</p>
+                            </a>
+                        </li>
+                    <?php
+                    }
+                    ?>
+
+                <?php
+                }
+                ?>
+                <li class="nav-item <?php if ($hover == 'Kinerja Guru') {
+                                        echo 'active';
+                                    } ?>">
+                    <a href="<?= base_url('kinerja_guru') ?>">
+                        <i class="fa fa-user"></i>
+                        <p>Kinerja Guru</p>
+                    </a>
+                </li>
+                <?php
+                if (session()->get('level') == "Admin" || session()->get('level') == "Tata Usaha") {
+                ?>
+                    <li class="nav-item <?php if ($hover == 'Jadwal Kelas') {
                                             echo 'active';
                                         } ?>">
-                        <a href="<?= base_url('prestasi_siswa') ?>">
-                            <i class="fas fa-star"></i>
-                            <p>Prestasi Siswa</p>
+                        <a href="<?= base_url('jadwal_kelas') ?>">
+                            <i class="fa fa-clock"></i>
+                            <p>Jadwal kelas</p>
                         </a>
-                        <?php
-                        if (session()->get('level') == "Admin" || session()->get('level') == "Guru" || session()->get('level') == "Tata Usaha" || session()->get('level') == "Kepala Sekolah") {
-                        ?>
+                    </li>
+                    <li class="nav-item <?php if ($hover == 'Agenda') {
+                                            echo 'active';
+                                        } ?>">
+                        <a href="<?= base_url('agenda') ?>">
+                            <i class="fa fa-calendar"></i>
+                            <p>Agenda</p>
+                        </a>
                     </li>
                 <?php
-                        }
-                ?>
-
-            <?php
                 }
-            ?>
-            <li class="nav-item <?php if ($hover == 'Kinerja Guru') {
-                                    echo 'active';
-                                } ?>">
-                <a href="<?= base_url('kinerja_guru') ?>">
-                    <i class="fa fa-user"></i>
-                    <p>Kinerja Guru</p>
-                </a>
-            </li>
-            <li class="nav-item <?php if ($hover == 'Prestasi Guru') {
-                                    echo 'active';
-                                } ?>">
-                <a href="<?= base_url('prestasi_guru') ?>">
-                    <i class="fas fa-star"></i>
-                    <p>Prestasi Guru</p>
-                </a>
-            </li>
-            <?php
-            if (session()->get('level') == "Admin" || session()->get('level') == "Tata Usaha") {
-            ?>
-                <li class="nav-item <?php if ($hover == 'Jadwal Kelas') {
+                ?>
+                <li class="nav-item <?php if ($hover == 'Sekolah') {
                                         echo 'active';
                                     } ?>">
-                    <a href="<?= base_url('jadwal_kelas') ?>">
-                        <i class="fa fa-clock"></i>
-                        <p>Jadwal kelas</p>
+                    <a href="<?= base_url('sekolah') ?>">
+                        <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+                        <p>Sekolah</p>
                     </a>
                 </li>
-                <li class="nav-item <?php if ($hover == 'Agenda') {
-                                        echo 'active';
-                                    } ?>">
-                    <a href="<?= base_url('agenda') ?>">
-                        <i class="fa fa-calendar"></i>
-                        <p>Agenda</p>
-                    </a>
-                </li>
-            <?php
-            }
-            ?>
-            <li class="nav-item <?php if ($hover == 'Sekolah') {
-                                    echo 'active';
-                                } ?>">
-                <a href="<?= base_url('sekolah') ?>">
-                    <i class="fa fa-graduation-cap" aria-hidden="true"></i>
-                    <p>Sekolah</p>
-                </a>
-            </li>
             </ul>
         </div>
     </div>

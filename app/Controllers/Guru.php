@@ -15,10 +15,11 @@ class Guru extends BaseController
         $hover = "Tata Usaha";
         $model = new GuruModel();
         $page = 'tata_usaha';
+        $hiddenButtonAdd = true;
         $column = ['nip', 'nama', 'ttl', 'agama', 'jenis_kelamin', 'no_hp', 'foto'];
         $row = $model->getData();
         // $hiddenButtonAdd = true;
-        return view('main/list', compact('data', 'hover', 'row', 'column', 'page'));
+        return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'hiddenButtonAdd'));
     }
 
     public function tambah()
@@ -56,8 +57,8 @@ class Guru extends BaseController
             'nip' => $this->request->getPost('nip'),
             'nama' => $this->request->getPost('nama'),
             'tempat' => $this->request->getPost('tempat'),
-            't_lahir' => $this->request->getPost('tanggal_lahir'),
-            'j_kelamin' => $this->request->getPost('jenis_kelamin'),
+            't_lahir' => $this->request->getPost('t_lahir'),
+            'j_kelamin' => $this->request->getPost('j_kelamin'),
             'agama' => $this->request->getPost('agama'),
             'no_hp' => $this->request->getPost('no_hp'),
             'foto' => $fileName,
@@ -172,7 +173,7 @@ class Guru extends BaseController
             ]);
         }
         session()->setFlashdata("success", "Berhasil update data");
-        return redirect('tata_usaha');
+        return redirect()->back();
     }
 
     public function delete($id)

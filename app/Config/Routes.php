@@ -156,7 +156,7 @@ $routes->get('siswa/(:any)/ujian/delete/(:any)', 'UjianSiswa::delete/$1/$2');
 $routes->get('/ekstrakurikuler/(:any)', 'EkstrakurikulerSiswa::index/$1');
 $routes->get('/ekskul/(:any)/tambah', 'EkstrakurikulerSiswa::tambah/$1');
 $routes->post('ekskul/(:any)/store', 'EkstrakurikulerSiswa::store/$1');
-$routes->get('ekskul/ekskul(:any)/delete/(:any)', 'EkstrakurikulerSiswa::delete/$1/$2');
+$routes->get('ekskul/(:any)/delete/(:any)', 'EkstrakurikulerSiswa::delete/$1/$2');
 
 //prestasi siswa
 $routes->get('/prestasi_siswa', 'PrestasiSiswa::index');
@@ -187,6 +187,7 @@ $routes->post('kinerja_guru/store', 'KinerjaGuru::store');
 $routes->get('/kinerja_guru/edit/(:any)', 'KinerjaGuru::edit/$1');
 $routes->post('/kinerja_guru/update/(:any)', 'KinerjaGuru::update/$1');
 $routes->post('/kinerja_guru/profil/(:any)/(:any)', 'KinerjaGuru::profil/$1/$2');
+$routes->get('verifikasi/kinerja_guru/(:any)', 'KinerjaGuru::verifikasi/$1');
 $routes->get('/kinerja_guru/delete/(:any)', 'KinerjaGuru::delete/$1');
 $routes->get('/kinerja_guru/laporan', 'KinerjaGuru::laporan');
 $routes->post('kinerja_guru/cetak', 'KinerjaGuru::cetak');
@@ -274,6 +275,7 @@ $routes->get('perancaan_persiapan_pembelajaran', 'PerancanaanPembelajaranPersiap
 $routes->get('perancaan_persiapan_pembelajaran/tambah', 'PerancanaanPembelajaranPersiapan::tambah');
 $routes->post('perancaan_persiapan_pembelajaran/store', 'PerancanaanPembelajaranPersiapan::store');
 $routes->get('perancaan_persiapan_pembelajaran/edit/(:any)', 'PerancanaanPembelajaranPersiapan::edit/$1');
+$routes->get('verifikasi/perancaan_persiapan_pembelajaran/(:any)', 'PerancanaanPembelajaranPersiapan::verifikasi/$1');
 $routes->post('perancaan_persiapan_pembelajaran/update/(:any)', 'PerancanaanPembelajaranPersiapan::update/$1');
 $routes->get('perancaan_persiapan_pembelajaran/delete/(:any)', 'PerancanaanPembelajaranPersiapan::delete/$1');
 
@@ -284,6 +286,7 @@ $routes->post('pelaksanaan_pembelajaran/store', 'PelaksanaanPembelajaran::store'
 $routes->get('pelaksanaan_pembelajaran/edit/(:any)', 'PelaksanaanPembelajaran::edit/$1');
 $routes->post('pelaksanaan_pembelajaran/update/(:any)', 'PelaksanaanPembelajaran::update/$1');
 $routes->get('pelaksanaan_pembelajaran/delete/(:any)', 'PelaksanaanPembelajaran::delete/$1');
+$routes->get('verifikasi/pelaksanaan_pembelajaran/(:any)', 'PelaksanaanPembelajaran::verifikasi/$1');
 
 //Pelaksanaan pembelajaran
 $routes->get('penilaian_guru', 'SikapPrilakuKedisiplinan::index');
@@ -292,6 +295,7 @@ $routes->post('penilaian_guru/store', 'SikapPrilakuKedisiplinan::store');
 $routes->get('penilaian_guru/edit/(:any)', 'SikapPrilakuKedisiplinan::edit/$1');
 $routes->post('penilaian_guru/update/(:any)', 'SikapPrilakuKedisiplinan::update/$1');
 $routes->get('penilaian_guru/delete/(:any)', 'SikapPrilakuKedisiplinan::delete/$1');
+$routes->get('verifikasi/penilaian_guru/(:any)', 'SikapPrilakuKedisiplinan::verifikasi/$1');
 
 //Inovasi guru
 $routes->get('inovasi_guru', 'InovasiGuru::index');
@@ -300,6 +304,7 @@ $routes->post('inovasi_guru/store', 'InovasiGuru::store');
 $routes->get('inovasi_guru/edit/(:any)', 'InovasiGuru::edit/$1');
 $routes->post('inovasi_guru/update/(:any)', 'InovasiGuru::update/$1');
 $routes->get('inovasi_guru/delete/(:any)', 'InovasiGuru::delete/$1');
+$routes->get('verifikasi/inovasi_guru/(:any)', 'InovasiGuru::verifikasi/$1');
 
 //profil
 $routes->get('/profil', 'Profil::index');

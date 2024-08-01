@@ -20,7 +20,19 @@ class PerancanaanPembelajaranPersiapan  extends BaseController
             $model = new PerancaanPersiapanPembelajaranModel();
             $row = $model->getDataPerguru();
             $column = ['nama_mapel', 'materi', 'tanggal', 'media', 'tujuan'];
-            return view('main/list', compact('data', 'hover', 'row', 'column', 'page'));
+            $statusVerif = "id_user_verifikasi";
+            return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'statusVerif'));
+        } else if (session()->get('level') == "Kepala Sekolah") {
+            $data = "Persiapan dan Perancanaan Pembelajaran";
+            $hover = "Persiapan dan Perancanaan Pembelajaran";
+            $page = 'perancaan_persiapan_pembelajaran';
+            $model = new PerancaanPersiapanPembelajaranModel();
+            $row = $model->getData();
+            $hiddenButtonAdd = true;
+            $hiddenButtonAction = true;
+            $verif = true;
+            $column = ['nama_mapel', 'materi', 'tanggal', 'media', 'tujuan'];
+            return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'hiddenButtonAdd', 'hiddenButtonAction', 'verif'));
         } else {
             $data = "Persiapan dan Perancanaan Pembelajaran";
             $hover = "Persiapan dan Perancanaan Pembelajaran";
@@ -28,7 +40,8 @@ class PerancanaanPembelajaranPersiapan  extends BaseController
             $model = new PerancaanPersiapanPembelajaranModel();
             $row = $model->getData();
             $column = ['nip', 'nama', 'nama_mapel', 'materi', 'tanggal', 'media', 'tujuan'];
-            return view('main/list', compact('data', 'hover', 'row', 'column', 'page'));
+            $statusVerif = "id_user_verifikasi";
+            return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'statusVerif'));
         }
     }
 
@@ -43,7 +56,6 @@ class PerancanaanPembelajaranPersiapan  extends BaseController
                 ['type' => 'relasi', 'name' => 'id_mapel'],
                 ['type' => 'relasi', 'name' => 'id_media'],
                 ['type' => 'text', 'name' => 'materi'],
-                ['type' => 'text', 'name' => 'media'],
                 ['type' => 'date', 'name' => 'tanggal'],
                 ['type' => 'textArea', 'name' => 'tujuan'],
             ];
@@ -195,6 +207,16 @@ class PerancanaanPembelajaranPersiapan  extends BaseController
             'tujuan' => $this->request->getPost('tujuan'),
         ]);
         session()->setFlashdata("success", "Berhasil update data");
+        return redirect('perancaan_persiapan_pembelajaran');
+    }
+
+    public function verifikasi($id)
+    {
+        $data = new PerancaanPersiapanPembelajaranModel();
+        $data->update($id, [
+            'id_user_verifikasi' => session()->get('id'),
+        ]);
+        session()->setFlashdata("success", "Berhasil Verifikasi data");
         return redirect('perancaan_persiapan_pembelajaran');
     }
 

@@ -17,10 +17,20 @@ class InovasiGuru extends BaseController
             $page = 'inovasi_guru';
             $model = new InovasiGuruModel();
             $row = $model->getDataPerguru();
+            $column = ['tanggal', 'inovasi', 'kreativitas', 'kreativitas', 'profesionalisme', 'masukkan'];
+            $statusVerif = "id_user_verifikasi";
+            return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'statusVerif'));
+        } else if (session()->get('level') == "Kepala Sekolah") {
+            $data = "Inovasi Guru";
+            $hover = "Inovasi Guru";
+            $page = 'inovasi_guru';
+            $model = new InovasiGuruModel();
+            $row = $model->getData();
             $hiddenButtonAction = true;
             $hiddenButtonAdd = true;
+            $verif = true;
             $column = ['tanggal', 'inovasi', 'kreativitas', 'kreativitas', 'profesionalisme', 'masukkan'];
-            return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'hiddenButtonAction', 'hiddenButtonAdd'));
+            return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'hiddenButtonAction', 'hiddenButtonAdd', 'verif'));
         } else {
             $data = "Inovasi Guru";
             $hover = "Inovasi Guru";
@@ -28,7 +38,8 @@ class InovasiGuru extends BaseController
             $model = new InovasiGuruModel();
             $row = $model->getData();
             $column = ['nip', 'nama', 'tanggal', 'inovasi', 'kreativitas', 'kreativitas', 'profesionalisme', 'masukkan'];
-            return view('main/list', compact('data', 'hover', 'row', 'column', 'page'));
+            $statusVerif = "id_user_verifikasi";
+            return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'statusVerif'));
         }
     }
 
@@ -38,15 +49,26 @@ class InovasiGuru extends BaseController
         $hover = "Inovasi Guru";
         $page = 'inovasi_guru';
         $enum = [];
-        $form = [
-            ['type' => 'relasi', 'name' => 'id_guru'],
-            ['type' => 'date', 'name' => 'tanggal'],
-            ['type' => 'textArea', 'name' => 'inovasi'],
-            ['type' => 'textArea', 'name' => 'kreativitas'],
-            ['type' => 'textArea', 'name' => 'etika'],
-            ['type' => 'textArea', 'name' => 'profesionalisme'],
-            ['type' => 'textArea', 'name' => 'masukkan'],
-        ];
+        if (session()->get('level') == "Guru") {
+            $form = [
+                ['type' => 'date', 'name' => 'tanggal'],
+                ['type' => 'textArea', 'name' => 'inovasi'],
+                ['type' => 'textArea', 'name' => 'kreativitas'],
+                ['type' => 'textArea', 'name' => 'etika'],
+                ['type' => 'textArea', 'name' => 'profesionalisme'],
+                ['type' => 'textArea', 'name' => 'masukkan'],
+            ];
+        } else {
+            $form = [
+                ['type' => 'relasi', 'name' => 'id_guru'],
+                ['type' => 'date', 'name' => 'tanggal'],
+                ['type' => 'textArea', 'name' => 'inovasi'],
+                ['type' => 'textArea', 'name' => 'kreativitas'],
+                ['type' => 'textArea', 'name' => 'etika'],
+                ['type' => 'textArea', 'name' => 'profesionalisme'],
+                ['type' => 'textArea', 'name' => 'masukkan'],
+            ];
+        }
         $column = ['nip', 'nama', 'ttl', 'level'];
         $model = new GuruModel();
         $rowRelasi = $model->getDataSelct();
@@ -66,15 +88,27 @@ class InovasiGuru extends BaseController
     public function store()
     {
         $data = new InovasiGuruModel();
-        $data->insert([
-            'id_guru' => $this->request->getPost('id_guru'),
-            'tanggal' => $this->request->getPost('tanggal'),
-            'inovasi' => $this->request->getPost('inovasi'),
-            'kreativitas' => $this->request->getPost('kreativitas'),
-            'etika' => $this->request->getPost('etika'),
-            'profesionalisme' => $this->request->getPost('profesionalisme'),
-            'masukkan' => $this->request->getPost('masukkan'),
-        ]);
+        if (session()->get('level') == "Guru") {
+            $data->insert([
+                'id_guru' => session()->get('id_guru'),
+                'tanggal' => $this->request->getPost('tanggal'),
+                'inovasi' => $this->request->getPost('inovasi'),
+                'kreativitas' => $this->request->getPost('kreativitas'),
+                'etika' => $this->request->getPost('etika'),
+                'profesionalisme' => $this->request->getPost('profesionalisme'),
+                'masukkan' => $this->request->getPost('masukkan'),
+            ]);
+        } else {
+            $data->insert([
+                'id_guru' => $this->request->getPost('id_guru'),
+                'tanggal' => $this->request->getPost('tanggal'),
+                'inovasi' => $this->request->getPost('inovasi'),
+                'kreativitas' => $this->request->getPost('kreativitas'),
+                'etika' => $this->request->getPost('etika'),
+                'profesionalisme' => $this->request->getPost('profesionalisme'),
+                'masukkan' => $this->request->getPost('masukkan'),
+            ]);
+        }
         session()->setFlashdata("success", "Berhasil Tambah data");
         return redirect('inovasi_guru');
     }
@@ -87,15 +121,26 @@ class InovasiGuru extends BaseController
         $page = 'inovasi_guru';
         $model = new InovasiGuruModel();
         $enum = [];
-        $form = [
-            ['type' => 'relasi', 'name' => 'id_guru'],
-            ['type' => 'date', 'name' => 'tanggal'],
-            ['type' => 'textArea', 'name' => 'inovasi'],
-            ['type' => 'textArea', 'name' => 'kreativitas'],
-            ['type' => 'textArea', 'name' => 'etika'],
-            ['type' => 'textArea', 'name' => 'profesionalisme'],
-            ['type' => 'textArea', 'name' => 'masukkan'],
-        ];
+        if (session()->get('level') == "Guru") {
+            $form = [
+                ['type' => 'date', 'name' => 'tanggal'],
+                ['type' => 'textArea', 'name' => 'inovasi'],
+                ['type' => 'textArea', 'name' => 'kreativitas'],
+                ['type' => 'textArea', 'name' => 'etika'],
+                ['type' => 'textArea', 'name' => 'profesionalisme'],
+                ['type' => 'textArea', 'name' => 'masukkan'],
+            ];
+        } else {
+            $form = [
+                ['type' => 'relasi', 'name' => 'id_guru'],
+                ['type' => 'date', 'name' => 'tanggal'],
+                ['type' => 'textArea', 'name' => 'inovasi'],
+                ['type' => 'textArea', 'name' => 'kreativitas'],
+                ['type' => 'textArea', 'name' => 'etika'],
+                ['type' => 'textArea', 'name' => 'profesionalisme'],
+                ['type' => 'textArea', 'name' => 'masukkan'],
+            ];
+        }
         $dt = $model->join('guru', 'guru.id=inovasi_guru.id_guru')
             ->where([
                 'inovasi_guru.id' => $id,
@@ -121,7 +166,6 @@ class InovasiGuru extends BaseController
     {
         $data = new InovasiGuruModel();
         $data->update($id, [
-            'id_guru' => $this->request->getPost('id_guru'),
             'tanggal' => $this->request->getPost('tanggal'),
             'inovasi' => $this->request->getPost('inovasi'),
             'kreativitas' => $this->request->getPost('kreativitas'),
@@ -130,6 +174,16 @@ class InovasiGuru extends BaseController
             'masukkan' => $this->request->getPost('masukkan'),
         ]);
         session()->setFlashdata("success", "Berhasil update data");
+        return redirect('inovasi_guru');
+    }
+
+    public function verifikasi($id)
+    {
+        $data = new InovasiGuruModel();
+        $data->update($id, [
+            'id_user_verifikasi' => session()->get('id'),
+        ]);
+        session()->setFlashdata("success", "Berhasil Verifikasi data");
         return redirect('inovasi_guru');
     }
 
