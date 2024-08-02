@@ -16,11 +16,13 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class SiswaPerkelas extends BaseController
 {
+    protected $tahunajaran;
     protected $idTahunAjaran;
     public function __construct()
     {
         $model = new TahunAjaranModel();
         $tahunAjaran = $model->where('aktif', 1)->first();
+        $this->tahunajaran = $tahunAjaran['tahun'];
         $this->idTahunAjaran = $tahunAjaran['id'];
     }
     public function index($kelas)
@@ -35,7 +37,7 @@ class SiswaPerkelas extends BaseController
             $page = 'siswa/' . $kelas . '/absen_nilai';
             $column = ['nilai', 'kelas', 'mapel', 'materi', 'tanggal', 'jenis', 'tahun', 'semester'];
             $ceklist = 'hadir';
-            $row = $model->getDataPersiswaHarian($namaKelas, $tanggal, $mapel, $this->idTahunAjaran);
+            $row = $model->getDataPersiswaHarian($namaKelas, $tanggal, $mapel, $this->tahunajaran);
             $hiddenEdit = true;
             // $hiddenButtonAdd = true;
             $foto = true;
@@ -57,7 +59,7 @@ class SiswaPerkelas extends BaseController
             $hadirHarian = true;
             if (isset($tanggal) && isset($mapel)) {
                 $ceklist = 'hadir';
-                $row = $model->getData($namaKelas, $tanggal, $mapel, $this->idTahunAjaran);
+                $row = $model->getData($namaKelas, $tanggal, $mapel, $this->tahunajaran);
                 $hiddenEdit = true;
                 // $hiddenButtonAdd = true;
                 $foto = true;
@@ -66,7 +68,7 @@ class SiswaPerkelas extends BaseController
                 $dtMapel = $modelMapel->getData();
                 return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'foto', 'ceklist', 'hiddenEdit', 'hadir', 'hadirHarian', 'dtMapel'));
             } else {
-                $row = $model->getDataKelas($namaKelas, $this->idTahunAjaran);
+                $row = $model->getDataKelas($namaKelas, $this->tahunajaran);
                 $hiddenEdit = true;
                 // $hiddenButtonAdd = true;
                 $foto = true;
@@ -193,5 +195,33 @@ class SiswaPerkelas extends BaseController
         $data->delete($id);
         session()->setFlashdata("success", "Berhasil hapus data");
         return redirect()->back();
+    }
+
+    public function reportGuru()
+    {
+        $data = "Nilai Siswa";
+        $hover = "Nilai Siswa";
+        $page = 'nilai_siswa';
+        $model = new AbsenSiswaModel();
+        $row = $model->reportGuru($this->tahunajaran);
+        $column = ['nama_mapel', 'nilai', 'tanggal', 'jenis', 'materi', 'tahun', 'semester'];
+        return view('main/laporan', compact('data', 'hover', 'row', 'column', 'page'));
+    }
+    public function cetakGuru()
+    {
+        $dari = $this->request->getVar('dari');
+        $sampai = $this->request->getVar('sampai');
+        $data = "Nilai siswa";
+        if ($dari && $sampai) {
+            $column = ['nama_mapel', 'nilai', 'tanggal', 'jenis', 'materi', 'tahun', 'semester'];
+            $model = new AbsenSiswaModel();
+            $row = $model->reportGuruBetween($this->tahunajaran, $dari, $sampai);
+            return view('laporan/cetak', compact('dari', 'sampai', 'column', 'row', 'data'));
+        } else {
+            $model = new AbsenSiswaModel();
+            $row = $model->reportGuru($this->tahunajaran);
+            $column = ['nama_mapel', 'nilai', 'tanggal', 'jenis', 'materi', 'tahun', 'semester'];
+            return view('laporan/cetak', compact('column', 'row', 'data'));
+        }
     }
 }

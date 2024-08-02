@@ -499,6 +499,13 @@ $results = $query->getResultArray();
                                     <span class="sub-item">Prestasi Siswa</span>
                                 </a>
                             </li>
+                            <li class="<?php if ($hover == "Nilai Siswa") {
+                                            echo 'active';
+                                        } ?>">
+                                <a href="<?= base_url('nilai_siswa/report') ?>">
+                                    <span class="sub-item">Nilai Siswa</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </li>

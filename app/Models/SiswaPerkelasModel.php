@@ -10,24 +10,26 @@ class SiswaPerkelasModel extends Model
     protected $primaryKey = 'id';
     protected $allowedFields = ['id_siswa', 'id_kelas', 'id_tahun_ajaran'];
 
-    public function getDataKelas($kelas, $idTahunAjaran)
+    public function getDataKelas($kelas, $tahunajaran)
     {
         return $this->join('siswa', 'siswa.id=siswa_perkelas.id_siswa')
             ->join('kelas', 'kelas.id=siswa_perkelas.id_kelas')
+            ->join('tahun_ajaran', 'tahun_ajaran.id=siswa_perkelas.id_tahun_ajaran')
             ->where([
                 'nama_kelas' => $kelas,
-                'id_tahun_ajaran' => $idTahunAjaran
+                'tahun_ajaran.tahun' => $tahunajaran
             ])
             ->select('siswa.nis,siswa.nama,siswa.jenis_kelamin,kelas.nama_kelas as kelas,siswa_perkelas.*')
             ->findAll();
     }
 
-    public function getData($kelas, $tanggal, $mapel, $idTahunAjaran)
+    public function getData($kelas, $tanggal, $mapel, $tahunajaran)
     {
         return $this->join('siswa', 'siswa.id=siswa_perkelas.id_siswa')
             ->join('kelas', 'kelas.id=siswa_perkelas.id_kelas')
             ->join('absen_siswa', 'absen_siswa.id_siswa_perkelas=siswa_perkelas.id', 'left')
             ->join('mapel', 'mapel.id=absen_siswa.id_mapel', 'left')
+            ->join('tahun_ajaran', 'tahun_ajaran.id=siswa_perkelas.id_tahun_ajaran')
             ->select('siswa_perkelas.*, 
                                 siswa.nama AS nama, 
                                 siswa.nis AS nis, 
@@ -40,7 +42,7 @@ class SiswaPerkelasModel extends Model
                                 GROUP_CONCAT(DISTINCT IF(absen_siswa.hadir = 1, absen_siswa.hadir, NULL) SEPARATOR ", ") AS hadir')
             ->where([
                 'kelas.nama_kelas' => $kelas,
-                'siswa_perkelas.id_tahun_ajaran' => $idTahunAjaran
+                'tahun_ajaran.tahun' => $tahunajaran
             ])->groupBy('siswa_perkelas.id, siswa.nama, kelas.nama_kelas')->findAll();
     }
 
@@ -62,7 +64,7 @@ class SiswaPerkelasModel extends Model
         return $this->where('id', $id)->first();
     }
 
-    public function getDataPersiswa($kelas, $tanggal, $mapel, $idTahunAjaran)
+    public function getDataPersiswa($kelas, $tanggal, $mapel, $tahunajaran)
     {
         $db = \Config\Database::connect();
         $query = $db->query("SELECT 
@@ -109,10 +111,27 @@ class SiswaPerkelasModel extends Model
         return $query->getResultArray();
     }
 
-    public function getDataPersiswaHarian($kelas, $tanggal, $mapel, $idTahunAjaran)
+    public function getDataPersiswaHarian($kelas, $tanggal, $mapel, $tahunajaran)
     {
         $db = \Config\Database::connect();
-        $query = $db->query("SELECT siswa.nama,kelas.nama_kelas as kelas,mapel.nama_mapel as mapel,COALESCE(nilai.nilai, protofolio_proyek.nilai) AS nilai,COALESCE(nilai.materi, protofolio_proyek.deskripsi) AS materi,tahun_ajaran.tahun,tahun_ajaran.semester,COALESCE(nilai.jenis,'Protofolio dan Proyek') AS jenis,absen_siswa.tanggal FROM `absen_siswa` JOIN siswa_perkelas ON siswa_perkelas.id = absen_siswa.id_siswa_perkelas JOIN siswa ON siswa.id = siswa_perkelas.id_siswa JOIN mapel ON mapel.id = absen_siswa.id_mapel JOIN kelas ON kelas.id = siswa_perkelas.id_kelas JOIN tahun_ajaran ON tahun_ajaran.id = absen_siswa.id_tahun_ajaran LEFT JOIN nilai ON nilai.id_absen_siswa = absen_siswa.id left JOIN protofolio_proyek ON protofolio_proyek.id_absen_siswa = absen_siswa.id WHERE kelas.nama_kelas = '" . $kelas . "' AND siswa.id = '" . session()->get('id_siswa') . "' AND nilai.id IS NOT null OR protofolio_proyek.id IS NOT null");
+        $query = $db->query("SELECT 
+        siswa.nama,kelas.nama_kelas as kelas,
+        mapel.nama_mapel as mapel,
+        COALESCE(nilai.nilai, protofolio_proyek.nilai) AS nilai,
+        COALESCE(nilai.materi, protofolio_proyek.deskripsi) AS materi,
+        tahun_ajaran.tahun,
+        tahun_ajaran.semester,
+        COALESCE(nilai.jenis,'Protofolio dan Proyek') AS jenis,
+        absen_siswa.tanggal 
+        FROM `absen_siswa` 
+        JOIN siswa_perkelas ON siswa_perkelas.id = absen_siswa.id_siswa_perkelas 
+        JOIN siswa ON siswa.id = siswa_perkelas.id_siswa 
+        JOIN mapel ON mapel.id = absen_siswa.id_mapel 
+        JOIN kelas ON kelas.id = siswa_perkelas.id_kelas 
+        JOIN tahun_ajaran ON tahun_ajaran.id = absen_siswa.id_tahun_ajaran 
+        LEFT JOIN nilai ON nilai.id_absen_siswa = absen_siswa.id 
+        left JOIN protofolio_proyek ON protofolio_proyek.id_absen_siswa = absen_siswa.id 
+        WHERE kelas.nama_kelas = '" . $kelas . "' AND siswa.id = '" . session()->get('id_siswa') . "' AND nilai.id IS NOT null OR protofolio_proyek.id IS NOT null");
 
         //     $query = $db->query("SELECT 
         //     siswa.id AS siswa_id, 
@@ -146,7 +165,7 @@ class SiswaPerkelasModel extends Model
         return $query->getResultArray();
     }
 
-    public function getDataPersiswaUjian($kelas, $tanggal, $mapel, $idTahunAjaran)
+    public function getDataPersiswaUjian($kelas, $tanggal, $mapel, $tahunajaran)
     {
         $db = \Config\Database::connect();
         $query = $db->query("SELECT siswa.nama,kelas.nama_kelas as kelas,mapel.nama_mapel as mapel,nilai_ujian.nilai as nilai_ujian,tahun_ajaran.tahun,tahun_ajaran.semester,jenis,nilai_ujian.tanggal 
