@@ -21,19 +21,29 @@ function convertColumnName($columnName)
                 </div>
             </div>
             <div>
-                <form action="<?= base_url($page . '/cetak') ?>" method="get">
-                    <div class="row">
-                        <div class="col-5">
-                            <input type="date" class="form-control" name="dari">
+                <?php
+                if (isset($hiddenBetween)) {
+                ?>
+                    <a href=" <?= base_url($page . '/cetak') ?>" class="btn btn-success">Cetak</a>
+                <?php
+                } else {
+                ?>
+                    <form action="<?= base_url($page . '/cetak') ?>" method="get">
+                        <div class="row">
+                            <div class="col-5">
+                                <input type="date" class="form-control" name="dari">
+                            </div>
+                            <div class="col-5">
+                                <input type="date" class="form-control" name="sampai">
+                            </div>
+                            <div class="col-2">
+                                <button class="btn btn-success" type="submit">Cetak</button>
+                            </div>
                         </div>
-                        <div class="col-5">
-                            <input type="date" class="form-control" name="sampai">
-                        </div>
-                        <div class="col-2">
-                            <button class="btn btn-success" type="submit">Cetak</button>
-                        </div>
-                    </div>
-                </form>
+                    </form>
+                <?php
+                }
+                ?>
             </div>
         </div>
         <div class="card-body">

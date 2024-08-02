@@ -125,19 +125,58 @@ class BimbinganKonseling extends BaseController
         return redirect('bimbingan_konseling');
     }
 
-    // public function laporan_sumber()
-    // {
-    //     $data = "Laporan Sumber Barang";
-    //     $hover = "Laporan Sumber Barang";
-    //     $dt = new BaranmasukModel();
-    //     $d_bmp = $dt->getPemerintah();
-    //     return view('bimbingan_konseling/laporan_sumber', compact('data', 'hover', 'd_bmp'));
-    // }
+    public function report()
+    {
+        if (session()->get('level') == "Siswa") {
+            $data = "Bimbingan dan Konseling";
+            $hover = "Bimbingan dan Konseling";
+            $page = 'bimbingan_konseling';
+            $model = new BimbinganKonselingModel();
+            $row = $model->getData();
+            $hiddenButtonAction = true;
+            $hiddenButtonAdd = true;
+            $column = ['tanggal', 'catatan'];
+            return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'hiddenButtonAction', 'hiddenButtonAdd'));
+        } else {
+            $data = "Bimbingan dan Konseling";
+            $hover = "Bimbingan dan Konseling";
+            $page = 'bimbingan_konseling';
+            $model = new BimbinganKonselingModel();
+            $row = $model->getData();
+            $column = ['nis', 'nama', 'tanggal', 'catatan'];
+            return view('main/laporan', compact('data', 'hover', 'row', 'column', 'page'));
+        }
+    }
 
-    // public function cetak_sumber()
-    // {
-    //     $dari = $this->request->getPost('dari');
-    //     $sampai = $this->request->getPost('sampai');
-    //     return view('bimbingan_konseling/cetak_sumber', compact('dari', 'sampai'));
-    // }
+    public function cetak()
+    {
+        $dari = $this->request->getVar('dari');
+        $sampai = $this->request->getVar('sampai');
+        $data = "Bimbingan dan Konseling";
+        if (session()->get('level') == "Siswa") {
+            if ($dari && $sampai) {
+                $column = ['tanggal', 'catatan'];
+                $model = new BimbinganKonselingModel();
+                $row = $model->cetakDataBeetwen($dari, $sampai);
+                return view('laporan/cetak', compact('dari', 'sampai', 'column', 'row', 'data'));
+            } else {
+                $model = new BimbinganKonselingModel();
+                $row = $model->cetakDataPerSiswa();
+                $column = ['tanggal', 'catatan'];
+                return view('laporan/cetak', compact('column', 'row', 'data'));
+            }
+        } else {
+            if ($dari && $sampai) {
+                $column = ['nis', 'nama', 'tanggal', 'catatan'];
+                $model = new BimbinganKonselingModel();
+                $row = $model->cetakDataBeetwen($dari, $sampai);
+                return view('laporan/cetak', compact('dari', 'sampai', 'column', 'row', 'data'));
+            } else {
+                $model = new BimbinganKonselingModel();
+                $row = $model->cetakData();
+                $column = ['nis', 'nama', 'tanggal', 'catatan'];
+                return view('laporan/cetak', compact('column', 'row', 'data'));
+            }
+        }
+    }
 }

@@ -29,4 +29,10 @@ class AgendaModel extends Model
 
         return [];
     }
+
+    public function cetakDataBeetwen($dari, $sampai)
+    {
+        return $this->where("tanggal BETWEEN '$dari' AND '$sampai'")
+            ->findAll();
+    }
 }

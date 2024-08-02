@@ -21,4 +21,32 @@ class BimbinganKonselingModel extends Model
                 ->select('siswa.nama,siswa.nis,bimbingan_konseling.*')->findAll();
         }
     }
+    public function cetakDataBeetwen($dari, $sampai)
+    {
+        return $this->join('siswa', 'siswa.id=bimbingan_konseling.id_siswa')
+            ->select('siswa.nama,siswa.nis,bimbingan_konseling.*')
+            ->where("bimbingan_konseling.tanggal BETWEEN '$dari' AND '$sampai'")
+            ->findAll();
+    }
+
+    public function cetakDataBeetwenSiswa($dari, $sampai)
+    {
+        return $this->join('siswa', 'siswa.id=bimbingan_konseling.id_siswa')
+            ->select('siswa.nama,siswa.nis,bimbingan_konseling.*')
+            ->where("bimbingan_konseling.tanggal BETWEEN '$dari' AND '$sampai'")
+            ->where('siswa.id', session()->get('id_siswa'))
+            ->findAll();
+    }
+
+    public function cetakDataPerSiswa()
+    {
+        return $this->join('siswa', 'siswa.id=bimbingan_konseling.id_siswa')
+            ->select('siswa.nama,siswa.nis,bimbingan_konseling.*')
+            ->where('siswa.id', session()->get('id_siswa'))->findAll();
+    }
+    public function cetakData()
+    {
+        return $this->join('siswa', 'siswa.id=bimbingan_konseling.id_siswa')
+            ->select('siswa.nama,siswa.nis,bimbingan_konseling.*')->findAll();
+    }
 }

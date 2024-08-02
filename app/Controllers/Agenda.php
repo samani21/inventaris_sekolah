@@ -20,7 +20,13 @@ class Agenda extends BaseController
         $row = $model->getData();
         $between = true;
         $column = ['hari', 'tanggal', 'jam', 'kegiatan'];
-        return view('main/list', compact('data', 'hover', 'row', 'column', 'page'));
+        if (session()->get('level') == "Guru") {
+            $hiddenButtonAdd = true;
+            $hiddenButtonAction = true;
+            return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'hiddenButtonAdd', 'hiddenButtonAction'));
+        } else {
+            return view('main/list', compact('data', 'hover', 'row', 'column', 'page'));
+        }
     }
 
     public function tambah()
@@ -104,19 +110,32 @@ class Agenda extends BaseController
         return redirect('agenda');
     }
 
-    public function laporan_sumber()
+    public function report()
     {
-        $data = "Laporan Agenda";
-        $hover = "Laporan Agenda";
-        $dt = new AgendaModel();
-        $d_bmp = $dt->getPemerintah();
-        return view('agenda/laporan_sumber', compact('data', 'hover', 'd_bmp'));
+        $data = " Cetak Agenda";
+        $hover = " Cetak Agenda";
+        $page = 'agenda';
+        $model = new AgendaModel();
+        $row = $model->getData();
+        $between = true;
+        $column = ['hari', 'tanggal', 'jam', 'kegiatan'];
+        return view('main/laporan', compact('data', 'hover', 'row', 'column', 'page'));
     }
-
-    public function cetak_sumber()
+    public function cetak()
     {
-        $dari = $this->request->getPost('dari');
-        $sampai = $this->request->getPost('sampai');
-        return view('agenda/cetak_sumber', compact('dari', 'sampai'));
+        $dari = $this->request->getVar('dari');
+        $sampai = $this->request->getVar('sampai');
+        $data = "Persiapan dan Perancanaan Pembelajaran";
+        if ($dari && $sampai) {
+            $column = ['hari', 'tanggal', 'jam', 'kegiatan'];
+            $model = new AgendaModel();
+            $row = $model->cetakDataBeetwen($dari, $sampai);
+            return view('laporan/cetak', compact('dari', 'sampai', 'column', 'row', 'data'));
+        } else {
+            $model = new AgendaModel();
+            $row = $model->getData();
+            $column = ['hari', 'tanggal', 'jam', 'kegiatan'];
+            return view('laporan/cetak', compact('column', 'row', 'data'));
+        }
     }
 }

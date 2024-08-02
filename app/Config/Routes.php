@@ -328,10 +328,17 @@ $routes->get('inovasi_guru/cetak', 'InovasiGuru::cetak');
 $routes->get('inovasi_guru/cetak_satuan/(:any)', 'InovasiGuru::cetakSatuan/$1');
 
 $routes->get('jadwal_kelas/report', 'JadwalKelas::report');
+$routes->get('jadwal_kelas/cetak', 'JadwalKelas::cetak');
+
 $routes->get('agenda/report', 'Agenda::report');
+$routes->get('agenda/cetak', 'Agenda::cetak');
+
 $routes->get('bimbingan_konseling/report', 'BimbinganKonseling::report');
+$routes->get('bimbingan_konseling/cetak', 'BimbinganKonseling::cetak');
+
 $routes->get('prestasi_siswa/report', 'PrestasiSiswa::report');
+$routes->get('prestasi_siswa/cetak', 'PrestasiSiswa::cetak');
+$routes->get('nilai_siswa', 'SiswaPerkelas::reportGuru');
 //raport siswa
-//nilai siswa untuk guru
 //profil
 $routes->get('/profil', 'Profil::index');

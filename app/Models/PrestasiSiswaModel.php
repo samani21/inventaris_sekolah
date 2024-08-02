@@ -21,4 +21,33 @@ class PrestasiSiswaModel extends Model
                 ->select('siswa.nama,siswa.nis,prestasi_siswa.*')->findAll();
         }
     }
+
+    public function cetakDataBeetwen($dari, $sampai)
+    {
+        return $this->join('siswa', 'siswa.id=prestasi_siswa.id_siswa')
+            ->select('siswa.nama,siswa.nis,prestasi_siswa.*')
+            ->where("prestasi_siswa.tanggal BETWEEN '$dari' AND '$sampai'")
+            ->findAll();
+    }
+
+    public function cetakDataBeetwenSiswa($dari, $sampai)
+    {
+        return $this->join('siswa', 'siswa.id=prestasi_siswa.id_siswa')
+            ->select('siswa.nama,siswa.nis,prestasi_siswa.*')
+            ->where("prestasi_siswa.tanggal BETWEEN '$dari' AND '$sampai'")
+            ->where('siswa.id', session()->get('id_siswa'))
+            ->findAll();
+    }
+
+    public function cetakDataPerSiswa()
+    {
+        return $this->join('siswa', 'siswa.id=prestasi_siswa.id_siswa')
+            ->select('siswa.nama,siswa.nis,prestasi_siswa.*')
+            ->where('siswa.id', session()->get('id_siswa'))->findAll();
+    }
+    public function cetakData()
+    {
+        return $this->join('siswa', 'siswa.id=prestasi_siswa.id_siswa')
+            ->select('siswa.nama,siswa.nis,prestasi_siswa.*')->findAll();
+    }
 }

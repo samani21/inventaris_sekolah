@@ -471,6 +471,34 @@ $results = $query->getResultArray();
                                     <span class="sub-item">Inovasi Guru</span>
                                 </a>
                             </li>
+                            <li class="<?php if ($hover == "Jadwal Kelas") {
+                                            echo 'active';
+                                        } ?>">
+                                <a href="<?= base_url('jadwal_kelas/report') ?>">
+                                    <span class="sub-item">Jadwal Kelas</span>
+                                </a>
+                            </li>
+                            <li class="<?php if ($hover == "Agenad") {
+                                            echo 'active';
+                                        } ?>">
+                                <a href="<?= base_url('agenda/report') ?>">
+                                    <span class="sub-item">Agenda</span>
+                                </a>
+                            </li>
+                            <li class="<?php if ($hover == "Bimbingan dan Konseling") {
+                                            echo 'active';
+                                        } ?>">
+                                <a href="<?= base_url('bimbingan_konseling/report') ?>">
+                                    <span class="sub-item">Bimbingan dan Konseling</span>
+                                </a>
+                            </li>
+                            <li class="<?php if ($hover == "Prestasi Siswa") {
+                                            echo 'active';
+                                        } ?>">
+                                <a href="<?= base_url('prestasi_siswa/report') ?>">
+                                    <span class="sub-item">Prestasi Siswa</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </li>

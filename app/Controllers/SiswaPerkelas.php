@@ -33,7 +33,7 @@ class SiswaPerkelas extends BaseController
             $hover = "Siswa " . $kelas;
             $model = new SiswaPerkelasModel();
             $page = 'siswa/' . $kelas . '/absen_nilai';
-            $column = ['nilai', 'kelas', 'mapel', 'materi', 'tanggal','jenis', 'tahun', 'semester'];
+            $column = ['nilai', 'kelas', 'mapel', 'materi', 'tanggal', 'jenis', 'tahun', 'semester'];
             $ceklist = 'hadir';
             $row = $model->getDataPersiswaHarian($namaKelas, $tanggal, $mapel, $this->idTahunAjaran);
             $hiddenEdit = true;
@@ -133,7 +133,8 @@ class SiswaPerkelas extends BaseController
             'id_tahun_ajaran' => $this->idTahunAjaran,
             'tanggal' => $tanggal,
             'hadir' => 1,
-            'id_mapel' => $idMapel['id']
+            'id_mapel' => $idMapel['id'],
+            'id_guru' => session()->get('id_guru')
         ]);
 
         session()->setFlashdata("success", "Berhasil update data");

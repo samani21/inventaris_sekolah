@@ -132,19 +132,58 @@ class PrestasiSiswa extends BaseController
         return redirect('prestasi_siswa');
     }
 
-    public function laporan_sumber()
+    public function report()
     {
-        $data = "Laporan Sumber Barang";
-        $hover = "Laporan Sumber Barang";
-        $dt = new BaranmasukModel();
-        $d_bmp = $dt->getPemerintah();
-        return view('prestasi_siswa/laporan_sumber', compact('data', 'hover', 'd_bmp'));
+        if (session()->get('level') == "Siswa") {
+            $data = "Prestasi Siswa";
+            $hover = "Prestasi Siswa";
+            $page = 'prestasi_siswa';
+            $model = new PrestasiSiswaModel();
+            $row = $model->getData();
+            $hiddenButtonAction = true;
+            $hiddenButtonAdd = true;
+            $column = ['tanggal', 'tingkat', 'pencapaian'];
+            return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'hiddenButtonAction', 'hiddenButtonAdd'));
+        } else {
+            $data = "Prestasi Siswa";
+            $hover = "Prestasi Siswa";
+            $page = 'prestasi_siswa';
+            $model = new PrestasiSiswaModel();
+            $row = $model->getData();
+            $column = ['nis', 'nama', 'tanggal', 'tingkat', 'pencapaian'];
+            return view('main/laporan', compact('data', 'hover', 'row', 'column', 'page'));
+        }
     }
 
-    public function cetak_sumber()
+    public function cetak()
     {
-        $dari = $this->request->getPost('dari');
-        $sampai = $this->request->getPost('sampai');
-        return view('prestasi_siswa/cetak_sumber', compact('dari', 'sampai'));
+        $dari = $this->request->getVar('dari');
+        $sampai = $this->request->getVar('sampai');
+        $data = "Prestasi Siswa";
+        if (session()->get('level') == "Siswa") {
+            if ($dari && $sampai) {
+                $column = ['tanggal', 'tingkat', 'pencapaian'];
+                $model = new PrestasiSiswaModel();
+                $row = $model->cetakDataBeetwen($dari, $sampai);
+                return view('laporan/cetak', compact('dari', 'sampai', 'column', 'row', 'data'));
+            } else {
+                $model = new PrestasiSiswaModel();
+                $row = $model->cetakDataPerSiswa();
+                $column = ['tanggal', 'tingkat', 'pencapaian'];
+                return view('laporan/cetak', compact('column', 'row', 'data'));
+            }
+        } else {
+            if ($dari && $sampai) {
+                $column = ['nis', 'nama', 'tanggal', 'tingkat', 'pencapaian'];
+                $model = new PrestasiSiswaModel();
+                $row = $model->cetakDataBeetwen($dari, $sampai);
+                return view('laporan/cetak', compact('dari', 'sampai', 'column', 'row', 'data'));
+            } else {
+                $model = new PrestasiSiswaModel();
+                $row = $model->cetakData();
+                $column = ['nis', 'nama', 'tanggal', 'tingkat', 'pencapaian'];
+                return view('laporan/cetak', compact('column', 'row', 'data'));
+            }
+        }
     }
 }

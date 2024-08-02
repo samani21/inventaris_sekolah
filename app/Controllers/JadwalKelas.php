@@ -201,19 +201,80 @@ class JadwalKelas extends BaseController
         return redirect('jadwal_kelas');
     }
 
-    public function laporan_sumber()
+    public function report()
     {
-        $data = "Laporan Jadwal kelas";
-        $hover = "Laporan Jadwal kelas";
-        $dt = new JadwalKelasModel();
-        $d_bmp = $dt->getPemerintah();
-        return view('jadwal_kelas/laporan_sumber', compact('data', 'hover', 'd_bmp'));
+        $hiddenBetween = true;
+        if (session()->get('level') == "Siswa") {
+            $data = "Jadwal Kelas";
+            $hover = "Jadwal Kelas";
+            $page = 'jadwal_kelas';
+            $model = new JadwalKelasModel();
+            $id_siswa = session()->get('id');
+            $row = $model->getDataPersiswa($id_siswa,  $this->idTahunAjaran);
+            $between = true;
+            $hiddenButtonAdd = true;
+            $hiddenButtonAction = true;
+            $column = ['hari', 'jam', 'nama_kelas', 'nama_mapel', 'nama_guru'];
+            return view('main/laporan', compact('data', 'hover', 'row', 'column', 'page', 'hiddenBetween'));
+        } else if (session()->get('level') == "Guru") {
+            $data = "Jadwal Kelas";
+            $hover = "Jadwal Kelas";
+            $page = 'jadwal_kelas';
+            $model = new JadwalKelasModel();
+            $id_guru = session()->get('id_guru');
+            $row = $model->getDataPerguru($id_guru,  $this->idTahunAjaran);
+            $between = true;
+            $hiddenButtonAdd = true;
+            $hiddenButtonAction = true;
+            $column = ['hari', 'jam', 'nama_kelas', 'nama_mapel'];
+            return view('main/laporan', compact('data', 'hover', 'row', 'column', 'page', 'hiddenBetween'));
+        } else {
+            $data = "Jadwal Kelas";
+            $hover = "Jadwal Kelas";
+            $page = 'jadwal_kelas';
+            $model = new JadwalKelasModel();
+            $row = $model->getData($this->idTahunAjaran);
+            $between = true;
+            $column = ['hari', 'jam', 'nama_kelas', 'nama_mapel', 'nama_guru'];
+            return view('main/laporan', compact('data', 'hover', 'row', 'column', 'page', 'hiddenBetween'));
+        }
     }
 
-    public function cetak_sumber()
+    public function cetak()
     {
-        $dari = $this->request->getPost('dari');
-        $sampai = $this->request->getPost('sampai');
-        return view('jadwal_kelas/cetak_sumber', compact('dari', 'sampai'));
+        if (session()->get('level') == "Siswa") {
+            $data = "Jadwal Kelas";
+            $hover = "Jadwal Kelas";
+            $page = 'jadwal_kelas';
+            $model = new JadwalKelasModel();
+            $id_siswa = session()->get('id');
+            $row = $model->getDataPersiswa($id_siswa,  $this->idTahunAjaran);
+            $between = true;
+            $hiddenButtonAdd = true;
+            $hiddenButtonAction = true;
+            $column = ['hari', 'jam', 'nama_kelas', 'nama_mapel', 'nama_guru'];
+            return view('laporan/cetak', compact('data', 'hover', 'row', 'column', 'page', 'hiddenButtonAction', 'hiddenButtonAdd'));
+        } else if (session()->get('level') == "Guru") {
+            $data = "Jadwal Kelas";
+            $hover = "Jadwal Kelas";
+            $page = 'jadwal_kelas';
+            $model = new JadwalKelasModel();
+            $id_guru = session()->get('id_guru');
+            $row = $model->getDataPerguru($id_guru,  $this->idTahunAjaran);
+            $between = true;
+            $hiddenButtonAdd = true;
+            $hiddenButtonAction = true;
+            $column = ['hari', 'jam', 'nama_kelas', 'nama_mapel', 'nama_guru'];
+            return view('laporan/cetak', compact('data', 'hover', 'row', 'column', 'page', 'hiddenButtonAction', 'hiddenButtonAdd'));
+        } else {
+            $data = "Jadwal Kelas";
+            $hover = "Jadwal Kelas";
+            $page = 'jadwal_kelas';
+            $model = new JadwalKelasModel();
+            $row = $model->getData($this->idTahunAjaran);
+            $between = true;
+            $column = ['hari', 'jam', 'nama_kelas', 'nama_mapel', 'nama_guru'];
+            return view('laporan/cetak', compact('data', 'hover', 'row', 'column', 'page'));
+        }
     }
 }

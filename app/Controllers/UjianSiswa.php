@@ -33,7 +33,7 @@ class UjianSiswa extends BaseController
             $hover = "Siswa " . $kelas;
             $model = new SiswaPerkelasModel();
             $page = 'siswa/' . $kelas . '/ujian';
-            $column = ['nilai_ujian', 'kelas', 'mapel','jenis', 'tahun', 'semester'];
+            $column = ['nilai_ujian', 'kelas', 'mapel', 'jenis', 'tahun', 'semester'];
             $ceklist = 'hadir';
             if (isset($tanggal) && isset($mapel)) {
                 $row = $model->getData($namaKelas, $tanggal, $mapel, $this->idTahunAjaran);
@@ -95,7 +95,8 @@ class UjianSiswa extends BaseController
             'id_tahun_ajaran' => $this->idTahunAjaran,
             'tanggal' => $tanggal,
             'hadir' => 1,
-            'id_mapel' => $idMapel['id']
+            'id_mapel' => $idMapel['id'],
+            'id_guru' => session()->get('id_guru')
         ]);
 
         session()->setFlashdata("success", "Berhasil update data");
