@@ -20,13 +20,63 @@ class PerancaanPersiapanPembelajaranModel extends Model
             ->select('guru.nama,guru.nip,perencanaan_persiapan_pembelajaran.*,users.level,mapel.nama_mapel,media.media')->findAll();
     }
 
+    public function cetakDataBeetwen($dari, $sampai)
+    {
+        return $this->join('guru', 'guru.id=perencanaan_persiapan_pembelajaran.id_guru')
+            ->join('users', 'users.id=guru.user_id')
+            ->join('mapel', 'mapel.id=perencanaan_persiapan_pembelajaran.id_mapel')
+            ->join('media', 'media.id=perencanaan_persiapan_pembelajaran.id_media')
+            ->select('guru.nama,guru.nip,perencanaan_persiapan_pembelajaran.*,users.level,mapel.nama_mapel,media.media')
+            ->where("perencanaan_persiapan_pembelajaran.tanggal BETWEEN '$dari' AND '$sampai'")
+            ->where('id_user_verifikasi >', 0)
+            ->where('id_user_verifikasi IS NOT NULL')
+            ->findAll();
+    }
+
+    public function cetakDataBeetwenGuru($dari, $sampai)
+    {
+        return $this->join('guru', 'guru.id=perencanaan_persiapan_pembelajaran.id_guru')
+            ->join('users', 'users.id=guru.user_id')
+            ->join('mapel', 'mapel.id=perencanaan_persiapan_pembelajaran.id_mapel')
+            ->join('media', 'media.id=perencanaan_persiapan_pembelajaran.id_media')
+            ->select('guru.nama,guru.nip,perencanaan_persiapan_pembelajaran.*,users.level,mapel.nama_mapel,media.media')
+            ->where("perencanaan_persiapan_pembelajaran.tanggal BETWEEN '$dari' AND '$sampai'")
+            ->where('id_user_verifikasi >', 0)
+            ->where('id_user_verifikasi IS NOT NULL')
+            ->where('guru.id', session()->get('id_guru'))
+            ->findAll();
+    }
+
+    public function cetakDataPerguru()
+    {
+        return $this->join('guru', 'guru.id=perencanaan_persiapan_pembelajaran.id_guru')
+            ->join('users', 'users.id=guru.user_id')
+            ->join('mapel', 'mapel.id=perencanaan_persiapan_pembelajaran.id_mapel')
+            ->join('media', 'media.id=perencanaan_persiapan_pembelajaran.id_media')
+            ->select('guru.nama,guru.nip,perencanaan_persiapan_pembelajaran.*,users.level,mapel.nama_mapel,media.media')
+            ->where('id_user_verifikasi >', 0)
+            ->where('id_user_verifikasi IS NOT NULL')
+            ->where('guru.id', session()->get('id_guru'))->findAll();
+    }
+    public function cetakData()
+    {
+        return $this->join('guru', 'guru.id=perencanaan_persiapan_pembelajaran.id_guru')
+            ->join('users', 'users.id=guru.user_id')
+            ->join('mapel', 'mapel.id=perencanaan_persiapan_pembelajaran.id_mapel')
+            ->join('media', 'media.id=perencanaan_persiapan_pembelajaran.id_media')
+            ->select('guru.nama,guru.nip,perencanaan_persiapan_pembelajaran.*,users.level,mapel.nama_mapel,media.media')
+            ->where('id_user_verifikasi >', 0)
+            ->where('id_user_verifikasi IS NOT NULL')->findAll();
+    }
+
     public function getDataPerguru()
     {
         return $this->join('guru', 'guru.id=perencanaan_persiapan_pembelajaran.id_guru')
             ->join('users', 'users.id=guru.user_id')
             ->join('mapel', 'mapel.id=perencanaan_persiapan_pembelajaran.id_mapel')
             ->join('media', 'media.id=perencanaan_persiapan_pembelajaran.id_media')
-            ->select('guru.nama,guru.nip,perencanaan_persiapan_pembelajaran.*,users.level,mapel.nama_mapel,media.media')->where('guru.id', session()->get('id_guru'))->findAll();
+            ->select('guru.nama,guru.nip,perencanaan_persiapan_pembelajaran.*,users.level,mapel.nama_mapel,media.media')
+            ->where('guru.id', session()->get('id_guru'))->findAll();
     }
 
     public function getChart()
@@ -38,5 +88,4 @@ class PerancaanPersiapanPembelajaranModel extends Model
             ->groupEnd()
             ->findAll();
     }
-
 }

@@ -19,9 +19,10 @@ class PelaksanaanPembelajaran  extends BaseController
             $page = 'pelaksanaan_pembelajaran';
             $model = new PelaksanaanPembelajaranModel();
             $row = $model->getDataPerguru();
-            $column = ['nama_mapel', 'materi', 'tanggal', 'metode', 'evaluasi'];
+            $column = ['nama_mapel', 'materi', 'tanggal', 'metode', 'evaluasi', 'foto/video'];
             $statusVerif = "id_user_verifikasi";
-            return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'statusVerif'));
+            $fotoVideo = true;
+            return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'statusVerif', 'fotoVideo'));
         } else if (session()->get('level') == "Kepala Sekolah") {
             $data = "Pelaksanaan Pembelajaran";
             $hover = "Pelaksanaan Pembelajaran";
@@ -31,17 +32,19 @@ class PelaksanaanPembelajaran  extends BaseController
             $hiddenButtonAdd = true;
             $hiddenButtonAction = true;
             $verif = true;
-            $column = ['nip', 'nama', 'nama_mapel', 'materi', 'tanggal', 'metode', 'evaluasi'];
-            return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'hiddenButtonAdd', 'hiddenButtonAction', 'verif'));
+            $column = ['nip', 'nama', 'nama_mapel', 'materi', 'tanggal', 'metode', 'evaluasi', 'foto/video'];
+            $fotoVideo = true;
+            return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'hiddenButtonAdd', 'hiddenButtonAction', 'verif', 'fotoVideo'));
         } else {
             $data = "Pelaksanaan Pembelajaran";
             $hover = "Pelaksanaan Pembelajaran";
             $page = 'pelaksanaan_pembelajaran';
             $model = new PelaksanaanPembelajaranModel();
             $row = $model->getData();
-            $column = ['nip', 'nama', 'nama_mapel', 'materi', 'tanggal', 'metode', 'evaluasi'];
+            $column = ['nip', 'nama', 'nama_mapel', 'materi', 'tanggal', 'metode', 'evaluasi', 'foto/video'];
             $statusVerif = "id_user_verifikasi";
-            return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'statusVerif'));
+            $fotoVideo = true;
+            return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'statusVerif', 'fotoVideo'));
         }
     }
 
@@ -58,6 +61,7 @@ class PelaksanaanPembelajaran  extends BaseController
                 ['type' => 'text', 'name' => 'materi'],
                 ['type' => 'date', 'name' => 'tanggal'],
                 ['type' => 'textArea', 'name' => 'evaluasi'],
+                ['type' => 'file', 'name' => 'foto/video'],
             ];
         } else {
             $form = [
@@ -67,6 +71,7 @@ class PelaksanaanPembelajaran  extends BaseController
                 ['type' => 'text', 'name' => 'materi'],
                 ['type' => 'date', 'name' => 'tanggal'],
                 ['type' => 'textArea', 'name' => 'evaluasi'],
+                ['type' => 'file', 'name' => 'foto/video'],
             ];
         }
         $column = ['nip', 'nama', 'ttl', 'level'];
@@ -106,6 +111,8 @@ class PelaksanaanPembelajaran  extends BaseController
     public function store()
     {
         $data = new PelaksanaanPembelajaranModel();
+        $dataBerkas = $this->request->getFile('foto/video');
+        $fileName = $dataBerkas->getRandomName();
         if (session()->get('level') == "Guru") {
             $data->insert([
                 'id_guru' => session()->get('id_guru'),
@@ -114,6 +121,7 @@ class PelaksanaanPembelajaran  extends BaseController
                 'tanggal' => $this->request->getPost('tanggal'),
                 'id_metode' => $this->request->getPost('id_metode'),
                 'evaluasi' => $this->request->getPost('evaluasi'),
+                'foto/video' => $fileName
             ]);
         } else {
             $data->insert([
@@ -123,8 +131,10 @@ class PelaksanaanPembelajaran  extends BaseController
                 'tanggal' => $this->request->getPost('tanggal'),
                 'id_metode' => $this->request->getPost('id_metode'),
                 'evaluasi' => $this->request->getPost('evaluasi'),
+                'foto/video' => $fileName
             ]);
         }
+        $dataBerkas->move('public/images', $fileName);
         session()->setFlashdata("success", "Berhasil Tambah data");
         return redirect('pelaksanaan_pembelajaran');
     }
@@ -144,6 +154,7 @@ class PelaksanaanPembelajaran  extends BaseController
                 ['type' => 'text', 'name' => 'materi'],
                 ['type' => 'date', 'name' => 'tanggal'],
                 ['type' => 'textArea', 'name' => 'evaluasi'],
+                ['type' => 'file', 'name' => 'foto/video'],
             ];
         } else {
             $form = [
@@ -153,6 +164,7 @@ class PelaksanaanPembelajaran  extends BaseController
                 ['type' => 'text', 'name' => 'materi'],
                 ['type' => 'date', 'name' => 'tanggal'],
                 ['type' => 'textArea', 'name' => 'evaluasi'],
+                ['type' => 'file', 'name' => 'foto/video'],
             ];
         }
         $dt = $model->join('guru', 'guru.id=pelaksanaan_pembelajaran.id_guru')
@@ -200,12 +212,26 @@ class PelaksanaanPembelajaran  extends BaseController
     public function update($id)
     {
         $data = new PelaksanaanPembelajaranModel();
-        $data->update($id, [
-            'materi' => $this->request->getPost('materi'),
-            'tanggal' => $this->request->getPost('tanggal'),
-            'id_metode' => $this->request->getPost('id_metode'),
-            'evaluasi' => $this->request->getPost('evaluasi'),
-        ]);
+        $foto = $this->request->getPost('foto/video');
+        $dataBerkas = $this->request->getFile('foto/video');
+        if ($dataBerkas == "") {
+            $data->update($id, [
+                'materi' => $this->request->getPost('materi'),
+                'tanggal' => $this->request->getPost('tanggal'),
+                'id_metode' => $this->request->getPost('id_metode'),
+                'evaluasi' => $this->request->getPost('evaluasi'),
+            ]);
+        } else {
+            $fileName = $dataBerkas->getRandomName();
+            $data->update($id, [
+                'materi' => $this->request->getPost('materi'),
+                'tanggal' => $this->request->getPost('tanggal'),
+                'id_metode' => $this->request->getPost('id_metode'),
+                'evaluasi' => $this->request->getPost('evaluasi'),
+                'foto/video' => $fileName,
+            ]);
+            $dataBerkas->move('public/images', $fileName);
+        }
         session()->setFlashdata("success", "Berhasil update data");
         return redirect('pelaksanaan_pembelajaran');
     }
@@ -220,6 +246,16 @@ class PelaksanaanPembelajaran  extends BaseController
         return redirect('pelaksanaan_pembelajaran');
     }
 
+    public function reject($id)
+    {
+        $data = new PelaksanaanPembelajaranModel();
+        $data->update($id, [
+            'id_user_verifikasi' => 0,
+        ]);
+        session()->setFlashdata("success", "Berhasil Verifikasi data");
+        return redirect('pelaksanaan_pembelajaran');
+    }
+
     public function delete($id)
     {
         $data = new PelaksanaanPembelajaranModel();
@@ -228,19 +264,89 @@ class PelaksanaanPembelajaran  extends BaseController
         return redirect('pelaksanaan_pembelajaran');
     }
 
-    // public function laporan_sumber()
-    // {
-    //     $data = "Laporan Sumber Barang";
-    //     $hover = "Laporan Sumber Barang";
-    //     $dt = new PelaksanaanPembelajaranModel();
-    //     $d_bmp = $dt->getPemerintah();
-    //     return view('pelaksanaan_pembelajaran/laporan_sumber', compact('data', 'hover', 'd_bmp'));
-    // }
+    public function report()
+    {
+        if (session()->get('level') == "Guru") {
+            $data = "Pelaksanaan Pembelajaran";
+            $hover = "Pelaksanaan Pembelajaran";
+            $page = 'pelaksanaan_pembelajaran';
+            $model = new PelaksanaanPembelajaranModel();
+            $row = $model->getDataPerguru();
+            $column = ['nama_mapel', 'materi', 'tanggal', 'metode', 'evaluasi', 'foto/video'];
+            $cetakData = true;
+            return view('main/laporan', compact('data', 'hover', 'row', 'column', 'page', 'cetakData'));
+        } else if (session()->get('level') == "Kepala Sekolah") {
+            $data = "Pelaksanaan Pembelajaran";
+            $hover = "Pelaksanaan Pembelajaran";
+            $page = 'pelaksanaan_pembelajaran';
+            $model = new PelaksanaanPembelajaranModel();
+            $row = $model->getData();
+            $column = ['nip', 'nama', 'nama_mapel', 'materi', 'tanggal', 'metode', 'evaluasi', 'foto/video'];
+            $cetakData = true;
+            return view('main/laporan', compact('data', 'hover', 'row', 'column', 'page', 'cetakData'));
+        } else {
+            $data = "Pelaksanaan Pembelajaran";
+            $hover = "Pelaksanaan Pembelajaran";
+            $page = 'pelaksanaan_pembelajaran';
+            $model = new PelaksanaanPembelajaranModel();
+            $row = $model->getData();
+            $column = ['nip', 'nama', 'nama_mapel', 'materi', 'tanggal', 'metode', 'evaluasi', 'foto/video'];
+            $cetakData = true;
+            return view('main/laporan', compact('data', 'hover', 'row', 'column', 'page', 'cetakData'));
+        }
+    }
 
-    // public function cetak_sumber()
-    // {
-    //     $dari = $this->request->getPost('dari');
-    //     $sampai = $this->request->getPost('sampai');
-    //     return view('pelaksanaan_pembelajaran/cetak_sumber', compact('dari', 'sampai'));
-    // }
+    public function cetak()
+    {
+        $dari = $this->request->getVar('dari');
+        $sampai = $this->request->getVar('sampai');
+        $data = "Pelaksanaan Pembelajaran";
+        if (session()->get('level') == "Guru") {
+            if ($dari && $sampai) {
+                $column = ['nama_mapel', 'materi', 'tanggal', 'metode', 'evaluasi'];
+                $model = new PelaksanaanPembelajaranModel();
+                $row = $model->cetakDataBeetwenGuru($dari, $sampai);
+                return view('laporan/cetak', compact('dari', 'sampai', 'column', 'row', 'data'));
+            } else {
+                $model = new PelaksanaanPembelajaranModel();
+                $row = $model->cetakDataPerguru();
+                $column = ['nama_mapel', 'materi', 'tanggal', 'metode', 'evaluasi'];
+                return view('laporan/cetak', compact('column', 'row', 'data'));
+            }
+        } else {
+            if ($dari && $sampai) {
+                $column = ['nip', 'nama', 'nama_mapel', 'materi', 'tanggal', 'metode', 'evaluasi', 'foto/video'];
+                $model = new PelaksanaanPembelajaranModel();
+                $row = $model->cetakDataBeetwen($dari, $sampai);
+                return view('laporan/cetak', compact('dari', 'sampai', 'column', 'row', 'data'));
+            } else {
+                $model = new PelaksanaanPembelajaranModel();
+                $row = $model->cetakData();
+                $column = ['nip', 'nama', 'nama_mapel', 'materi', 'tanggal', 'metode', 'evaluasi', 'foto/video'];
+                return view('laporan/cetak', compact('column', 'row', 'data'));
+            }
+        }
+    }
+
+    public function cetakSatuan($id)
+    {
+        $data = "Pelaksanaan Pembelajaran";
+        $column = ['nip', 'nama', 'nama_mapel', 'materi', 'tanggal', 'metode', 'evaluasi'];
+        $model = new PelaksanaanPembelajaranModel();
+        $row = $model->join('guru', 'guru.id=pelaksanaan_pembelajaran.id_guru')
+            ->join('users', 'users.id=guru.user_id')
+            ->join('mapel', 'mapel.id=pelaksanaan_pembelajaran.id_mapel')
+            ->join('metode', 'metode.id=pelaksanaan_pembelajaran.id_metode')
+            ->where([
+                'pelaksanaan_pembelajaran.id' => $id,
+            ])
+            ->select('guru.nama,guru.nip,pelaksanaan_pembelajaran.*,users.level,mapel.nama_mapel,metode')->first();
+        $ttd = $model->join('users', 'users.id=pelaksanaan_pembelajaran.id_user_verifikasi')
+            ->join('guru', 'guru.user_id=users.id')
+            ->where([
+                'pelaksanaan_pembelajaran.id' => $id,
+            ])
+            ->select('guru.nama,guru.nip')->first();
+        return view('laporan/cetakSatuan', compact('column', 'row', 'ttd', 'data'));
+    }
 }

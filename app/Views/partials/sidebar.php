@@ -271,7 +271,7 @@ $results = $query->getResultArray();
                 }
                 ?>
                 <?php
-                if (session()->get('level') == "Admin" || session()->get('level') == "Guru") {
+                if (session()->get('level') == "Admin" || session()->get('level') == "Guru" || session()->get('level') == "Siswa") {
                 ?>
                     <li class="nav-item">
                         <a data-bs-toggle="collapse" href="#kelas">
@@ -375,7 +375,7 @@ $results = $query->getResultArray();
                         </li>
                     <?php
                     }
-                    if (session()->get('level') == "Admin" || session()->get('level') == "Guru" || session()->get('level') == "Tata Usaha" || session()->get('level') == "Kepala Sekolah") {
+                    if (session()->get('level') == "Admin"  || session()->get('level') == "Tata Usaha" || session()->get('level') == "Kepala Sekolah") {
                     ?>
                         <li class="nav-item <?php if ($hover == 'Prestasi Guru') {
                                                 echo 'active';
@@ -385,6 +385,14 @@ $results = $query->getResultArray();
                                 <p>Prestasi Guru</p>
                             </a>
                         </li>
+                        <li class="nav-item <?php if ($hover == 'Kinerja Guru') {
+                                                echo 'active';
+                                            } ?>">
+                            <a href="<?= base_url('kinerja_guru') ?>">
+                                <i class="fa fa-user"></i>
+                                <p>Kinerja Guru</p>
+                            </a>
+                        </li>
                     <?php
                     }
                     ?>
@@ -392,25 +400,17 @@ $results = $query->getResultArray();
                 <?php
                 }
                 ?>
-                <li class="nav-item <?php if ($hover == 'Kinerja Guru') {
+                <li class="nav-item <?php if ($hover == 'Jadwal Kelas') {
                                         echo 'active';
                                     } ?>">
-                    <a href="<?= base_url('kinerja_guru') ?>">
-                        <i class="fa fa-user"></i>
-                        <p>Kinerja Guru</p>
+                    <a href="<?= base_url('jadwal_kelas') ?>">
+                        <i class="fa fa-clock"></i>
+                        <p>Jadwal kelas</p>
                     </a>
                 </li>
                 <?php
-                if (session()->get('level') == "Admin" || session()->get('level') == "Tata Usaha") {
+                if (session()->get('level') == "Admin" || session()->get('level') == "Guru" || session()->get('level') == "Kepala Sekolah" || session()->get('level') == "Tata Usaha") {
                 ?>
-                    <li class="nav-item <?php if ($hover == 'Jadwal Kelas') {
-                                            echo 'active';
-                                        } ?>">
-                        <a href="<?= base_url('jadwal_kelas') ?>">
-                            <i class="fa fa-clock"></i>
-                            <p>Jadwal kelas</p>
-                        </a>
-                    </li>
                     <li class="nav-item <?php if ($hover == 'Agenda') {
                                             echo 'active';
                                         } ?>">
@@ -429,6 +429,50 @@ $results = $query->getResultArray();
                         <i class="fa fa-graduation-cap" aria-hidden="true"></i>
                         <p>Sekolah</p>
                     </a>
+                </li>
+                <li class="nav-item 
+                <?php
+                if ($page == "sumber_barang" || $page == "barang_baik" || $page == "barang_rusak") {
+                    echo "active";
+                }
+                ?>">
+                    <a data-bs-toggle="collapse" href="#laporan">
+                        <i class="fa fa-info"></i>
+                        <p>Laporan</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse" id="laporan">
+                        <ul class="nav nav-collapse">
+                            <li class="<?php if ($hover == "Persiapan dan Perancanaan Pembelajaran") {
+                                            echo 'active';
+                                        } ?>">
+                                <a href="<?= base_url('perancaan_persiapan_pembelajaran/report') ?>">
+                                    <span class="sub-item">Persiapan dan Perancanaan Pembelajaran</span>
+                                </a>
+                            </li>
+                            <li class="<?php if ($hover == "Pelaksanaan Pembelajaran") {
+                                            echo 'active';
+                                        } ?>">
+                                <a href="<?= base_url('pelaksanaan_pembelajaran/report') ?>">
+                                    <span class="sub-item">Pelaksanaan Pembelajaran</span>
+                                </a>
+                            </li>
+                            <li class="<?php if ($hover == "Penilaian Guru") {
+                                            echo 'active';
+                                        } ?>">
+                                <a href="<?= base_url('penilaian_guru/report') ?>">
+                                    <span class="sub-item">Penilaian Guru</span>
+                                </a>
+                            </li>
+                            <li class="<?php if ($hover == "Inovasi Guru") {
+                                            echo 'active';
+                                        } ?>">
+                                <a href="<?= base_url('inovasi_guru/report') ?>">
+                                    <span class="sub-item">Inovasi Guru</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </li>
             </ul>
         </div>

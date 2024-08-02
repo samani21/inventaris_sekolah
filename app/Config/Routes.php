@@ -276,6 +276,7 @@ $routes->get('perancaan_persiapan_pembelajaran/tambah', 'PerancanaanPembelajaran
 $routes->post('perancaan_persiapan_pembelajaran/store', 'PerancanaanPembelajaranPersiapan::store');
 $routes->get('perancaan_persiapan_pembelajaran/edit/(:any)', 'PerancanaanPembelajaranPersiapan::edit/$1');
 $routes->get('verifikasi/perancaan_persiapan_pembelajaran/(:any)', 'PerancanaanPembelajaranPersiapan::verifikasi/$1');
+$routes->get('reject/perancaan_persiapan_pembelajaran/(:any)', 'PerancanaanPembelajaranPersiapan::reject/$1');
 $routes->post('perancaan_persiapan_pembelajaran/update/(:any)', 'PerancanaanPembelajaranPersiapan::update/$1');
 $routes->get('perancaan_persiapan_pembelajaran/delete/(:any)', 'PerancanaanPembelajaranPersiapan::delete/$1');
 
@@ -287,6 +288,7 @@ $routes->get('pelaksanaan_pembelajaran/edit/(:any)', 'PelaksanaanPembelajaran::e
 $routes->post('pelaksanaan_pembelajaran/update/(:any)', 'PelaksanaanPembelajaran::update/$1');
 $routes->get('pelaksanaan_pembelajaran/delete/(:any)', 'PelaksanaanPembelajaran::delete/$1');
 $routes->get('verifikasi/pelaksanaan_pembelajaran/(:any)', 'PelaksanaanPembelajaran::verifikasi/$1');
+$routes->get('reject/pelaksanaan_pembelajaran/(:any)', 'PelaksanaanPembelajaran::reject/$1');
 
 //Pelaksanaan pembelajaran
 $routes->get('penilaian_guru', 'SikapPrilakuKedisiplinan::index');
@@ -296,6 +298,7 @@ $routes->get('penilaian_guru/edit/(:any)', 'SikapPrilakuKedisiplinan::edit/$1');
 $routes->post('penilaian_guru/update/(:any)', 'SikapPrilakuKedisiplinan::update/$1');
 $routes->get('penilaian_guru/delete/(:any)', 'SikapPrilakuKedisiplinan::delete/$1');
 $routes->get('verifikasi/penilaian_guru/(:any)', 'SikapPrilakuKedisiplinan::verifikasi/$1');
+$routes->get('reject/penilaian_guru/(:any)', 'SikapPrilakuKedisiplinan::reject/$1');
 
 //Inovasi guru
 $routes->get('inovasi_guru', 'InovasiGuru::index');
@@ -305,6 +308,30 @@ $routes->get('inovasi_guru/edit/(:any)', 'InovasiGuru::edit/$1');
 $routes->post('inovasi_guru/update/(:any)', 'InovasiGuru::update/$1');
 $routes->get('inovasi_guru/delete/(:any)', 'InovasiGuru::delete/$1');
 $routes->get('verifikasi/inovasi_guru/(:any)', 'InovasiGuru::verifikasi/$1');
+$routes->get('reject/inovasi_guru/(:any)', 'InovasiGuru::reject/$1');
 
+//report
+$routes->get('perancaan_persiapan_pembelajaran/report', 'PerancanaanPembelajaranPersiapan::report');
+$routes->get('perancaan_persiapan_pembelajaran/cetak', 'PerancanaanPembelajaranPersiapan::cetak');
+$routes->get('perancaan_persiapan_pembelajaran/cetak_satuan/(:any)', 'PerancanaanPembelajaranPersiapan::cetakSatuan/$1');
+
+$routes->get('pelaksanaan_pembelajaran/report', 'PelaksanaanPembelajaran::report');
+$routes->get('pelaksanaan_pembelajaran/cetak', 'PelaksanaanPembelajaran::cetak');
+$routes->get('pelaksanaan_pembelajaran/cetak_satuan/(:any)', 'PelaksanaanPembelajaran::cetakSatuan/$1');
+
+$routes->get('penilaian_guru/report', 'SikapPrilakuKedisiplinan::report');
+$routes->get('penilaian_guru/cetak', 'SikapPrilakuKedisiplinan::cetak');
+$routes->get('penilaian_guru/cetak_satuan/(:any)', 'SikapPrilakuKedisiplinan::cetakSatuan/$1');
+
+$routes->get('inovasi_guru/report', 'InovasiGuru::report');
+$routes->get('inovasi_guru/cetak', 'InovasiGuru::cetak');
+$routes->get('inovasi_guru/cetak_satuan/(:any)', 'InovasiGuru::cetakSatuan/$1');
+
+$routes->get('jadwal_kelas/report', 'JadwalKelas::report');
+$routes->get('agenda/report', 'Agenda::report');
+$routes->get('bimbingan_konseling/report', 'BimbinganKonseling::report');
+$routes->get('prestasi_siswa/report', 'PrestasiSiswa::report');
+//raport siswa
+//nilai siswa untuk guru
 //profil
 $routes->get('/profil', 'Profil::index');

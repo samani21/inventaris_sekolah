@@ -173,6 +173,16 @@ class SikapPrilakuKedisiplinan extends BaseController
         return redirect('penilaian_guru');
     }
 
+    public function reject($id)
+    {
+        $data = new SikapPrilakuKedisiplinanModel();
+        $data->update($id, [
+            'id_user_verifikasi' => 0,
+        ]);
+        session()->setFlashdata("success", "Berhasil Verifikasi data");
+        return redirect('penilaian_guru');
+    }
+
 
     public function delete($id)
     {
@@ -182,19 +192,87 @@ class SikapPrilakuKedisiplinan extends BaseController
         return redirect('penilaian_guru');
     }
 
-    // public function laporan_sumber()
-    // {
-    //     $data = "Laporan Sumber Barang";
-    //     $hover = "Laporan Sumber Barang";
-    //     $dt = new SikapPrilakuKedisiplinanModel();
-    //     $d_bmp = $dt->getPemerintah();
-    //     return view('penilaian_guru/laporan_sumber', compact('data', 'hover', 'd_bmp'));
-    // }
+    public function report()
+    {
+        if (session()->get('level') == "Guru") {
+            $data = "Penilaian Guru";
+            $hover = "Penilaian Guru";
+            $page = 'penilaian_guru';
+            $model = new SikapPrilakuKedisiplinanModel();
+            $row = $model->getDataPerguru();
+            $column = ['tanggal', 'sikap', 'prilaku', 'kedisiplinan', 'masukkan'];
+            $cetakData = true;
+            return view('main/laporan', compact('data', 'hover', 'row', 'column', 'page', 'cetakData'));
+        } else if (session()->get('level') == "Kepala Sekolah") {
+            $data = "Penilaian Guru";
+            $hover = "Penilaian Guru";
+            $page = 'penilaian_guru';
+            $model = new SikapPrilakuKedisiplinanModel();
+            $row = $model->getData();
+            $column = ['nip', 'nama', 'tanggal', 'sikap', 'prilaku', 'kedisiplinan', 'masukkan'];
+            $cetakData = true;
+            return view('main/laporan', compact('data', 'hover', 'row', 'column', 'page', 'cetakData'));
+        } else {
+            $data = "Penilaian Guru";
+            $hover = "Penilaian Guru";
+            $page = 'penilaian_guru';
+            $model = new SikapPrilakuKedisiplinanModel();
+            $row = $model->getData();
+            $column = ['nip', 'nama', 'tanggal', 'sikap', 'prilaku', 'kedisiplinan', 'masukkan'];
+            $cetakData = true;
+            return view('main/laporan', compact('data', 'hover', 'row', 'column', 'page', 'cetakData'));
+        }
+    }
 
-    // public function cetak_sumber()
-    // {
-    //     $dari = $this->request->getPost('dari');
-    //     $sampai = $this->request->getPost('sampai');
-    //     return view('penilaian_guru/cetak_sumber', compact('dari', 'sampai'));
-    // }
+    public function cetak()
+    {
+        $dari = $this->request->getVar('dari');
+        $sampai = $this->request->getVar('sampai');
+        $data = "Penilaian Guru";
+        if (session()->get('level') == "Guru") {
+            if ($dari && $sampai) {
+                $column = ['tanggal', 'sikap', 'prilaku', 'kedisiplinan', 'masukkan'];
+                $model = new SikapPrilakuKedisiplinanModel();
+                $row = $model->cetakDataBeetwenGuru($dari, $sampai);
+                return view('laporan/cetak', compact('dari', 'sampai', 'column', 'row', 'data'));
+            } else {
+                $model = new SikapPrilakuKedisiplinanModel();
+                $row = $model->cetakDataPerguru();
+                $column = ['tanggal', 'sikap', 'prilaku', 'kedisiplinan', 'masukkan'];
+                return view('laporan/cetak', compact('column', 'row', 'data'));
+            }
+        } else {
+            if ($dari && $sampai) {
+                $column = ['nip', 'nama', 'tanggal', 'sikap', 'prilaku', 'kedisiplinan', 'masukkan'];
+                $model = new SikapPrilakuKedisiplinanModel();
+                $row = $model->cetakDataBeetwen($dari, $sampai);
+                return view('laporan/cetak', compact('dari', 'sampai', 'column', 'row', 'data'));
+            } else {
+                $model = new SikapPrilakuKedisiplinanModel();
+                $row = $model->cetakData();
+                $column = ['nip', 'nama', 'tanggal', 'sikap', 'prilaku', 'kedisiplinan', 'masukkan'];
+                return view('laporan/cetak', compact('column', 'row', 'data'));
+            }
+        }
+    }
+
+    public function cetakSatuan($id)
+    {
+        $data = "Penilaian Guru";
+        $column = ['nip', 'nama', 'tanggal', 'sikap', 'prilaku', 'kedisiplinan', 'masukkan'];
+        $model = new SikapPrilakuKedisiplinanModel();
+        $row = $model->join('guru', 'guru.id=sikap_perilaku_kedisiplinan.id_guru')
+            ->where([
+                'sikap_perilaku_kedisiplinan.id' => $id,
+            ])
+            ->select('guru.nama,guru.nip,sikap_perilaku_kedisiplinan.*')->first();
+
+        $ttd = $model->join('users', 'users.id=sikap_perilaku_kedisiplinan.id_user_verifikasi')
+            ->join('guru', 'guru.user_id=users.id')
+            ->where([
+                'sikap_perilaku_kedisiplinan.id' => $id,
+            ])
+            ->select('guru.nama,guru.nip')->first();
+        return view('laporan/cetakSatuan', compact('column', 'row', 'ttd', 'data'));
+    }
 }

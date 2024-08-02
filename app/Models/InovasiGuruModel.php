@@ -34,4 +34,45 @@ class InovasiGuruModel extends Model
             ->groupEnd()
             ->findAll();
     }
+
+    public function cetakDataBeetwen($dari, $sampai)
+    {
+        return $this->join('guru', 'guru.id=inovasi_guru.id_guru')
+            ->join('users', 'users.id=guru.user_id')
+            ->select('guru.nama,guru.nip,inovasi_guru.*,users.level')
+            ->where("inovasi_guru.tanggal BETWEEN '$dari' AND '$sampai'")
+            ->where('id_user_verifikasi >', 0)
+            ->where('id_user_verifikasi IS NOT NULL')
+            ->findAll();
+    }
+
+    public function cetakDataBeetwenGuru($dari, $sampai)
+    {
+        return $this->join('guru', 'guru.id=inovasi_guru.id_guru')
+            ->join('users', 'users.id=guru.user_id')
+            ->select('guru.nama,guru.nip,inovasi_guru.*,users.level')
+            ->where("inovasi_guru.tanggal BETWEEN '$dari' AND '$sampai'")
+            ->where('id_user_verifikasi >', 0)
+            ->where('id_user_verifikasi IS NOT NULL')
+            ->where('guru.id', session()->get('id_guru'))
+            ->findAll();
+    }
+
+    public function cetakDataPerguru()
+    {
+        return $this->join('guru', 'guru.id=inovasi_guru.id_guru')
+            ->join('users', 'users.id=guru.user_id')
+            ->select('guru.nama,guru.nip,inovasi_guru.*,users.level')
+            ->where('id_user_verifikasi >', 0)
+            ->where('id_user_verifikasi IS NOT NULL')
+            ->where('guru.id', session()->get('id_guru'))->findAll();
+    }
+    public function cetakData()
+    {
+        return $this->join('guru', 'guru.id=inovasi_guru.id_guru')
+            ->join('users', 'users.id=guru.user_id')
+            ->select('guru.nama,guru.nip,inovasi_guru.*,users.level')
+            ->where('id_user_verifikasi >', 0)
+            ->where('id_user_verifikasi IS NOT NULL')->findAll();
+    }
 }

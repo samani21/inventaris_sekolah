@@ -220,6 +220,16 @@ class PerancanaanPembelajaranPersiapan  extends BaseController
         return redirect('perancaan_persiapan_pembelajaran');
     }
 
+    public function reject($id)
+    {
+        $data = new PerancaanPersiapanPembelajaranModel();
+        $data->update($id, [
+            'id_user_verifikasi' => 0,
+        ]);
+        session()->setFlashdata("success", "Berhasil Reject data");
+        return redirect('perancaan_persiapan_pembelajaran');
+    }
+
     public function delete($id)
     {
         $data = new PerancaanPersiapanPembelajaranModel();
@@ -228,19 +238,89 @@ class PerancanaanPembelajaranPersiapan  extends BaseController
         return redirect('perancaan_persiapan_pembelajaran');
     }
 
-    // public function laporan_sumber()
-    // {
-    //     $data = "Laporan Sumber Barang";
-    //     $hover = "Laporan Sumber Barang";
-    //     $dt = new PerancaanPersiapanPembelajaranModel();
-    //     $d_bmp = $dt->getPemerintah();
-    //     return view('perancaan_persiapan_pembelajaran/laporan_sumber', compact('data', 'hover', 'd_bmp'));
-    // }
+    public function report()
+    {
+        if (session()->get('level') == "Guru") {
+            $data = "Persiapan dan Perancanaan Pembelajaran";
+            $hover = "Persiapan dan Perancanaan Pembelajaran";
+            $page = 'perancaan_persiapan_pembelajaran';
+            $model = new PerancaanPersiapanPembelajaranModel();
+            $row = $model->getDataPerguru();
+            $column = ['nama_mapel', 'materi', 'tanggal', 'media', 'tujuan'];
+            $cetakData = true;
+            return view('main/laporan', compact('data', 'hover', 'row', 'column', 'page', 'cetakData'));
+        } else if (session()->get('level') == "Kepala Sekolah") {
+            $data = "Persiapan dan Perancanaan Pembelajaran";
+            $hover = "Persiapan dan Perancanaan Pembelajaran";
+            $page = 'perancaan_persiapan_pembelajaran';
+            $model = new PerancaanPersiapanPembelajaranModel();
+            $row = $model->getData();
+            $column = ['nip', 'nama', 'nama_mapel', 'materi', 'tanggal', 'media', 'tujuan'];
+            $cetakData = true;
+            return view('main/laporan', compact('data', 'hover', 'row', 'column', 'page', 'cetakData'));
+        } else {
+            $data = "Persiapan dan Perancanaan Pembelajaran";
+            $hover = "Persiapan dan Perancanaan Pembelajaran";
+            $page = 'perancaan_persiapan_pembelajaran';
+            $model = new PerancaanPersiapanPembelajaranModel();
+            $row = $model->getData();
+            $column = ['nip', 'nama', 'nama_mapel', 'materi', 'tanggal', 'media', 'tujuan'];
+            $cetakData = true;
+            return view('main/laporan', compact('data', 'hover', 'row', 'column', 'page', 'cetakData'));
+        }
+    }
 
-    // public function cetak_sumber()
-    // {
-    //     $dari = $this->request->getPost('dari');
-    //     $sampai = $this->request->getPost('sampai');
-    //     return view('perancaan_persiapan_pembelajaran/cetak_sumber', compact('dari', 'sampai'));
-    // }
+    public function cetak()
+    {
+        $dari = $this->request->getVar('dari');
+        $sampai = $this->request->getVar('sampai');
+        $data = "Persiapan dan Perancanaan Pembelajaran";
+        if (session()->get('level') == "Guru") {
+            if ($dari && $sampai) {
+                $column = ['nama_mapel', 'materi', 'tanggal', 'media', 'tujuan'];
+                $model = new PerancaanPersiapanPembelajaranModel();
+                $row = $model->cetakDataBeetwenGuru($dari, $sampai);
+                return view('laporan/cetak', compact('dari', 'sampai', 'column', 'row', 'data'));
+            } else {
+                $model = new PerancaanPersiapanPembelajaranModel();
+                $row = $model->cetakDataPerguru();
+                $column = ['nama_mapel', 'materi', 'tanggal', 'media', 'tujuan'];
+                return view('laporan/cetak', compact('column', 'row', 'data'));
+            }
+        } else {
+            if ($dari && $sampai) {
+                $column = ['nip', 'nama', 'nama_mapel', 'materi', 'tanggal', 'media', 'tujuan'];
+                $model = new PerancaanPersiapanPembelajaranModel();
+                $row = $model->cetakDataBeetwen($dari, $sampai);
+                return view('laporan/cetak', compact('dari', 'sampai', 'column', 'row', 'data'));
+            } else {
+                $model = new PerancaanPersiapanPembelajaranModel();
+                $row = $model->cetakData();
+                $column = ['nip', 'nama', 'nama_mapel', 'materi', 'tanggal', 'media', 'tujuan'];
+                return view('laporan/cetak', compact('column', 'row', 'data'));
+            }
+        }
+    }
+
+    public function cetakSatuan($id)
+    {
+        $data = "Persiapan dan Perancanaan Pembelajaran";
+        $column = ['nip', 'nama', 'nama_mapel', 'materi', 'tanggal', 'media', 'tujuan'];
+        $model = new PerancaanPersiapanPembelajaranModel();
+        $row = $model->join('guru', 'guru.id=perencanaan_persiapan_pembelajaran.id_guru')
+            ->join('users', 'users.id=guru.user_id')
+            ->join('mapel', 'mapel.id=perencanaan_persiapan_pembelajaran.id_mapel')
+            ->join('media', 'media.id=perencanaan_persiapan_pembelajaran.id_media')
+            ->where([
+                'perencanaan_persiapan_pembelajaran.id' => $id,
+            ])
+            ->select('guru.nama,guru.nip,perencanaan_persiapan_pembelajaran.*,users.level,mapel.nama_mapel,media.media')->first();
+        $ttd = $model->join('users', 'users.id=perencanaan_persiapan_pembelajaran.id_user_verifikasi')
+            ->join('guru', 'guru.user_id=users.id')
+            ->where([
+                'perencanaan_persiapan_pembelajaran.id' => $id,
+            ])
+            ->select('guru.nama,guru.nip')->first();
+        return view('laporan/cetakSatuan', compact('column', 'row', 'ttd', 'data'));
+    }
 }

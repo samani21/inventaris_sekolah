@@ -187,6 +187,16 @@ class InovasiGuru extends BaseController
         return redirect('inovasi_guru');
     }
 
+    public function reject($id)
+    {
+        $data = new InovasiGuruModel();
+        $data->update($id, [
+            'id_user_verifikasi' => 0,
+        ]);
+        session()->setFlashdata("success", "Berhasil Verifikasi data");
+        return redirect('inovasi_guru');
+    }
+
     public function delete($id)
     {
         $data = new InovasiGuruModel();
@@ -195,19 +205,86 @@ class InovasiGuru extends BaseController
         return redirect('inovasi_guru');
     }
 
-    // public function laporan_sumber()
-    // {
-    //     $data = "Laporan Sumber Barang";
-    //     $hover = "Laporan Sumber Barang";
-    //     $dt = new InovasiGuruModel();
-    //     $d_bmp = $dt->getPemerintah();
-    //     return view('inovasi_guru/laporan_sumber', compact('data', 'hover', 'd_bmp'));
-    // }
+    public function report()
+    {
+        if (session()->get('level') == "Guru") {
+            $data = "Inovasi Guru";
+            $hover = "Inovasi Guru";
+            $page = 'inovasi_guru';
+            $model = new InovasiGuruModel();
+            $row = $model->getDataPerguru();
+            $column = ['tanggal', 'inovasi', 'kreativitas', 'kreativitas', 'profesionalisme', 'masukkan'];
+            $cetakData = true;
+            return view('main/laporan', compact('data', 'hover', 'row', 'column', 'page', 'cetakData'));
+        } else if (session()->get('level') == "Kepala Sekolah") {
+            $data = "Inovasi Guru";
+            $hover = "Inovasi Guru";
+            $page = 'inovasi_guru';
+            $model = new InovasiGuruModel();
+            $row = $model->getData();
+            $column = ['nip', 'nama', 'tanggal', 'inovasi', 'kreativitas', 'kreativitas', 'profesionalisme', 'masukkan'];
+            $cetakData = true;
+            return view('main/laporan', compact('data', 'hover', 'row', 'column', 'page', 'cetakData'));
+        } else {
+            $data = "Inovasi Guru";
+            $hover = "Inovasi Guru";
+            $page = 'inovasi_guru';
+            $model = new InovasiGuruModel();
+            $row = $model->getData();
+            $column = ['nip', 'nama', 'tanggal', 'inovasi', 'kreativitas', 'kreativitas', 'profesionalisme', 'masukkan'];
+            $cetakData = true;
+            return view('main/laporan', compact('data', 'hover', 'row', 'column', 'page', 'cetakData'));
+        }
+    }
 
-    // public function cetak_sumber()
-    // {
-    //     $dari = $this->request->getPost('dari');
-    //     $sampai = $this->request->getPost('sampai');
-    //     return view('inovasi_guru/cetak_sumber', compact('dari', 'sampai'));
-    // }
+    public function cetak()
+    {
+        $dari = $this->request->getVar('dari');
+        $sampai = $this->request->getVar('sampai');
+        $data = "Inovasi Guru";
+        if (session()->get('level') == "Guru") {
+            if ($dari && $sampai) {
+                $column = ['tanggal', 'inovasi', 'kreativitas', 'kreativitas', 'profesionalisme', 'masukkan'];
+                $model = new InovasiGuruModel();
+                $row = $model->cetakDataBeetwenGuru($dari, $sampai);
+                return view('laporan/cetak', compact('dari', 'sampai', 'column', 'row', 'data'));
+            } else {
+                $model = new InovasiGuruModel();
+                $row = $model->cetakDataPerguru();
+                $column = ['tanggal', 'inovasi', 'kreativitas', 'kreativitas', 'profesionalisme', 'masukkan'];
+                return view('laporan/cetak', compact('column', 'row', 'data'));
+            }
+        } else {
+            if ($dari && $sampai) {
+                $column = ['nip', 'nama', 'tanggal', 'inovasi', 'kreativitas', 'kreativitas', 'profesionalisme', 'masukkan'];
+                $model = new InovasiGuruModel();
+                $row = $model->cetakDataBeetwen($dari, $sampai);
+                return view('laporan/cetak', compact('dari', 'sampai', 'column', 'row', 'data'));
+            } else {
+                $model = new InovasiGuruModel();
+                $row = $model->cetakData();
+                $column = ['nip', 'nama', 'tanggal', 'inovasi', 'kreativitas', 'kreativitas', 'profesionalisme', 'masukkan'];
+                return view('laporan/cetak', compact('column', 'row', 'data'));
+            }
+        }
+    }
+
+    public function cetakSatuan($id)
+    {
+        $data = "Inovasi Guru";
+        $column = ['nip', 'nama', 'tanggal', 'inovasi', 'kreativitas', 'kreativitas', 'profesionalisme', 'masukkan'];
+        $model = new InovasiGuruModel();
+        $row = $model->join('guru', 'guru.id=inovasi_guru.id_guru')
+            ->where([
+                'inovasi_guru.id' => $id,
+            ])
+            ->select('guru.nama,guru.nip,inovasi_guru.*')->first();
+        $ttd = $model->join('users', 'users.id=inovasi_guru.id_user_verifikasi')
+            ->join('guru', 'guru.user_id=users.id')
+            ->where([
+                'inovasi_guru.id' => $id,
+            ])
+            ->select('guru.nama,guru.nip')->first();
+        return view('laporan/cetakSatuan', compact('column', 'row', 'ttd', 'data'));
+    }
 }
