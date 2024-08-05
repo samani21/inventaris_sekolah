@@ -338,8 +338,14 @@ $routes->get('bimbingan_konseling/cetak', 'BimbinganKonseling::cetak');
 
 $routes->get('prestasi_siswa/report', 'PrestasiSiswa::report');
 $routes->get('prestasi_siswa/cetak', 'PrestasiSiswa::cetak');
+
 $routes->get('nilai_siswa/report', 'SiswaPerkelas::reportGuru');
 $routes->get('nilai_siswa/cetak', 'SiswaPerkelas::cetakGuru');
-//raport siswa
+
+$routes->get('ekskul_siswa/report', 'EkstrakurikulerSiswa::reportGuru');
+$routes->get('ekskul_siswa/cetak', 'EkstrakurikulerSiswa::cetakGuru');
+
+$routes->get('raport_siswa/report', 'SiswaPerkelas::reportSiswa');
+$routes->get('raport_siswa/cetak_satuan/(:any)', 'SiswaPerkelas::cetakSiswa/$1');
 //profil
 $routes->get('/profil', 'Profil::index');

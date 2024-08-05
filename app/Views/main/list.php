@@ -487,6 +487,29 @@ function convertColumnName($columnName)
                                                 ?>
                                             </td>
                                         <?php
+                                        } else  if (isset($statusVerif)) {
+                                        ?>
+                                            <td>
+                                                <?php
+                                                if ($r['id_user_verifikasi'] > 1) {
+                                                ?>
+                                                    <span class="badge badge-success">Verifikasi</span>
+                                                    <?php
+                                                } else {
+                                                    if ($r['id_user_verifikasi'] === NULL) {
+                                                    ?>
+                                                        <span class="badge badge-warning">Proses</span>
+                                                    <?php
+                                                    } else {
+                                                    ?>
+                                                        <span class="badge badge-danger">Reject</span>
+                                                <?php
+                                                    }
+                                                }
+                                                ?>
+                                            </td>
+                                        <?php
+                                        } else {
                                         }
                                     } else {
                                         ?>
@@ -534,8 +557,13 @@ function convertColumnName($columnName)
                                                     <a href=" <?= base_url($page . '/edit/' . $r['id']) ?>" style="padding: 4px;" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i></i></a>
                                                 <?php
                                                 }
+                                                if (!isset($hiddenDelete)) {
                                                 ?>
-                                                <a href="<?= base_url($page . '/delete/' . $r['id']) ?>" style="padding: 4px;" data-bs-toggle="tooltip" title="" class="btn btn-link btn-danger delete-button" data-id="<?= $r['id'] ?>" data-original-title="Remove"> <i class="fa fa-times"></i></a>
+
+                                                    <a href="<?= base_url($page . '/delete/' . $r['id']) ?>" style="padding: 4px;" data-bs-toggle="tooltip" title="" class="btn btn-link btn-danger delete-button" data-id="<?= $r['id'] ?>" data-original-title="Remove"> <i class="fa fa-times"></i></a>
+                                                <?php
+                                                }
+                                                ?>
 
                                             </td>
                                         <?php
@@ -564,6 +592,7 @@ function convertColumnName($columnName)
                                         <?php
                                         }
                                         ?>
+
                                 </tr>
                         <?php
                                     }

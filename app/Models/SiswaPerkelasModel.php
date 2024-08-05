@@ -114,24 +114,29 @@ class SiswaPerkelasModel extends Model
     public function getDataPersiswaHarian($kelas, $tanggal, $mapel, $tahunajaran)
     {
         $db = \Config\Database::connect();
-        $query = $db->query("SELECT 
-        siswa.nama,kelas.nama_kelas as kelas,
-        mapel.nama_mapel as mapel,
-        COALESCE(nilai.nilai, protofolio_proyek.nilai) AS nilai,
-        COALESCE(nilai.materi, protofolio_proyek.deskripsi) AS materi,
-        tahun_ajaran.tahun,
-        tahun_ajaran.semester,
-        COALESCE(nilai.jenis,'Protofolio dan Proyek') AS jenis,
-        absen_siswa.tanggal 
-        FROM `absen_siswa` 
-        JOIN siswa_perkelas ON siswa_perkelas.id = absen_siswa.id_siswa_perkelas 
-        JOIN siswa ON siswa.id = siswa_perkelas.id_siswa 
-        JOIN mapel ON mapel.id = absen_siswa.id_mapel 
-        JOIN kelas ON kelas.id = siswa_perkelas.id_kelas 
-        JOIN tahun_ajaran ON tahun_ajaran.id = absen_siswa.id_tahun_ajaran 
-        LEFT JOIN nilai ON nilai.id_absen_siswa = absen_siswa.id 
-        left JOIN protofolio_proyek ON protofolio_proyek.id_absen_siswa = absen_siswa.id 
-        WHERE kelas.nama_kelas = '" . $kelas . "' AND siswa.id = '" . session()->get('id_siswa') . "' AND nilai.id IS NOT null OR protofolio_proyek.id IS NOT null");
+        $query = $db->query("
+            SELECT 
+                siswa.nama,
+                kelas.nama_kelas AS kelas,
+                mapel.nama_mapel AS mapel,
+                COALESCE(nilai.nilai, protofolio_proyek.nilai) AS nilai,
+                COALESCE(nilai.materi, protofolio_proyek.deskripsi) AS materi,
+                tahun_ajaran.tahun,
+                tahun_ajaran.semester,
+                COALESCE(nilai.jenis, 'Protofolio dan Proyek') AS jenis,
+                COALESCE(nilai.tanggal, protofolio_proyek.tanggal) AS tanggal
+            FROM absen_siswa
+            JOIN siswa_perkelas ON siswa_perkelas.id = absen_siswa.id_siswa_perkelas
+            JOIN siswa ON siswa.id = siswa_perkelas.id_siswa
+            JOIN mapel ON mapel.id = absen_siswa.id_mapel
+            JOIN kelas ON kelas.id = siswa_perkelas.id_kelas
+            JOIN tahun_ajaran ON tahun_ajaran.id = absen_siswa.id_tahun_ajaran
+            LEFT JOIN nilai ON nilai.id_absen_siswa = absen_siswa.id
+            LEFT JOIN protofolio_proyek ON protofolio_proyek.id_absen_siswa = absen_siswa.id
+            WHERE kelas.nama_kelas = ? 
+            AND siswa.id = ? 
+            AND (nilai.id IS NOT NULL OR protofolio_proyek.id IS NOT NULL)
+        ", [$kelas, session()->get('id_siswa')]);
 
         //     $query = $db->query("SELECT 
         //     siswa.id AS siswa_id, 
@@ -209,5 +214,26 @@ class SiswaPerkelasModel extends Model
 
 
         return $query->getResultArray();
+    }
+
+    public function reportSiswa()
+    {
+        return $this->join('siswa', 'siswa.id = siswa_perkelas.id_siswa')
+            ->join('kelas', 'kelas.id = siswa_perkelas.id_kelas')
+            ->join('tahun_ajaran', 'tahun_ajaran.id = siswa_perkelas.id_tahun_ajaran')
+            ->select('nis,siswa.nama,kelas.nama_kelas as kelas,tahun,semester,siswa_perkelas.id')
+            ->orderBy('kelas.nama_kelas,siswa.nis', 'asc')
+            ->orderBy('tahun_ajaran.semester,tahun_ajaran.tahun', 'desc')->findAll();
+    }
+
+    public function reportPersiswa()
+    {
+        return $this->join('siswa', 'siswa.id = siswa_perkelas.id_siswa')
+            ->join('kelas', 'kelas.id = siswa_perkelas.id_kelas')
+            ->join('tahun_ajaran', 'tahun_ajaran.id = siswa_perkelas.id_tahun_ajaran')
+            ->select('nis,siswa.nama,kelas.nama_kelas as kelas,tahun,semester,siswa_perkelas.id')
+            ->where('siswa.id', session()->get('id_siswa'))
+            ->orderBy('kelas.nama_kelas,siswa.nis', 'asc')
+            ->orderBy('tahun_ajaran.semester,tahun_ajaran.tahun', 'desc')->findAll();
     }
 }

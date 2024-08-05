@@ -143,7 +143,7 @@ class PrestasiSiswa extends BaseController
             $hiddenButtonAction = true;
             $hiddenButtonAdd = true;
             $column = ['tanggal', 'tingkat', 'pencapaian'];
-            return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'hiddenButtonAction', 'hiddenButtonAdd'));
+            return view('main/laporan', compact('data', 'hover', 'row', 'column', 'page', 'hiddenButtonAction', 'hiddenButtonAdd'));
         } else {
             $data = "Prestasi Siswa";
             $hover = "Prestasi Siswa";
@@ -164,7 +164,7 @@ class PrestasiSiswa extends BaseController
             if ($dari && $sampai) {
                 $column = ['tanggal', 'tingkat', 'pencapaian'];
                 $model = new PrestasiSiswaModel();
-                $row = $model->cetakDataBeetwen($dari, $sampai);
+                $row = $model->cetakDataBeetwenSiswa($dari, $sampai);
                 return view('laporan/cetak', compact('dari', 'sampai', 'column', 'row', 'data'));
             } else {
                 $model = new PrestasiSiswaModel();

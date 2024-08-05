@@ -24,7 +24,7 @@ function convertColumnName($columnName)
                 <?php
                 if (isset($hiddenBetween)) {
                 ?>
-                    <a href=" <?= base_url($page . '/cetak') ?>" class="btn btn-success">Cetak</a>
+                    <a href="<?= base_url($page . '/cetak') ?>" class="btn btn-success">Cetak</a>
                 <?php
                 } else {
                 ?>
@@ -62,6 +62,11 @@ function convertColumnName($columnName)
                             ?>
                                 <th>Cetak</th>
                             <?php
+                            } else
+                            if (isset($cetakRaport)) {
+                            ?>
+                                <th>Cetak</th>
+                            <?php
                             }
                             ?>
                         </tr>
@@ -76,6 +81,11 @@ function convertColumnName($columnName)
                             <?php
                             }
                             if (isset($cetakData)) {
+                            ?>
+                                <th>Cetak</th>
+                            <?php
+                            } else
+                            if (isset($cetakRaport)) {
                             ?>
                                 <th>Cetak</th>
                             <?php
@@ -143,8 +153,14 @@ function convertColumnName($columnName)
                                     } else {
                                     ?>
                                         <td></td>
-                                <?php
+                                    <?php
                                     }
+                                } else if (isset($cetakRaport)) {
+                                    ?>
+                                    <td>
+                                        <a href="<?= base_url($page . '/cetak_satuan/' . $r['id']) ?>" class="btn btn-warning">Cetak</a>
+                                    </td>
+                                <?php
                                 }
                                 ?>
                             </tr>

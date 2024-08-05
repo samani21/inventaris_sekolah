@@ -92,4 +92,52 @@ class EkstrakurikulerSiswa extends BaseController
         session()->setFlashdata("success", "Berhasil hapus data");
         return redirect()->back();
     }
+
+    public function reportGuru()
+    {
+        $data = "Ekstrakurikuler";
+        $hover = "Ekstrakurikuler";
+        $page = 'ekskul_siswa';
+        if (session()->get('level') == "Siswa") {
+            $model = new EkstrakurikulerSiswaModel();
+            $row = $model->reportDataPersiswa();
+        } else {
+            $model = new EkstrakurikulerSiswaModel();
+            $row = $model->getData();
+        }
+        $column = ['nis', 'nama', 'kegiatan', 'tanggal_bergabung'];
+        return view('main/laporan', compact('data', 'hover', 'row', 'column', 'page'));
+    }
+
+    public function cetakGuru()
+    {
+        $dari = $this->request->getVar('dari');
+        $sampai = $this->request->getVar('sampai');
+        $data = "Ekstrakurikuler";
+        if (session()->get('level') == "Siswa") {
+            if ($dari && $sampai) {
+                $column = ['nis', 'nama', 'kegiatan', 'tanggal_bergabung'];
+                $model = new EkstrakurikulerSiswaModel();
+                $row = $model->cetakBetweenPersiswa($dari, $sampai);
+                return view('laporan/cetak', compact('dari', 'sampai', 'column', 'row', 'data'));
+            } else {
+                $model = new EkstrakurikulerSiswaModel();
+                $row = $model->cetakDatapersiswa();
+                $column = ['nis', 'nama', 'kegiatan', 'tanggal_bergabung'];
+                return view('laporan/cetak', compact('column', 'row', 'data'));
+            }
+        } else {
+            if ($dari && $sampai) {
+                $column = ['nis', 'nama', 'kegiatan', 'tanggal_bergabung'];
+                $model = new EkstrakurikulerSiswaModel();
+                $row = $model->cetakBetween($dari, $sampai);
+                return view('laporan/cetak', compact('dari', 'sampai', 'column', 'row', 'data'));
+            } else {
+                $model = new EkstrakurikulerSiswaModel();
+                $row = $model->getData();
+                $column = ['nis', 'nama', 'kegiatan', 'tanggal_bergabung'];
+                return view('laporan/cetak', compact('column', 'row', 'data'));
+            }
+        }
+    }
 }

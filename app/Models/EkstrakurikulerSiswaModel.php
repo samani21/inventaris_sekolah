@@ -13,7 +13,42 @@ class EkstrakurikulerSiswaModel extends Model
 
     public function getData()
     {
-        return $this->findAll();
+        return $this->join('ekskul', 'ekskul.id=ekskul_siswa.id_ekskul')
+            ->join('siswa', 'siswa.id=ekskul_siswa.id_siswa')
+            ->select('kegiatan,ekskul_siswa.*,siswa.nis,siswa.nama')->findAll();
+    }
+
+    public function reportDataPersiswa()
+    {
+        return $this->join('ekskul', 'ekskul.id=ekskul_siswa.id_ekskul')
+            ->join('siswa', 'siswa.id=ekskul_siswa.id_siswa')
+            ->where('id_siswa', session()->get('id_siswa'))
+            ->select('kegiatan,ekskul_siswa.*,siswa.nis,siswa.nama')->findAll();
+    }
+
+    public function cetakBetween($dari, $sampai)
+    {
+        return $this->join('ekskul', 'ekskul.id=ekskul_siswa.id_ekskul')
+            ->join('siswa', 'siswa.id=ekskul_siswa.id_siswa')
+            ->select('kegiatan,ekskul_siswa.*,siswa.nis,siswa.nama')
+            ->where("tanggal_bergabung BETWEEN '$dari' AND '$sampai'")->findAll();
+    }
+
+    public function cetakDatapersiswa()
+    {
+        return $this->join('ekskul', 'ekskul.id=ekskul_siswa.id_ekskul')
+            ->join('siswa', 'siswa.id=ekskul_siswa.id_siswa')
+            ->select('kegiatan,ekskul_siswa.*,siswa.nis,siswa.nama')
+            ->where('id_siswa', session()->get('id_siswa'))->findAll();
+    }
+
+    public function cetakBetweenpersiswa($dari, $sampai)
+    {
+        return $this->join('ekskul', 'ekskul.id=ekskul_siswa.id_ekskul')
+            ->join('siswa', 'siswa.id=ekskul_siswa.id_siswa')
+            ->select('kegiatan,ekskul_siswa.*,siswa.nis,siswa.nama')
+            ->where('id_siswa', session()->get('id_siswa'))
+            ->where("tanggal_bergabung BETWEEN '$dari' AND '$sampai'")->findAll();
     }
 
     public function getDataPersiswa($kegiatan)

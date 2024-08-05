@@ -14,11 +14,13 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class JadwalKelas extends BaseController
 {
+    protected $tahunajaran;
     protected $idTahunAjaran;
     public function __construct()
     {
         $model = new TahunAjaranModel();
         $tahunAjaran = $model->where('aktif', 1)->first();
+        $this->tahunajaran = $tahunAjaran['tahun'];
         $this->idTahunAjaran = $tahunAjaran['id'];
     }
     public function index()
@@ -29,7 +31,7 @@ class JadwalKelas extends BaseController
             $page = 'jadwal_kelas';
             $model = new JadwalKelasModel();
             $id_siswa = session()->get('id');
-            $row = $model->getDataPersiswa($id_siswa,  $this->idTahunAjaran);
+            $row = $model->getDataPersiswa($id_siswa,  $this->tahunajaran);
             $between = true;
             $hiddenButtonAdd = true;
             $hiddenButtonAction = true;
@@ -41,7 +43,7 @@ class JadwalKelas extends BaseController
             $page = 'jadwal_kelas';
             $model = new JadwalKelasModel();
             $id_guru = session()->get('id_guru');
-            $row = $model->getDataPerguru($id_guru,  $this->idTahunAjaran);
+            $row = $model->getDataPerguru($id_guru,  $this->tahunajaran);
             $between = true;
             $hiddenButtonAdd = true;
             $hiddenButtonAction = true;
@@ -52,7 +54,7 @@ class JadwalKelas extends BaseController
             $hover = "Jadwal Kelas";
             $page = 'jadwal_kelas';
             $model = new JadwalKelasModel();
-            $row = $model->getData($this->idTahunAjaran);
+            $row = $model->getData($this->tahunajaran);
             $between = true;
             $column = ['hari', 'jam', 'nama_kelas', 'nama_mapel', 'nama_guru'];
             return view('main/list', compact('data', 'hover', 'row', 'column', 'page'));
@@ -210,7 +212,7 @@ class JadwalKelas extends BaseController
             $page = 'jadwal_kelas';
             $model = new JadwalKelasModel();
             $id_siswa = session()->get('id');
-            $row = $model->getDataPersiswa($id_siswa,  $this->idTahunAjaran);
+            $row = $model->getDataPersiswa($id_siswa,  $this->tahunajaran);
             $between = true;
             $hiddenButtonAdd = true;
             $hiddenButtonAction = true;
@@ -222,7 +224,7 @@ class JadwalKelas extends BaseController
             $page = 'jadwal_kelas';
             $model = new JadwalKelasModel();
             $id_guru = session()->get('id_guru');
-            $row = $model->getDataPerguru($id_guru,  $this->idTahunAjaran);
+            $row = $model->getDataPerguru($id_guru,  $this->tahunajaran);
             $between = true;
             $hiddenButtonAdd = true;
             $hiddenButtonAction = true;
@@ -233,7 +235,7 @@ class JadwalKelas extends BaseController
             $hover = "Jadwal Kelas";
             $page = 'jadwal_kelas';
             $model = new JadwalKelasModel();
-            $row = $model->getData($this->idTahunAjaran);
+            $row = $model->getData($this->tahunajaran);
             $between = true;
             $column = ['hari', 'jam', 'nama_kelas', 'nama_mapel', 'nama_guru'];
             return view('main/laporan', compact('data', 'hover', 'row', 'column', 'page', 'hiddenBetween'));
@@ -248,7 +250,7 @@ class JadwalKelas extends BaseController
             $page = 'jadwal_kelas';
             $model = new JadwalKelasModel();
             $id_siswa = session()->get('id');
-            $row = $model->getDataPersiswa($id_siswa,  $this->idTahunAjaran);
+            $row = $model->getDataPersiswa($id_siswa,  $this->tahunajaran);
             $between = true;
             $hiddenButtonAdd = true;
             $hiddenButtonAction = true;
@@ -260,7 +262,7 @@ class JadwalKelas extends BaseController
             $page = 'jadwal_kelas';
             $model = new JadwalKelasModel();
             $id_guru = session()->get('id_guru');
-            $row = $model->getDataPerguru($id_guru,  $this->idTahunAjaran);
+            $row = $model->getDataPerguru($id_guru,  $this->tahunajaran);
             $between = true;
             $hiddenButtonAdd = true;
             $hiddenButtonAction = true;
@@ -271,7 +273,7 @@ class JadwalKelas extends BaseController
             $hover = "Jadwal Kelas";
             $page = 'jadwal_kelas';
             $model = new JadwalKelasModel();
-            $row = $model->getData($this->idTahunAjaran);
+            $row = $model->getData($this->tahunajaran);
             $between = true;
             $column = ['hari', 'jam', 'nama_kelas', 'nama_mapel', 'nama_guru'];
             return view('laporan/cetak', compact('data', 'hover', 'row', 'column', 'page'));

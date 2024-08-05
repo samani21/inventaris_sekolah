@@ -128,15 +128,15 @@ class BimbinganKonseling extends BaseController
     public function report()
     {
         if (session()->get('level') == "Siswa") {
-            $data = "Bimbingan dan Konseling";
-            $hover = "Bimbingan dan Konseling";
+            $data = "Bimbingan dan Konseling Siswa";
+            $hover = "Bimbingan dan Konseling Siswa";
             $page = 'bimbingan_konseling';
             $model = new BimbinganKonselingModel();
             $row = $model->getData();
             $hiddenButtonAction = true;
             $hiddenButtonAdd = true;
             $column = ['tanggal', 'catatan'];
-            return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'hiddenButtonAction', 'hiddenButtonAdd'));
+            return view('main/laporan', compact('data', 'hover', 'row', 'column', 'page'));
         } else {
             $data = "Bimbingan dan Konseling";
             $hover = "Bimbingan dan Konseling";
@@ -157,7 +157,7 @@ class BimbinganKonseling extends BaseController
             if ($dari && $sampai) {
                 $column = ['tanggal', 'catatan'];
                 $model = new BimbinganKonselingModel();
-                $row = $model->cetakDataBeetwen($dari, $sampai);
+                $row = $model->cetakDataBeetwenSiswa($dari, $sampai);
                 return view('laporan/cetak', compact('dari', 'sampai', 'column', 'row', 'data'));
             } else {
                 $model = new BimbinganKonselingModel();

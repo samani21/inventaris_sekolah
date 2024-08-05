@@ -22,7 +22,9 @@ class SikapPrilakuKedisiplinan extends BaseController
             $row = $model->getDataPerguru();
             $column = ['nip', 'nama', 'tanggal', 'sikap', 'prilaku', 'kedisiplinan', 'masukkan'];
             $statusVerif = "id_user_verifikasi";
-            return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'statusVerif'));
+            $hiddenButtonAdd = true;
+            $hiddenButtonAction = true;
+            return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'statusVerif', 'hiddenButtonAdd', 'hiddenButtonAction',));
         } else  if (session()->get('level') == "Kepala Sekolah") {
             $data = "Penilaian Guru";
             $hover = "Penilaian Guru";
