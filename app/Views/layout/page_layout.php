@@ -1,9 +1,9 @@
 <?php
 if (!empty(session()->get('id'))) {
-    if (session()->get('level') == "Kepala Sekolah" || session()->get('level') == "Admin" || session()->get('level') == "Guru" || session()->get('level') == "Tata Usaha") {
+    if (session()->get('role') == "Admin") {
         $db = \Config\Database::connect();
         $user_id = session()->get('id');
-        $queryGuru = $db->table('guru')->where('user_id', $user_id)->get();
+        $queryGuru = $db->table('pegawai')->where('user_id', $user_id)->get();
         $resultsGuru = $queryGuru->getRowArray();
         if (isset($resultsGuru)) {
 ?>
@@ -80,68 +80,6 @@ if (!empty(session()->get('id'))) {
                                 <div class="container-fluid">
 
                                     <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
-                                        <li class="nav-item topbar-icon dropdown hidden-caret">
-                                            <?php
-                                            $db = \Config\Database::connect();
-                                            $query = $db->query('
-                                           SELECT COUNT(*) AS total_groups 
-                                           FROM (
-                                               SELECT 
-                                                   barang_masuk.id_barang, 
-                                                   barang.nama_barang, 
-                                                   SUM(barang_masuk.total) as total 
-                                               FROM 
-                                                   barang_masuk 
-                                               JOIN 
-                                                   barang ON barang.id = barang_masuk.id_barang 
-                                               GROUP BY 
-                                                   barang_masuk.id_barang, 
-                                                   barang.nama_barang 
-                                               HAVING 
-                                                   SUM(barang_masuk.total) < 5
-                                           ) AS subquery
-                                       ');
-
-                                            $results = $query->getRow();
-                                            ?>
-                                            <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="fa fa-bell"></i>
-                                                <span class="notification"><?= $results->total_groups ?></span>
-                                            </a>
-                                            <ul class="dropdown-menu notif-box animated fadeIn" aria-labelledby="notifDropdown">
-                                                <li>
-                                                    <div class="dropdown-title">
-                                                        You have 4 new notification
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="notif-scroll scrollbar-outer">
-                                                        <?php
-                                                        $queryBarang = $db->query('SELECT barang.nama_barang, SUM(barang_masuk.total) as total,barang.nama_barang FROM barang_masuk JOIN barang ON barang.id = barang_masuk.id_barang GROUP BY barang_masuk.id_barang, barang.nama_barang;');
-                                                        $Barang = $queryBarang->getResultArray();
-                                                        foreach ($Barang as $b) {
-                                                            if ($b['total'] < 5) {
-                                                        ?>
-                                                                <div class="notif-center">
-                                                                    <a href="<?= base_url('sumber_barang') ?>">
-                                                                        <div class="notif-icon notif-primary">
-                                                                            <i class="fa fa-user-plus"></i>
-                                                                        </div>
-                                                                        <div class="notif-content">
-                                                                            <span class="block"> <?= $b['nama_barang'] ?> sisa <?= $b['total'] ?></span>
-                                                                        </div>
-                                                                    </a>
-                                                                </div>
-                                                        <?php }
-                                                        } ?>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <a class="see-all" href="javascript:void(0);">See all notifications<i class="fa fa-angle-right"></i>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </li>
                                         <li class="nav-item topbar-user dropdown hidden-caret">
                                             <a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#" aria-expanded="false">
                                                 <div class="avatar-sm">
@@ -418,14 +356,14 @@ if (!empty(session()->get('id'))) {
                 <div class="container">
                     <h2 align="center">TAMBAH DATA GURU/TATA USAHA</h2>
                     <hr>
-                    <form action="<?= base_url('tata_usaha/store') ?>" method="post" enctype="multipart/form-data">
+                    <form action="<?= base_url('pegawai/store') ?>" method="post" enctype="multipart/form-data">
                         <input type="hidden" name="user_id" value="<?= session()->get('id'); ?>" class="form-control" required>
                         <div class="row">
                             <div class="col-2">
-                                <label for="">NIP</label>
+                                <label for="">NIK</label>
                             </div>
                             <div class="col-8">
-                                <input type="text" name="nip" class="form-control" required>
+                                <input type="text" name="nik" class="form-control" required>
                             </div>
                         </div>
                         <br>
@@ -484,6 +422,15 @@ if (!empty(session()->get('id'))) {
                             </div>
                             <div class="col-8">
                                 <input type="text" name="no_hp" class="form-control" required>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-2">
+                                <label for="">Alamat</label>
+                            </div>
+                            <div class="col-8">
+                                <input type="text" name="alamat" class="form-control" required>
                             </div>
                         </div>
                         <br>
@@ -582,68 +529,6 @@ if (!empty(session()->get('id'))) {
                             <div class="container-fluid">
 
                                 <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
-                                    <li class="nav-item topbar-icon dropdown hidden-caret">
-                                        <?php
-                                        $db = \Config\Database::connect();
-                                        $query = $db->query('
-                                           SELECT COUNT(*) AS total_groups 
-                                           FROM (
-                                               SELECT 
-                                                   barang_masuk.id_barang, 
-                                                   barang.nama_barang, 
-                                                   SUM(barang_masuk.total) as total 
-                                               FROM 
-                                                   barang_masuk 
-                                               JOIN 
-                                                   barang ON barang.id = barang_masuk.id_barang 
-                                               GROUP BY 
-                                                   barang_masuk.id_barang, 
-                                                   barang.nama_barang 
-                                               HAVING 
-                                                   SUM(barang_masuk.total) < 5
-                                           ) AS subquery
-                                       ');
-
-                                        $results = $query->getRow();
-                                        ?>
-                                        <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fa fa-bell"></i>
-                                            <span class="notification"><?= $results->total_groups ?></span>
-                                        </a>
-                                        <ul class="dropdown-menu notif-box animated fadeIn" aria-labelledby="notifDropdown">
-                                            <li>
-                                                <div class="dropdown-title">
-                                                    You have 4 new notification
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="notif-scroll scrollbar-outer">
-                                                    <?php
-                                                    $queryBarang = $db->query('SELECT barang.nama_barang, SUM(barang_masuk.total) as total,barang.nama_barang FROM barang_masuk JOIN barang ON barang.id = barang_masuk.id_barang GROUP BY barang_masuk.id_barang, barang.nama_barang;');
-                                                    $Barang = $queryBarang->getResultArray();
-                                                    foreach ($Barang as $b) {
-                                                        if ($b['total'] < 5) {
-                                                    ?>
-                                                            <div class="notif-center">
-                                                                <a href="<?= base_url('sumber_barang') ?>">
-                                                                    <div class="notif-icon notif-primary">
-                                                                        <i class="fa fa-user-plus"></i>
-                                                                    </div>
-                                                                    <div class="notif-content">
-                                                                        <span class="block"> <?= $b['nama_barang'] ?> sisa <?= $b['total'] ?></span>
-                                                                    </div>
-                                                                </a>
-                                                            </div>
-                                                    <?php }
-                                                    } ?>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <a class="see-all" href="javascript:void(0);">See all notifications<i class="fa fa-angle-right"></i>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
                                     <li class="nav-item topbar-user dropdown hidden-caret">
                                         <a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#" aria-expanded="false">
                                             <div class="avatar-sm">

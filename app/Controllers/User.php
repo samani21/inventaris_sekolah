@@ -14,7 +14,7 @@ class User extends BaseController
         $hover = "Pengguna";
         $model = new UserModel();
         $page = 'user';
-        $column = ['name', 'username', 'email', 'level'];
+        $column = ['name', 'email', 'role'];
         $row = $model->getData();
         return view('main/list', compact('data', 'hover', 'row', 'column', 'page'));
     }
@@ -25,16 +25,15 @@ class User extends BaseController
         $hover = "Pengguna";
         $page = "user";
         $model = new UserModel();
-        $enumValues = $model->getEnumValues('level');
+        $enumValues = $model->getEnumValues('role');
         $enum = [
-            'level' => $enumValues
+            'role' => $enumValues
         ];
         $form = [
             ['type' => 'text', 'name' => 'name'],
-            ['type' => 'text', 'name' => 'username'],
             ['type' => 'email', 'name' => 'email'],
             ['type' => 'password', 'name' => 'password'],
-            ['type' => 'enum', 'name' => 'level'],
+            ['type' => 'enum', 'name' => 'role'],
         ];
         return view('main/tambah', compact('data', 'hover', 'page', 'form', 'enum', 'enumValues'));
     }
@@ -44,10 +43,9 @@ class User extends BaseController
         $user = new UserModel();
         $user->insert([
             'name' => $this->request->getPost('name'),
-            'username' => $this->request->getPost('username'),
             'email' => $this->request->getPost('email'),
             'password' => password_hash($this->request->getVar('password'), PASSWORD_DEFAULT),
-            'level' => $this->request->getPost('level'),
+            'role' => $this->request->getPost('role'),
         ]);
         session()->setFlashdata("success", "Berhasil tambah data");
         return redirect('user');
@@ -60,16 +58,15 @@ class User extends BaseController
         $model = new UserModel();
         $page = "user";
         $model = new UserModel();
-        $enumValues = $model->getEnumValues('level');
+        $enumValues = $model->getEnumValues('role');
         $enum = [
-            'level' => $enumValues
+            'role' => $enumValues
         ];
         $form = [
             ['type' => 'text', 'name' => 'name'],
-            ['type' => 'text', 'name' => 'username'],
             ['type' => 'email', 'name' => 'email'],
             ['type' => 'password', 'name' => 'password'],
-            ['type' => 'enum', 'name' => 'level'],
+            ['type' => 'enum', 'name' => 'role'],
         ];
         $dt = $model->where([
             'id' => $id,
@@ -84,17 +81,15 @@ class User extends BaseController
         if (empty($pas)) {
             $user->update($id, [
                 'name' => $this->request->getPost('name'),
-                'username' => $this->request->getPost('username'),
                 'email' => $this->request->getPost('email'),
-                'level' => $this->request->getPost('level'),
+                'role' => $this->request->getPost('role'),
             ]);
         } else {
             $user->update($id, [
                 'name' => $this->request->getPost('name'),
-                'username' => $this->request->getPost('username'),
                 'email' => $this->request->getPost('email'),
                 'password' => password_hash($this->request->getVar('password'), PASSWORD_DEFAULT),
-                'level' => $this->request->getPost('level'),
+                'role' => $this->request->getPost('role'),
             ]);
         }
         session()->setFlashdata("success", "Berhasil update data");

@@ -22,34 +22,34 @@ $routes->get('/user/edit/(:any)', 'User::edit/$1');
 $routes->post('/user/update/(:any)', 'User::update/$1');
 $routes->get('/user/delete/(:any)', 'User::delete/$1');
 
-//barang
-$routes->get('/barang', 'Barang::index');
-$routes->get('/barang/tambah', 'Barang::tambah');
-$routes->post('barang/store', 'Barang::store');
-$routes->get('/barang/edit/(:any)', 'Barang::edit/$1');
-$routes->post('/barang/update/(:any)', 'Barang::update/$1');
-$routes->get('/barang/delete/(:any)', 'Barang::delete/$1');
-$routes->get('/barang/laporan_barang', 'Barang::laporan');
-$routes->post('barang/cetak', 'Barang::cetak');
+//kendaraan
+$routes->get('/kendaraan', 'Kendaraan::index');
+$routes->get('/kendaraan/tambah', 'Kendaraan::tambah');
+$routes->post('kendaraan/store', 'Kendaraan::store');
+$routes->get('/kendaraan/edit/(:any)', 'Kendaraan::edit/$1');
+$routes->post('/kendaraan/update/(:any)', 'Kendaraan::update/$1');
+$routes->get('/kendaraan/delete/(:any)', 'Kendaraan::delete/$1');
+$routes->get('/kendaraan/laporan_Kendaraan', 'Kendaraan::laporan');
+$routes->post('kendaraan/cetak', 'Kendaraan::cetak');
 
-//Tata Usaha
-$routes->get('/tata_usaha', 'Guru::index');
-$routes->get('/tata_usaha/tambah', 'Guru::tambah');
-$routes->post('tata_usaha/store', 'Guru::store');
-$routes->get('/tata_usaha/edit/(:any)', 'Guru::edit/$1');
-$routes->post('/tata_usaha/update/(:any)', 'Guru::update/$1');
-$routes->post('/tata_usaha/profil/(:any)/(:any)', 'Guru::profil/$1/$2');
-$routes->get('/tata_usaha/delete/(:any)', 'Guru::delete/$1');
-$routes->get('/tata_usaha/laporan', 'Guru::laporan');
-$routes->post('tata_usaha/cetak', 'Guru::cetak');
+//pegawai
+$routes->get('/pegawai', 'Pegawai::index');
+$routes->get('/pegawai/tambah', 'Pegawai::tambah');
+$routes->post('pegawai/store', 'Pegawai::store');
+$routes->get('/pegawai/edit/(:any)', 'Pegawai::edit/$1');
+$routes->post('/pegawai/update/(:any)', 'Pegawai::update/$1');
+$routes->post('/pegawai/profil/(:any)/(:any)', 'Pegawai::profil/$1/$2');
+$routes->get('/pegawai/delete/(:any)', 'Pegawai::delete/$1');
+$routes->get('/pegawai/laporan', 'Pegawai::laporan');
+$routes->post('pegawai/cetak', 'Pegawai::cetak');
 
-//Kelas
-$routes->get('/kelas', 'Kelas::index');
-$routes->get('/kelas/tambah', 'Kelas::tambah');
-$routes->post('kelas/store', 'Kelas::store');
-$routes->get('/kelas/edit/(:any)', 'Kelas::edit/$1');
-$routes->post('/kelas/update/(:any)', 'Kelas::update/$1');
-$routes->get('/kelas/delete/(:any)', 'Kelas::delete/$1');
+//Tempat parkir
+$routes->get('/tempat_parkir', 'TempatParkir::index');
+$routes->get('/tempat_parkir/tambah', 'TempatParkir::tambah');
+$routes->post('tempat_parkir/store', 'TempatParkir::store');
+$routes->get('/tempat_parkir/edit/(:any)', 'TempatParkir::edit/$1');
+$routes->post('/tempat_parkir/update/(:any)', 'TempatParkir::update/$1');
+$routes->get('/tempat_parkir/delete/(:any)', 'TempatParkir::delete/$1');
 
 //ekskul
 $routes->get('/ekskul', 'Ekstrakurikuler::index');

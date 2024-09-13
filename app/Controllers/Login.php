@@ -3,8 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
-use App\Models\GuruModel;
-use App\Models\SiswaModel;
+use App\Models\PegawaiModel;
 use App\Models\UserModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
@@ -17,22 +16,22 @@ class Login extends BaseController
 
 	public function doLogin()
 	{
-		$username = $this->request->getVar('username');
+		$name = $this->request->getVar('username');
 		$password = $this->request->getVar('password');
 
 		$user = new UserModel();
-		$users = $user->where('username', $username)->first();
-
-		$siswa = new SiswaModel();
-		$siswas = $siswa->where([
-			'nis' => $username,
-			'nis' => $password,
-		])->first();
+		$users = $user->where('name', $name)->first();
+		echo $users['password'];
+		// $siswa = new SiswaModel();
+		// $siswas = $siswa->where([
+		// 	'nis' => $username,
+		// 	'nis' => $password,
+		// ])->first();
 		if ($users) {
 			$session = session();
 			if (password_verify($password, $users['password'])) {
 				//create session
-				$user = new GuruModel();
+				$user = new PegawaiModel();
 				$dt = $user->where([
 					'user_id' => $users['id'],
 				])->first();
@@ -40,55 +39,27 @@ class Login extends BaseController
 					$login = [
 						'islogin' => true,
 						'id' => $users['id'],
-						'username' => $users['username'],
 						'email' => $users['email'],
 						'name' => $users['name'],
-						'level' => $users['level'],
+						'role' => $users['role'],
 					];
 				} else {
 					$login = [
 						'islogin' => true,
 						'id' => $users['id'],
-						'username' => $users['username'],
 						'email' => $users['email'],
 						'name' => $users['name'],
-						'level' => $users['level'],
-						'id_guru' => $dt['id'],
+						'role' => $users['role'],
+						'id_pegawai' => $dt['id'],
 						'foto' => $dt['foto'],
 					];
 				}
 				$session->set($login);
 				return redirect()->to('/dashboard');
 			} else {
-				$session->setFlashdata('msg', 'Email/Password invalid');
+				$session->setFlashdata('msg', 'Email/Passwaaaord invalid');
 				return redirect()->to('/login');
 			}
-		} else if ($siswas) {
-			$session = session();
-			//create session
-			$siswa = new SiswaModel();
-			$dt = $siswa->where('id', $siswas['id'])->first();
-			if (empty($dt['id'])) {
-				$login = [
-					'islogin' => true,
-					'id' => $siswas['id'],
-					'username' => $siswas['nis'],
-					'name' => $siswas['nama'],
-					'level' => 'Siswa',
-				];
-			} else {
-				$login = [
-					'islogin' => true,
-					'id' => $siswas['id'],
-					'username' => $siswas['nis'],
-					'name' => $siswas['nama'],
-					'level' => "Siswa",
-					'id_siswa' => $dt['id'],
-					'foto' => $dt['foto'],
-				];
-			}
-			$session->set($login);
-			return redirect()->to('/dashboard');
 		} else {
 			return redirect()->back();
 		}
