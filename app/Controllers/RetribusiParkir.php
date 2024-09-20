@@ -12,16 +12,30 @@ class RetribusiParkir extends BaseController
 {
     public function index()
     {
-        $data = "Retribusi Parkir";
-        $hover = "Retribusi Parkir";
-        $model = new RetribusiParkirModel();
-        $page = 'retribusi_parkir';
-        $column = ['nik', 'nama', 'nama_tempat', 'alamat', 'jumlah', 'tanggal_retribusi', 'foto', 'status'];
-        $row = $model->getData();
-        $foto = true;
-        $statusVerif = true;
-        $verifikasi = true;
-        return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'foto', 'statusVerif', 'verifikasi'));
+        if (session()->get('role') == "Petugas Parkir" || session()->get('role') == "Masyarakat") {
+            $data = "Retribusi Parkir";
+            $hover = "Retribusi Parkir";
+            $model = new RetribusiParkirModel();
+            $page = 'retribusi_parkir';
+            $column = ['nik', 'nama', 'nama_tempat', 'alamat', 'jumlah', 'tanggal_retribusi', 'foto', 'status'];
+            $row = $model->getData();
+            $foto = true;
+            $statusVerif = true;
+            return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'foto', 'statusVerif'));
+        } else {
+            $data = "Retribusi Parkir";
+            $hover = "Retribusi Parkir";
+            $model = new RetribusiParkirModel();
+            $page = 'retribusi_parkir';
+            $column = ['nik', 'nama', 'nama_tempat', 'alamat', 'jumlah', 'tanggal_retribusi', 'foto', 'status'];
+            $row = $model->getData();
+            $foto = true;
+            $statusVerif = true;
+            $verifikasi = true;
+            $hiddenEdit = true;
+            $hiddenDelete = true;
+            return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'foto', 'statusVerif', 'verifikasi', 'hiddenEdit', 'hiddenDelete'));
+        }
     }
 
     public function tambah()

@@ -33,7 +33,7 @@
                 ?>
                     <li class="nav-item
                 <?php
-                    if ($page == "user" || $page == "barang" || $page == "mapel" || $page == "tata_usaha" || $page == "kelas" || $page == "ruangan") {
+                    if ($page == "user" || $page == "pegawai" || $page == "petugas_parkir" || $page == "tempat_parkir") {
                         echo "active";
                     }
                 ?>
@@ -85,14 +85,6 @@
                 <?php
                 }
                 ?>
-                <li class="nav-item <?php if ($hover == 'Retribusi Parkir') {
-                                        echo 'active';
-                                    } ?>">
-                    <a href="<?= base_url('retribusi_parkir') ?>">
-                        <i class="fas fa-car"></i>
-                        <p>Retribusi Parkir</p>
-                    </a>
-                </li>
                 <li class="nav-item <?php if ($hover == 'Pengaduan') {
                                         echo 'active';
                                     } ?>">
@@ -101,13 +93,72 @@
                         <p>Pengaduan</p>
                     </a>
                 </li>
-                <li class="nav-item <?php if ($hover == 'Izin Parkir') {
-                                        echo 'active';
-                                    } ?>">
-                    <a href="<?= base_url('izin_parkir') ?>">
-                        <i class="fas fa-users"></i>
-                        <p>Izin Parkir</p>
+                <?php
+                if (session()->get('role') != "Masyrakat") {
+                ?>
+                    <li class="nav-item <?php if ($hover == 'Retribusi Parkir') {
+                                            echo 'active';
+                                        } ?>">
+                        <a href="<?= base_url('retribusi_parkir') ?>">
+                            <i class="fas fa-car"></i>
+                            <p>Retribusi Parkir</p>
+                        </a>
+                    </li>
+                    <li class="nav-item <?php if ($hover == 'Izin Parkir') {
+                                            echo 'active';
+                                        } ?>">
+                        <a href="<?= base_url('izin_parkir') ?>">
+                            <i class="fas fa-users"></i>
+                            <p>Izin Parkir</p>
+                        </a>
+                    </li>
+                <?php
+                }
+                ?>
+                <li class="nav-item">
+                    <a data-bs-toggle="collapse" href="#laporan">
+                        <i class="fas fa-layer-group"></i>
+                        <p>laporan</p>
+                        <span class="caret"></span>
                     </a>
+                    <div class="collapse" id="laporan">
+                        <ul class="nav nav-collapse">
+                            <?php
+                            if (session()->get('role') == "Admin") {
+                            ?>
+                                <li class="<?php if ($hover == 'user') {
+                                                echo 'active';
+                                            } ?>">
+                                    <a href="<?= base_url('user') ?>">
+                                        <span class="sub-item">User</span>
+                                    </a>
+                                </li>
+                            <?php
+                            }
+                            ?>
+                            <li class="<?php if ($hover == 'Pegawai') {
+                                            echo 'active';
+                                        } ?>">
+                                <a href="<?= base_url('pegawai') ?>">
+                                    <span class="sub-item">Pegawai</span>
+                                </a>
+                            </li>
+                            <li class="<?php if ($hover == 'Petugas Parkir') {
+                                            echo 'active';
+                                        } ?>">
+                                <a href="<?= base_url('petugas_parkir') ?>">
+                                    <span class="sub-item">Petugas Parkir</span>
+                                </a>
+                            </li>
+                            <li class="<?php if ($hover == 'Tempat Parkir') {
+                                            echo 'active';
+                                        } ?>">
+                                <a href="<?= base_url('tempat_parkir') ?>">
+                                    <span class="sub-item">Tempat Parkir</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </li>
             </ul>
         </div>

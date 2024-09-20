@@ -35,7 +35,7 @@ class Pegawai extends BaseController
     //         'agama' => $agama
     //     ];
     //     $form = [
-    //         ['type' => 'text', 'name' => 'nip'],
+    //         ['type' => 'text', 'name' => 'nik'],
     //         ['type' => 'text', 'name' => 'nama'],
     //         ['type' => 'text', 'name' => 'tempat'],
     //         ['type' => 'date', 'name' => 'tanggal_lahir'],
@@ -144,22 +144,22 @@ class Pegawai extends BaseController
         $dataBerkas = $this->request->getFile('foto');
         if ($dataBerkas == "") {
             $guru->update($id_guru, [
-                'nip' => $this->request->getPost('nip'),
+                'nik' => $this->request->getPost('nik'),
                 'nama' => $this->request->getPost('nama'),
                 'tempat' => $this->request->getPost('tempat'),
-                't_lahir' => $this->request->getPost('t_lahir'),
-                'j_kelamin' => $this->request->getPost('j_kelamin'),
+                'tanggal' => $this->request->getPost('tanggal'),
+                'jenis_klamin' => $this->request->getPost('jenis_klamin'),
                 'agama' => $this->request->getPost('agama'),
                 'no_hp' => $this->request->getPost('hp'),
             ]);
         } else {
             $fileName = $dataBerkas->getRandomName();
             $guru->update($id_guru, [
-                'nip' => $this->request->getPost('nip'),
+                'nik' => $this->request->getPost('nik'),
                 'nama' => $this->request->getPost('nama'),
                 'tempat' => $this->request->getPost('tempat'),
-                't_lahir' => $this->request->getPost('t_lahir'),
-                'j_kelamin' => $this->request->getPost('j_kelamin'),
+                'tanggal' => $this->request->getPost('tanggal'),
+                'jenis_klamin' => $this->request->getPost('jenis_klamin'),
                 'agama' => $this->request->getPost('agama'),
                 'no_hp' => $this->request->getPost('hp'),
                 'foto' => $fileName,
@@ -170,12 +170,12 @@ class Pegawai extends BaseController
         $pas = $this->request->getPost('password');
         if (empty($pas)) {
             $user->update($id_user, [
-                'username' => $this->request->getPost('username'),
+                'name' => $this->request->getPost('username'),
                 'email' => $this->request->getPost('email'),
             ]);
         } else {
             $user->update($id_user, [
-                'username' => $this->request->getPost('username'),
+                'name' => $this->request->getPost('username'),
                 'email' => $this->request->getPost('email'),
                 'password' => password_hash($this->request->getVar('password'), PASSWORD_DEFAULT),
             ]);

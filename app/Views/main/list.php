@@ -345,21 +345,38 @@ function convertColumnName($columnName)
                                                 <a href="<?= base_url($page . '/verifikasi/' . $r['id']) ?>" style="padding: 4px;" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-check-circle"></i></i></a>
                                             <?php
                                             }
-                                            ?>
-                                            <?php
-                                            if (!isset($hiddenEdit)) {
-                                            ?>
-                                                <a href=" <?= base_url($page . '/edit/' . $r['id']) ?>" style="padding: 4px;" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i></i></a>
-                                            <?php
-                                            }
-                                            if (!isset($hiddenDelete)) {
-                                            ?>
+                                            if (@$r['status'] == "Proses" || @$r['status'] == "Baru") {
 
-                                                <a href="<?= base_url($page . '/delete/' . $r['id']) ?>" style="padding: 4px;" data-bs-toggle="tooltip" title="" class="btn btn-link btn-danger delete-button" data-id="<?= $r['id'] ?>" data-original-title="Remove"> <i class="fa fa-times"></i></a>
+                                            ?>
+                                                <?php
+                                                if (!isset($hiddenEdit)) {
+                                                ?>
+                                                    <a href=" <?= base_url($page . '/edit/' . $r['id']) ?>" style="padding: 4px;" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i></i></a>
+                                                <?php
+                                                }
+                                                if (!isset($hiddenDelete)) {
+                                                ?>
+
+                                                    <a href="<?= base_url($page . '/delete/' . $r['id']) ?>" style="padding: 4px;" data-bs-toggle="tooltip" title="" class="btn btn-link btn-danger delete-button" data-id="<?= $r['id'] ?>" data-original-title="Remove"> <i class="fa fa-times"></i></a>
+                                                <?php
+                                                }
+                                            } else if ($r[$cl] != 'status') {
+
+                                                ?>
+                                                <?php
+                                                if (!isset($hiddenEdit)) {
+                                                ?>
+                                                    <a href=" <?= base_url($page . '/edit/' . $r['id']) ?>" style="padding: 4px;" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i></i></a>
+                                                <?php
+                                                }
+                                                if (!isset($hiddenDelete)) {
+                                                ?>
+
+                                                    <a href="<?= base_url($page . '/delete/' . $r['id']) ?>" style="padding: 4px;" data-bs-toggle="tooltip" title="" class="btn btn-link btn-danger delete-button" data-id="<?= $r['id'] ?>" data-original-title="Remove"> <i class="fa fa-times"></i></a>
                                             <?php
+                                                }
                                             }
                                             ?>
-
                                         </td>
                                     <?php
                                     }

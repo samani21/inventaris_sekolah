@@ -1,6 +1,6 @@
 <?php
 if (!empty(session()->get('id'))) {
-    if (session()->get('role') == "Admin" || session()->get('role') == "Petugas Parkir") {
+    if (session()->get('role') == "Admin" || session()->get('role') == "Petugas Parkir" || session()->get('role') == "Masyrakat") {
         $db = \Config\Database::connect();
         $user_id = session()->get('id');
         $queryGuru = $db->table('pegawai')->where('user_id', $user_id)->get();

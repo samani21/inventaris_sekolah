@@ -12,15 +12,29 @@ class Pengaduan extends BaseController
 {
     public function index()
     {
-        $data = "Pengaduan";
-        $hover = "Pengaduan";
-        $model = new PengaduanModel();
-        $page = 'pengaduan';
-        $column = ['name', 'email', 'nama_tempat', 'alamat', 'tanggal_pengaduan', 'jenis_pengaduan', 'deskripsi_pengaduan', 'status'];
-        $row = $model->getData();
-        $statusVerif = true;
-        $verifikasi = true;
-        return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'statusVerif', 'verifikasi'));
+        if (session()->get('role') == "Petugas Parkir" || session()->get('role') == "Masyarakat") {
+
+            $data = "Pengaduan";
+            $hover = "Pengaduan";
+            $model = new PengaduanModel();
+            $page = 'pengaduan';
+            $column = ['name', 'email', 'nama_tempat', 'alamat', 'tanggal_pengaduan', 'jenis_pengaduan', 'deskripsi_pengaduan', 'status'];
+            $row = $model->getData();
+            $statusVerif = true;
+            return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'statusVerif'));
+        } else {
+            $data = "Pengaduan";
+            $hover = "Pengaduan";
+            $model = new PengaduanModel();
+            $page = 'pengaduan';
+            $column = ['name', 'email', 'nama_tempat', 'alamat', 'tanggal_pengaduan', 'jenis_pengaduan', 'deskripsi_pengaduan', 'status'];
+            $row = $model->getData();
+            $statusVerif = true;
+            $verifikasi = true;
+            $hiddenEdit = true;
+            $hiddenDelete = true;
+            return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'statusVerif', 'verifikasi', 'hiddenEdit', 'hiddenDelete'));
+        }
     }
 
     public function tambah()

@@ -12,16 +12,30 @@ class IzinParkir extends BaseController
 {
     public function index()
     {
-        $data = "Izin Parkir";
-        $hover = "Izin Parkir";
-        $model = new IzinParkirModel();
-        $page = 'izin_parkir';
-        $column = ['nik', 'nama', 'nama_tempat', 'alamat', 'jenis', 'tanggal_mulai', 'tanggal_selesai', 'status'];
-        $row = $model->getData();
-        $foto = true;
-        $statusVerif = true;
-        $verifikasi = true;
-        return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'foto', 'statusVerif', 'verifikasi'));
+        if (session()->get('role') == "Petugas Parkir" || session()->get('role') == "Masyarakat") {
+            $data = "Izin Parkir";
+            $hover = "Izin Parkir";
+            $model = new IzinParkirModel();
+            $page = 'izin_parkir';
+            $column = ['nik', 'nama', 'nama_tempat', 'alamat', 'jenis', 'tanggal_mulai', 'tanggal_selesai', 'status'];
+            $row = $model->getData();
+            $foto = true;
+            $statusVerif = true;
+            return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'foto', 'statusVerif'));
+        } else {
+            $data = "Izin Parkir";
+            $hover = "Izin Parkir";
+            $model = new IzinParkirModel();
+            $page = 'izin_parkir';
+            $column = ['nik', 'nama', 'nama_tempat', 'alamat', 'jenis', 'tanggal_mulai', 'tanggal_selesai', 'status'];
+            $row = $model->getData();
+            $foto = true;
+            $statusVerif = true;
+            $verifikasi = true;
+            $hiddenEdit = true;
+            $hiddenDelete = true;
+            return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'foto', 'statusVerif', 'verifikasi', 'hiddenEdit', 'hiddenDelete'));
+        }
     }
 
     public function tambah()
