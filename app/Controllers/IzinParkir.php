@@ -245,15 +245,66 @@ class IzinParkir extends BaseController
     {
         $data = "Laporan Izin Parkir";
         $hover = "Laporan Izin Parkir";
+        $page = "izin_parkir";
         $cari = $this->request->getPost('cari');
-        $izin_parkir = new IzinParkirModel();
-        $d_izin_parkir = $izin_parkir->getBarang();
-        return view('izin_parkir/laporan', compact('data', 'hover', 'd_izin_parkir', 'cari'));
+        $pengaduan = new IzinParkirModel();
+        $row = $pengaduan->getData();
+        $column = ['nik', 'nama', 'nama_tempat', 'alamat', 'jenis', 'tanggal_mulai', 'tanggal_selesai', 'status'];
+        $cetakData = true;
+        return view('main/laporan', compact('data', 'hover', 'row', 'cari', 'page', 'column', 'cetakData'));
     }
 
     public function cetak()
     {
-        $cari = $this->request->getPost('cari');
-        return view('izin_parkir/cetak', compact('cari'));
+        $dari = $this->request->getVar('dari');
+        $sampai = $this->request->getVar('sampai');
+        $data = "Pengaduan";
+        if (session()->get('role') == "Petugas Parkir") {
+            if ($dari && $sampai) {
+                $column = ['nik', 'nama', 'nama_tempat', 'alamat', 'jenis', 'tanggal_mulai', 'tanggal_selesai', 'status'];
+                $model = new IzinParkirModel();
+                $row = $model->cetakDataBeetwenPengguna($dari, $sampai);
+                return view('laporan/cetak', compact('dari', 'sampai', 'column', 'row', 'data'));
+            } else {
+                $model = new IzinParkirModel();
+                $row = $model->cetakDataPerPengguna();
+                $column = ['nik', 'nama', 'nama_tempat', 'alamat', 'jenis', 'tanggal_mulai', 'tanggal_selesai', 'status'];
+                return view('laporan/cetak', compact('column', 'row', 'data'));
+            }
+        } else {
+            if ($dari && $sampai) {
+                $column = ['nik', 'nama', 'nama_tempat', 'alamat', 'jenis', 'tanggal_mulai', 'tanggal_selesai', 'status'];
+                $model = new IzinParkirModel();
+                $row = $model->cetakDataBeetwen($dari, $sampai);
+
+                return view('laporan/cetak', compact('dari', 'sampai', 'column', 'row', 'data'));
+            } else {
+                $model = new IzinParkirModel();
+                $row = $model->cetakData();
+                $column = ['nik', 'nama', 'nama_tempat', 'alamat', 'jenis', 'tanggal_mulai', 'tanggal_selesai', 'status'];
+
+                return view('laporan/cetak', compact('column', 'row', 'data'));
+            }
+        }
+    }
+    public function cetakSatuan($id)
+    {
+        $column = ['nik', 'nama', 'nama_tempat', 'alamat', 'tanggal', 'tanggal_selesai', 'status'];
+        $model = new IzinParkirModel();
+        $row = $model->join('tempat_parkir', 'tempat_parkir.id=izin_parkir.id_tempat_parkir')
+            ->join('pegawai', 'pegawai.id=izin_parkir.id_petugas')
+            ->select('izin_parkir.*,izin_parkir.tanggal_mulai as tanggal,pegawai.nama,pegawai.nik,tempat_parkir.nama_tempat,tempat_parkir.alamat,tempat_parkir.status_operasional,izin_parkir.status_izin as status')
+            ->where([
+                'izin_parkir.id' => $id,
+            ])->first();
+        $data = 'Izin Parkir ' . $row['jenis'];
+        $modelPegawai = new PegawaiModel();
+        $ttd = $modelPegawai->join('users', 'pegawai.user_id = users.id') // Bergabung dengan tabel 'users'
+            ->where([
+                'users.role' => 'Pimpinan',
+            ])
+            ->select('pegawai.nama, pegawai.nik') // Memilih kolom dari tabel 'pegawai'
+            ->first();
+        return view('laporan/cetakSatuan', compact('column', 'row', 'ttd', 'data'));
     }
 }

@@ -141,22 +141,16 @@ function convertColumnName($columnName)
                                         ?>
                                     </td>
 
-                                    <?php
+                                <?php
                                 }
                                 if (isset($cetakData)) {
-                                    if ($r['id_user_verifikasi'] > 0) {
-                                    ?>
-                                        <td>
-                                            <a href="<?= base_url($page . '/cetak_satuan/' . $r['id']) ?>" class="btn btn-warning">Cetak</a>
-                                        </td>
-                                    <?php
-                                    } else {
-                                    ?>
-                                        <td></td>
-                                    <?php
-                                    }
+                                ?>
+                                    <td>
+                                        <a href="<?= base_url($page . '/cetak_satuan/' . $r['id']) ?>" class="btn btn-warning">Cetak</a>
+                                    </td>
+                                <?php
                                 } else if (isset($cetakRaport)) {
-                                    ?>
+                                ?>
                                     <td>
                                         <a href="<?= base_url($page . '/cetak_satuan/' . $r['id']) ?>" class="btn btn-warning">Cetak</a>
                                     </td>

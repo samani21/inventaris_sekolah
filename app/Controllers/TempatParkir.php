@@ -97,15 +97,23 @@ class TempatParkir extends BaseController
     {
         $data = "Laporan Tempat Parkir";
         $hover = "Laporan Tempat Parkir";
+        $page = "tempat_parkir";
         $cari = $this->request->getPost('cari');
-        $tempat_parkir = new TempatParkirModel();
-        $d_tempat_parkir = $tempat_parkir->getBarang();
-        return view('tempat_parkir/laporan', compact('data', 'hover', 'd_tempat_parkir', 'cari'));
+        $pengaduan = new TempatParkirModel();
+        $row = $pengaduan->getData();
+        $column = ['nama_tempat', 'alamat', 'kapasitas_total', 'status'];
+        $cetakData = true;
+        $hiddenBetween = true;
+        return view('main/laporan', compact('data', 'hover', 'row', 'cari', 'page', 'column', 'cetakData', 'hiddenBetween'));
     }
 
     public function cetak()
     {
-        $cari = $this->request->getPost('cari');
-        return view('tempat_parkir/cetak', compact('cari'));
+        $data = "Pengaduan";
+        $model = new TempatParkirModel();
+        $row = $model->getData();
+        $column = ['nama_tempat', 'alamat', 'kapasitas_total', 'status'];
+
+        return view('laporan/cetak', compact('column', 'row', 'data'));
     }
 }

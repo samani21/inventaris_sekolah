@@ -253,15 +253,68 @@ class RetribusiParkir extends BaseController
     {
         $data = "Laporan Retribusi Parkir";
         $hover = "Laporan Retribusi Parkir";
+        $page = "retribusi_parkir";
         $cari = $this->request->getPost('cari');
-        $retribusi_parkir = new RetribusiParkirModel();
-        $d_retribusi_parkir = $retribusi_parkir->getBarang();
-        return view('retribusi_parkir/laporan', compact('data', 'hover', 'd_retribusi_parkir', 'cari'));
+        $pengaduan = new RetribusiParkirModel();
+        $row = $pengaduan->getData();
+        $column = ['nik', 'nama', 'nama_tempat', 'alamat', 'jumlah', 'tanggal_retribusi', 'foto', 'status'];
+        $cetakData = true;
+        return view('main/laporan', compact('data', 'hover', 'row', 'cari', 'page', 'column', 'cetakData'));
     }
 
     public function cetak()
     {
-        $cari = $this->request->getPost('cari');
-        return view('retribusi_parkir/cetak', compact('cari'));
+        $dari = $this->request->getVar('dari');
+        $sampai = $this->request->getVar('sampai');
+        $data = "Pengaduan";
+        if (session()->get('role') == "Petugas Parkir") {
+            if ($dari && $sampai) {
+                $column = ['nik', 'nama', 'nama_tempat', 'alamat', 'jumlah', 'tanggal_retribusi', 'foto', 'status'];
+                $model = new RetribusiParkirModel();
+                $row = $model->cetakDataBeetwenPengguna($dari, $sampai);
+                return view('laporan/cetak', compact('dari', 'sampai', 'column', 'row', 'data'));
+            } else {
+                $model = new RetribusiParkirModel();
+                $row = $model->cetakDataPerPengguna();
+                $column = ['nik', 'nama', 'nama_tempat', 'alamat', 'jumlah', 'tanggal_retribusi', 'foto', 'status'];
+                return view('laporan/cetak', compact('column', 'row', 'data'));
+            }
+        } else {
+            if ($dari && $sampai) {
+                $column = ['nik', 'nama', 'nama_tempat', 'alamat', 'jumlah', 'tanggal_retribusi', 'foto', 'status'];
+                $model = new RetribusiParkirModel();
+                $row = $model->cetakDataBeetwen($dari, $sampai);
+                $total = $model->getTotalJumlahBetween($dari, $sampai);
+                $totalSum = true;
+                return view('laporan/cetak', compact('dari', 'sampai', 'column', 'row', 'data', 'totalSum', 'total'));
+            } else {
+                $model = new RetribusiParkirModel();
+                $row = $model->cetakData();
+                $column = ['nik', 'nama', 'nama_tempat', 'alamat', 'jumlah', 'tanggal_retribusi', 'foto', 'status'];
+                $totalSum = true;
+                $total = $model->getTotalJumlah();
+                return view('laporan/cetak', compact('column', 'row', 'data', 'totalSum', 'total'));
+            }
+        }
+    }
+    public function cetakSatuan($id)
+    {
+        $column = ['nik', 'nama', 'nama_tempat', 'alamat', 'jumlah', 'tanggal_retribusi', 'status'];
+        $model = new RetribusiParkirModel();
+        $row = $model->join('tempat_parkir', 'tempat_parkir.id=retribusi_parkir.id_tempat_parkir')
+            ->join('pegawai', 'pegawai.id=retribusi_parkir.id_petugas')
+            ->select('retribusi_parkir.*,retribusi_parkir.tanggal_retribusi as tanggal,pegawai.nama,pegawai.nik,tempat_parkir.nama_tempat,tempat_parkir.alamat,tempat_parkir.status_operasional,retribusi_parkir.bukti as foto')
+            ->where([
+                'retribusi_parkir.id' => $id,
+            ])->first();
+        $modelPegawai = new PegawaiModel();
+        $data = "Izin Parkir";
+        $ttd = $modelPegawai->join('users', 'pegawai.user_id = users.id') // Bergabung dengan tabel 'users'
+            ->where([
+                'users.role' => 'Pimpinan',
+            ])
+            ->select('pegawai.nama, pegawai.nik') // Memilih kolom dari tabel 'pegawai'
+            ->first();
+        return view('laporan/cetakSatuan', compact('column', 'row', 'ttd', 'data'));
     }
 }

@@ -15,7 +15,8 @@ class PegawaiModel extends Model
     {
         return $this->join('users', 'users.id = pegawai.user_id')
             ->select('concat(tempat, ",", tanggal) as ttl, pegawai.id, nik, nama, tempat, jenis_klamin, agama, no_telepon, foto, role, alamat, tanggal_bergabung')
-            ->where('users.role !=', 'Petugas Parkir')  // Exclude rows where role is 'Admin'
+            ->where('users.role !=', 'Petugas Parkir')
+            ->where('users.role !=', 'Masyrakat')  // Exclude rows where role is 'Admin'
             ->findAll();
     }
 

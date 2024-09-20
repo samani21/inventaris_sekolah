@@ -32,7 +32,8 @@ $routes->get('/retribusi_parkir/verifikasi/(:any)', 'RetribusiParkir::verifikasi
 $routes->post('/retribusi_parkir/verifikasi_store/(:any)', 'RetribusiParkir::verifikasiStore/$1');
 $routes->get('/retribusi_parkir/delete/(:any)', 'RetribusiParkir::delete/$1');
 $routes->get('/retribusi_parkir/laporan', 'RetribusiParkir::laporan');
-$routes->post('retribusi_parkir/cetak', 'RetribusiParkir::cetak');
+$routes->get('retribusi_parkir/cetak', 'RetribusiParkir::cetak');
+$routes->get('retribusi_parkir/cetak_satuan/(:any)', 'RetribusiParkir::cetakSatuan/$1');
 
 //Retribusi parkir
 $routes->get('/pengaduan', 'Pengaduan::index');
@@ -43,7 +44,7 @@ $routes->post('/pengaduan/update/(:any)', 'Pengaduan::update/$1');
 $routes->post('/pengaduan/profil/(:any)/(:any)', 'Pengaduan::profil/$1/$2');
 $routes->get('/pengaduan/delete/(:any)', 'Pengaduan::delete/$1');
 $routes->get('/pengaduan/laporan', 'Pengaduan::laporan');
-$routes->post('pengaduan/cetak', 'Pengaduan::cetak');
+$routes->get('/pengaduan/cetak', 'Pengaduan::cetak');
 $routes->get('/pengaduan/verifikasi/(:any)', 'Pengaduan::verifikasi/$1');
 $routes->post('/pengaduan/verifikasi_store/(:any)', 'Pengaduan::verifikasiStore/$1');
 
@@ -56,7 +57,7 @@ $routes->post('/petugas_parkir/update/(:any)', 'PetugasParkir::update/$1');
 $routes->post('/petugas_parkir/profil/(:any)/(:any)', 'PetugasParkir::profil/$1/$2');
 $routes->get('/petugas_parkir/delete/(:any)', 'PetugasParkir::delete/$1');
 $routes->get('/petugas_parkir/laporan', 'PetugasParkir::laporan');
-$routes->post('petugas_parkir/cetak', 'PetugasParkir::cetak');
+$routes->get('petugas_parkir/cetak', 'PetugasParkir::cetak');
 
 $routes->get('/pegawai', 'Pegawai::index');
 $routes->get('/pegawai/tambah', 'Pegawai::tambah');
@@ -75,7 +76,8 @@ $routes->post('tempat_parkir/store', 'TempatParkir::store');
 $routes->get('/tempat_parkir/edit/(:any)', 'TempatParkir::edit/$1');
 $routes->post('/tempat_parkir/update/(:any)', 'TempatParkir::update/$1');
 $routes->get('/tempat_parkir/delete/(:any)', 'TempatParkir::delete/$1');
-
+$routes->get('/tempat_parkir/laporan', 'TempatParkir::laporan');
+$routes->get('tempat_parkir/cetak', 'TempatParkir::cetak');
 //Retribusi parkir
 $routes->get('/izin_parkir', 'IzinParkir::index');
 $routes->get('/izin_parkir/tambah', 'IzinParkir::tambah');
@@ -83,10 +85,10 @@ $routes->post('izin_parkir/store', 'IzinParkir::store');
 $routes->get('/izin_parkir/edit/(:any)', 'IzinParkir::edit/$1');
 $routes->post('/izin_parkir/update/(:any)', 'IzinParkir::update/$1');
 $routes->get('/izin_parkir/delete/(:any)', 'IzinParkir::delete/$1');
-$routes->get('/izin_parkir/laporan', 'IzinParkir::laporan');
-$routes->post('izin_parkir/cetak', 'IzinParkir::cetak');
 $routes->get('/izin_parkir/verifikasi/(:any)', 'IzinParkir::verifikasi/$1');
 $routes->post('/izin_parkir/verifikasi_store/(:any)', 'IzinParkir::verifikasiStore/$1');
-
+$routes->get('/izin_parkir/laporan', 'IzinParkir::laporan');
+$routes->get('izin_parkir/cetak', 'IzinParkir::cetak');
+$routes->get('izin_parkir/cetak_satuan/(:any)', 'IzinParkir::cetakSatuan/$1');
 //profil
 $routes->get('/profil', 'Profil::index');

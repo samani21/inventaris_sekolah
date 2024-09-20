@@ -260,15 +260,44 @@ class Pengaduan extends BaseController
     {
         $data = "Laporan Pengaduan";
         $hover = "Laporan Pengaduan";
+        $page = "pengaduan";
         $cari = $this->request->getPost('cari');
         $pengaduan = new PengaduanModel();
-        $d_pengaduan = $pengaduan->getBarang();
-        return view('pengaduan/laporan', compact('data', 'hover', 'd_pengaduan', 'cari'));
+        $row = $pengaduan->getData();
+        $column = ['name', 'email', 'nama_tempat', 'alamat', 'tanggal_pengaduan', 'jenis_pengaduan', 'deskripsi_pengaduan', 'status'];
+
+        return view('main/laporan', compact('data', 'hover', 'row', 'cari', 'page', 'column'));
     }
 
     public function cetak()
     {
-        $cari = $this->request->getPost('cari');
-        return view('pengaduan/cetak', compact('cari'));
+        $dari = $this->request->getVar('dari');
+        $sampai = $this->request->getVar('sampai');
+        $data = "Pengaduan";
+        if (session()->get('role') == "Petugas Parkir") {
+            if ($dari && $sampai) {
+                $column = ['name', 'email', 'nama_tempat', 'alamat', 'tanggal_pengaduan', 'jenis_pengaduan', 'deskripsi_pengaduan', 'status'];
+                $model = new PengaduanModel();
+                $row = $model->cetakDataBeetwenPengguna($dari, $sampai);
+                return view('laporan/cetak', compact('dari', 'sampai', 'column', 'row', 'data'));
+            } else {
+                $model = new PengaduanModel();
+                $row = $model->cetakDataPerPengguna();
+                $column = ['name', 'email', 'nama_tempat', 'alamat', 'tanggal_pengaduan', 'jenis_pengaduan', 'deskripsi_pengaduan', 'status'];
+                return view('laporan/cetak', compact('column', 'row', 'data'));
+            }
+        } else {
+            if ($dari && $sampai) {
+                $column = ['nama_tempat', 'alamat', 'tanggal_pengaduan', 'jenis_pengaduan', 'deskripsi_pengaduan', 'status'];
+                $model = new PengaduanModel();
+                $row = $model->cetakDataBeetwen($dari, $sampai);
+                return view('laporan/cetak', compact('dari', 'sampai', 'column', 'row', 'data'));
+            } else {
+                $model = new PengaduanModel();
+                $row = $model->cetakData();
+                $column = ['nama_tempat', 'alamat', 'tanggal_pengaduan', 'jenis_pengaduan', 'deskripsi_pengaduan', 'status'];
+                return view('laporan/cetak', compact('column', 'row', 'data'));
+            }
+        }
     }
 }

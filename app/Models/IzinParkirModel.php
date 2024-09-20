@@ -24,7 +24,38 @@ class IzinParkirModel extends Model
                 ->select('izin_parkir.*,pegawai.nama,pegawai.nik,tempat_parkir.nama_tempat,tempat_parkir.alamat,tempat_parkir.status_operasional,izin_parkir.status_izin as status')->findAll();
         }
     }
+    public function cetakDataBeetwen($dari, $sampai)
+    {
+        return $this->join('tempat_parkir', 'tempat_parkir.id=izin_parkir.id_tempat_parkir')
+            ->join('pegawai', 'pegawai.id=izin_parkir.id_petugas')
+            ->select('izin_parkir.*,pegawai.nama,pegawai.nik,tempat_parkir.nama_tempat,tempat_parkir.alamat,tempat_parkir.status_operasional,izin_parkir.status_izin as status')
+            ->where("izin_parkir.tanggal_mulai BETWEEN '$dari' AND '$sampai'")
+            ->findAll();
+    }
 
+    public function cetakDataBeetwenPengguna($dari, $sampai)
+    {
+        return $this->join('tempat_parkir', 'tempat_parkir.id=izin_parkir.id_tempat_parkir')
+            ->join('pegawai', 'pegawai.id=izin_parkir.id_petugas')
+            ->select('izin_parkir.*,pegawai.nama,pegawai.nik,tempat_parkir.nama_tempat,tempat_parkir.alamat,tempat_parkir.status_operasional,izin_parkir.status_izin as status')
+            ->where('id_petugas', session()->get('id'))
+            ->where("izin_parkir.tanggal_mulai BETWEEN '$dari' AND '$sampai'")
+            ->findAll();
+    }
+
+    public function cetakDataPerPengguna()
+    {
+        return $this->join('tempat_parkir', 'tempat_parkir.id=izin_parkir.id_tempat_parkir')
+            ->join('pegawai', 'pegawai.id=izin_parkir.id_petugas')
+            ->select('izin_parkir.*,pegawai.nama,pegawai.nik,tempat_parkir.nama_tempat,tempat_parkir.alamat,tempat_parkir.status_operasional,izin_parkir.status_izin as status')
+            ->where('id_petugas', session()->get('id'))->findAll();
+    }
+    public function cetakData()
+    {
+        return $this->join('tempat_parkir', 'tempat_parkir.id=izin_parkir.id_tempat_parkir')
+            ->join('pegawai', 'pegawai.id=izin_parkir.id_petugas')
+            ->select('izin_parkir.*,pegawai.nama,pegawai.nik,tempat_parkir.nama_tempat,tempat_parkir.alamat,tempat_parkir.status_operasional,izin_parkir.status_izin as status')->findAll();
+    }
 
     public function getEnumValues($field)
     {

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class RetribusiParkirModel extends Model
+class Medel extends Model
 {
     protected $table            = 'retribusi_parkir';
     protected $primaryKey       = 'id';

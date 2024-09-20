@@ -24,6 +24,38 @@ class PengaduanModel extends Model
                 ->select('pengaduan.*,users.name,users.email,tempat_parkir.nama_tempat,tempat_parkir.alamat,pengaduan.status_pengaduan as status')->findAll();
         }
     }
+    public function cetakDataBeetwen($dari, $sampai)
+    {
+        return $this->join('tempat_parkir', 'tempat_parkir.id=pengaduan.id_tempat_parkir')
+            ->join('users', 'users.id=Pengaduan.id_pengguna')
+            ->select('pengaduan.*,users.name,users.email,tempat_parkir.nama_tempat,tempat_parkir.alamat,pengaduan.status_pengaduan as status')
+            ->where("pengaduan.tanggal_pengaduan BETWEEN '$dari' AND '$sampai'")
+            ->findAll();
+    }
+
+    public function cetakDataBeetwenPengguna($dari, $sampai)
+    {
+        return $this->join('tempat_parkir', 'tempat_parkir.id=pengaduan.id_tempat_parkir')
+            ->join('users', 'users.id=Pengaduan.id_pengguna')
+            ->select('pengaduan.*,users.name,users.email,tempat_parkir.nama_tempat,tempat_parkir.alamat,pengaduan.status_pengaduan as status')
+            ->where('id_pengguna', session()->get('id'))
+            ->where("pengaduan.tanggal_pengaduan BETWEEN '$dari' AND '$sampai'")
+            ->findAll();
+    }
+
+    public function cetakDataPerPengguna()
+    {
+        return $this->join('tempat_parkir', 'tempat_parkir.id=pengaduan.id_tempat_parkir')
+            ->join('users', 'users.id=Pengaduan.id_pengguna')
+            ->select('pengaduan.*,users.name,users.email,tempat_parkir.nama_tempat,tempat_parkir.alamat,pengaduan.status_pengaduan as status')
+            ->where('id_pengguna', session()->get('id'))->findAll();
+    }
+    public function cetakData()
+    {
+        return $this->join('tempat_parkir', 'tempat_parkir.id=pengaduan.id_tempat_parkir')
+            ->join('users', 'users.id=Pengaduan.id_pengguna')
+            ->select('pengaduan.*,users.name,users.email,tempat_parkir.nama_tempat,tempat_parkir.alamat,pengaduan.status_pengaduan as status')->findAll();
+    }
 
 
     public function getEnumValues($field)

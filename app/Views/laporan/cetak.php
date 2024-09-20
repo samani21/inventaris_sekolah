@@ -23,19 +23,18 @@ function convertColumnName($columnName)
         <table width="100%" style="height: 100%;">
             <tbody>
                 <td width=" 30%">
-                    <img src="<?= base_url() ?>/public/images/pemko.png" alt="" width="100%" height="80%">
+                    <img src="<?= base_url() ?>/public/images/banjarbaru.png" alt="" width="80%" height="80%">
                 </td>
                 <td width="40%">
                     <pre align="center">
-<b style="font-size: 20px;">PEMERINTAH KOTA BANJARMASIN
-DINAS PENDIDIKAN</b>
-<b style="font-size: 30px;">SDN KELAYAN SELATAN 1</b>
-<b style="font-size: 20px;">JL.TEMBUS MANTUIL GANG SARTIKA RT.19 No.61</b>
-<b style="font-size: 20px;">BANJARMASIN</b>
+<b style="font-size: 15px;">PEMERINTAH KOTA BANJARBARU</b>
+<b style="font-size: 30px;">DINAS PERHUBUNGAN</b>
+<b style="font-size: 15px;">UNIT PELAYANAN TEKNIS PENGELOLAAN PERPARKIRAN</b>
+<b style="font-size: 12px;">ALAMAT : JL.Jendral Sudirman No 3 Telp/Fax (0511)6749304 Banjarbaru 70713</b>
             </pre>
                 </td>
                 <td width="30%">
-                    <img src="<?= base_url() ?>/public/images/sd.png" alt="" width="100%" height="80%">
+                    <img src="<?= base_url() ?>/public/images/dishub.png" alt="" width="80%" height="80%">
                 </td>
             </tbody>
         </table>
@@ -108,7 +107,20 @@ Laporan dari tanggal <?= $dari ?> - <?= $sampai ?>
             }
             ?>
         </tbody>
+        <?php
+        if (@$totalSum) {
+        ?>
+            <tbody>
+                <th colspan="<?= count($column) - 3 ?>" align="right">Total</th>
+                <th colspan="4" align="left">
+                    <p> Rp <?= number_format(@$total, 0, ',', '.'); ?></p>
+                </th>
+            </tbody>
+        <?php
+        }
+        ?>
     </table>
+
 </body>
 
 </html>
