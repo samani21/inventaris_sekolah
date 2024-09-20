@@ -116,7 +116,6 @@ function transformTableName($tableName)
 
                 <label for="<?= $fv['name'] ?>" class="col-md-3 col-form-label"><?= transformTableName($fv['name']) ?></label>
                 <select name="<?= $fv['name'] ?>" id="" required class="form-control" >
-                    <option><?= @$dtVerf[$fv['name']] ?></option>
                     <?php
                     foreach ($enum[$fv['name']] as $en) {
                     ?>

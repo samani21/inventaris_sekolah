@@ -13,14 +13,22 @@ class PegawaiModel extends Model
 
     public function getData()
     {
+        return $this->join('users', 'users.id = pegawai.user_id')
+            ->select('concat(tempat, ",", tanggal) as ttl, pegawai.id, nik, nama, tempat, jenis_klamin, agama, no_telepon, foto, role, alamat, tanggal_bergabung')
+            ->where('users.role !=', 'Petugas Parkir')  // Exclude rows where role is 'Admin'
+            ->findAll();
+    }
+
+    public function getDataPetugasParkir()
+    {
         return $this->join('users', 'users.id=pegawai.user_id')
-            ->select('concat(tempat,",",tanggal) as ttl,pegawai.id,nik,nama,tempat,jenis_klamin,agama,no_telepon,foto,role,alamat,tanggal_bergabung')->findAll();
+            ->select('concat(tempat,",",tanggal) as ttl,pegawai.id,nik,nama,tempat,jenis_klamin,agama,no_telepon,foto,role,alamat,tanggal_bergabung')->where('users.role', 'Petugas Parkir')->findAll();
     }
 
     public function getDataSelct()
     {
         return $this->join('users', 'users.id=pegawai.user_id')
-            ->select('concat(tempat,",",tanggal) as ttl,pegawai.id,nik,nama,tempat,jenis_klamin,agama,no_telepon,foto,role,alamat,tanggal_bergabung')->where('role', 'pegawai')->findAll();
+            ->select('concat(tempat,",",tanggal) as ttl,pegawai.id,nik,nama,tempat,jenis_klamin,agama,no_telepon,foto,role,alamat,tanggal_bergabung')->where('role', 'Petugas Parkir')->findAll();
     }
 
     public function getEnumAgama($field)

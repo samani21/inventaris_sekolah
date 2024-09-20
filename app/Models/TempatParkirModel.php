@@ -8,12 +8,12 @@ class TempatParkirModel extends Model
 {
     protected $table            = 'tempat_parkir';
     protected $primaryKey       = 'id';
-    protected $allowedFields    = ['nama_tempat', 'alamat', 'kapasitas_total', 'kapasitas_terpakai', 'status_operasional'];
+    protected $allowedFields    = ['nama_tempat', 'alamat', 'kapasitas_total', 'status_operasional', 'jenis'];
 
 
     public function getData()
     {
-        return $this->findAll();
+        return $this->select('tempat_parkir.*,tempat_parkir.status_operasional as status')->findAll();
     }
 
 

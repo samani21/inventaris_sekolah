@@ -65,11 +65,11 @@
                                         <span class="sub-item">Pegawai</span>
                                     </a>
                                 </li>
-                                <li class="<?php if ($hover == 'Kendaraan') {
+                                <li class="<?php if ($hover == 'Petugas Parkir') {
                                                 echo 'active';
                                             } ?>">
-                                    <a href="<?= base_url('kendaraan') ?>">
-                                        <span class="sub-item">Kendaraan</span>
+                                    <a href="<?= base_url('petugas_parkir') ?>">
+                                        <span class="sub-item">Petugas Parkir</span>
                                     </a>
                                 </li>
                                 <li class="<?php if ($hover == 'Tempat Parkir') {
@@ -85,6 +85,30 @@
                 <?php
                 }
                 ?>
+                <li class="nav-item <?php if ($hover == 'Retribusi Parkir') {
+                                        echo 'active';
+                                    } ?>">
+                    <a href="<?= base_url('retribusi_parkir') ?>">
+                        <i class="fas fa-car"></i>
+                        <p>Retribusi Parkir</p>
+                    </a>
+                </li>
+                <li class="nav-item <?php if ($hover == 'Pengaduan') {
+                                        echo 'active';
+                                    } ?>">
+                    <a href="<?= base_url('pengaduan') ?>">
+                        <i class="fas fa-users"></i>
+                        <p>Pengaduan</p>
+                    </a>
+                </li>
+                <li class="nav-item <?php if ($hover == 'Izin Parkir') {
+                                        echo 'active';
+                                    } ?>">
+                    <a href="<?= base_url('izin_parkir') ?>">
+                        <i class="fas fa-users"></i>
+                        <p>Izin Parkir</p>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

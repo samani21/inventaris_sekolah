@@ -40,7 +40,14 @@ function transformTableName($tableName)
                     ?>
                 </select>
             <?php
-            } elseif ($f['type'] == 'email') {
+            } elseif ($f['type'] == 'rupiah') {
+                ?>
+    
+                    <label for="<?= $f['name'] ?>" class="col-md-3 col-form-label"><?= transformTableName($f['name']) ?></label>
+                    <input type="text" id="rupiah" class="form-control" placeholder="Rp 0" oninput="formatRupiah(this)" value="<?= $dt[$f['name']] ?>" name="<?= $f['name'] ?>">
+    
+                <?php
+                }elseif ($f['type'] == 'email') {
             ?>
 
                 <label for="<?= $f['name'] ?>" class="col-md-3 col-form-label"><?= transformTableName($f['name']) ?></label>
@@ -168,6 +175,21 @@ function transformTableName($tableName)
         $('#' + fieldName).val(displayText);
         $('#relationModal_' + fieldName).modal('hide');
     }
+    function formatRupiah(input) {
+            let value = input.value.replace(/[^,\d]/g, '').toString();
+            let split = value.split(',');
+            let sisa = split[0].length % 3;
+            let rupiah = split[0].substr(0, sisa);
+            let ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+            if (ribuan) {
+                let separator = sisa ? '.' : '';
+                rupiah += separator + ribuan.join('.');
+            }
+
+            input.value = split[1] !== undefined ? rupiah + ',' + split[1] : rupiah;
+            input.value = 'Rp ' + input.value;
+        }
 </script>
 
 <?= $this->endSection() ?>

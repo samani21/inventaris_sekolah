@@ -14,7 +14,7 @@ class TempatParkir extends BaseController
         $hover = "Tempat Parkir";
         $model = new TempatParkirModel();
         $page = 'tempat_parkir';
-        $column = ['nama_tempat', 'alamat', 'kapasitas_total', 'kapasitas_terpakai', 'status_operasional'];
+        $column = ['nama_tempat', 'alamat', 'kapasitas_total', 'status'];
         $row = $model->getData();
         return view('main/list', compact('data', 'hover', 'row', 'column', 'page'));
     }
@@ -32,7 +32,6 @@ class TempatParkir extends BaseController
         $form = [
             ['type' => 'text', 'name' => 'nama_tempat'],
             ['type' => 'text', 'name' => 'alamat'],
-            ['type' => 'number', 'name' => 'kapasitas_terpakai'],
             ['type' => 'number', 'name' => 'kapasitas_total'],
             ['type' => 'enum', 'name' => 'status_operasional'],
         ];
@@ -45,7 +44,6 @@ class TempatParkir extends BaseController
         $tempat_parkir->insert([
             'nama_tempat' => $this->request->getPost('nama_tempat'),
             'alamat' => $this->request->getPost('alamat'),
-            'kapasitas_terpakai' => $this->request->getPost('kapasitas_terpakai'),
             'kapasitas_total' => $this->request->getPost('kapasitas_total'),
             'status_operasional' => $this->request->getPost('status_operasional'),
         ]);
@@ -66,7 +64,6 @@ class TempatParkir extends BaseController
         $form = [
             ['type' => 'text', 'name' => 'nama_tempat'],
             ['type' => 'text', 'name' => 'alamat'],
-            ['type' => 'number', 'name' => 'kapasitas_terpakai'],
             ['type' => 'number', 'name' => 'kapasitas_total'],
             ['type' => 'enum', 'name' => 'status_operasional'],
         ];
@@ -81,7 +78,6 @@ class TempatParkir extends BaseController
         $tempat_parkir->update($id_guru, [
             'nama_tempat' => $this->request->getPost('nama_tempat'),
             'alamat' => $this->request->getPost('alamat'),
-            'kapasitas_terpakai' => $this->request->getPost('kapasitas_terpakai'),
             'kapasitas_total' => $this->request->getPost('kapasitas_total'),
             'status_operasional' => $this->request->getPost('status_operasional'),
         ]);
