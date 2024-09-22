@@ -21,7 +21,7 @@ class Login extends BaseController
 
 		$user = new UserModel();
 		$users = $user->where('name', $name)->first();
-		echo $users['password'];
+		
 		// $siswa = new SiswaModel();
 		// $siswas = $siswa->where([
 		// 	'nis' => $username,
