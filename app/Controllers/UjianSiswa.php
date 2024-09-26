@@ -16,11 +16,13 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class UjianSiswa extends BaseController
 {
+    protected $tahunajaran;
     protected $idTahunAjaran;
     public function __construct()
     {
         $model = new TahunAjaranModel();
         $tahunAjaran = $model->where('aktif', 1)->first();
+        $this->tahunajaran = $tahunAjaran['tahun'];
         $this->idTahunAjaran = $tahunAjaran['id'];
     }
     public function index($kelas)
@@ -62,7 +64,7 @@ class UjianSiswa extends BaseController
             $hiddenButtonAdd = true;
             if (isset($tanggal) && isset($mapel)) {
                 $ceklist = 'hadir';
-                $row = $model->getData($namaKelas, $tanggal, $mapel, $this->idTahunAjaran);
+                $row = $model->getData($namaKelas, $tanggal, $mapel, $this->tahunajaran);
                 $hiddenEdit = true;
                 // $hiddenButtonAdd = true;
                 $foto = true;
@@ -71,7 +73,7 @@ class UjianSiswa extends BaseController
                 $dtMapel = $modelMapel->getData();
                 return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'foto', 'ceklist', 'hiddenEdit', 'hadir', 'ujian', 'dtMapel', 'hiddenButtonAdd'));
             } else {
-                $row = $model->getDataKelas($namaKelas, $this->idTahunAjaran);
+                $row = $model->getDataKelas($namaKelas, $this->tahunajaran);
                 $hiddenEdit = true;
                 // $hiddenButtonAdd = true;
                 $foto = true;
@@ -87,6 +89,7 @@ class UjianSiswa extends BaseController
         $tanggal = $this->request->getVar('tanggal');
         $mapel = $this->request->getVar('mapel');
         $penilaian = $this->request->getVar('penilaian');
+        $status = $this->request->getVar('status');
         $modelMapel = new MapelModel();
         $idMapel = $modelMapel->where('nama_mapel', $mapel)->first();
         $data = new AbsenSiswaModel();
@@ -96,12 +99,26 @@ class UjianSiswa extends BaseController
             'tanggal' => $tanggal,
             'hadir' => 1,
             'id_mapel' => $idMapel['id'],
-            'id_guru' => session()->get('id_guru')
+            'id_guru' => session()->get('id_guru'),
+            'status' => $status
         ]);
 
         session()->setFlashdata("success", "Berhasil update data");
         return redirect()->to('/siswa_perkelas/' . $kelas . '/ujian?tanggal=' . $tanggal . '&mapel=' . $mapel . '&penilaian=' . $penilaian);
     }
+
+    public function updateCeklist($kelas, $id)
+    {
+        $status = $this->request->getVar('status');
+        $data = new AbsenSiswaModel();
+        $data->update($id, [
+            'status' => $status,
+        ]);
+
+        session()->setFlashdata("success", "Berhasil update data");
+        return redirect()->back();
+    }
+
 
     public function nilai($id)
     {

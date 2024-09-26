@@ -286,15 +286,97 @@ function convertColumnName($columnName)
                                             if (isset($hadir)) {
                                                 if ($r['id_absen_siswa']) {
                                             ?>
-                                                    <div class="btn btn-icon btn-round btn btn-outline-secondary btn-sm me-2">
-                                                        <i class="fa fa-check"></i>
-                                                    </div>
+                                                    <table border="1" class="table table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <td>Hadir</td>
+                                                                <td>Ijin</td>
+                                                                <td>Sakit</td>
+                                                                <td>Alpa</td>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    <a href="<?= base_url($page . '/update-ceklist/' . $r['id_absen'] . '?status=Hadir') ?>" class="btn btn-icon btn-round btn btn-outline-secondary btn-sm me-2">
+                                                                        <?php
+                                                                        if ($r['status'] == "Hadir") {
+                                                                        ?>
+                                                                            <i class="fa fa-check"></i>
+                                                                        <?php
+                                                                        }
+                                                                        ?>
+                                                                    </a>
+                                                                </td>
+                                                                <td>
+                                                                    <a href="<?= base_url($page . '/update-ceklist/' . $r['id_absen'] . '?status=Ijin') ?>" class="btn btn-icon btn-round btn btn-outline-secondary btn-sm me-2">
+                                                                        <?php
+                                                                        if ($r['status'] == "Ijin") {
+                                                                        ?>
+                                                                            <i class="fa fa-check"></i>
+                                                                        <?php
+                                                                        }
+                                                                        ?>
+                                                                    </a>
+                                                                </td>
+                                                                <td>
+                                                                    <a href="<?= base_url($page . '/update-ceklist/' . $r['id_absen'] . '?status=Sakit') ?>" class="btn btn-icon btn-round btn btn-outline-secondary btn-sm me-2">
+                                                                        <?php
+                                                                        if ($r['status'] == "Sakit") {
+                                                                        ?>
+                                                                            <i class="fa fa-check"></i>
+                                                                        <?php
+                                                                        }
+                                                                        ?>
+                                                                    </a>
+                                                                </td>
+                                                                <td>
+                                                                    <a href="<?= base_url($page . '/update-ceklist/' . $r['id_absen'] . '?status=Alpa') ?>" class="btn btn-icon btn-round btn btn-outline-secondary btn-sm me-2">
+                                                                        <?php
+                                                                        if ($r['status'] == "Alpa") {
+                                                                        ?>
+                                                                            <i class="fa fa-check"></i>
+                                                                        <?php
+                                                                        }
+                                                                        ?>
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
                                                 <?php
                                                 } else {
                                                 ?>
-                                                    <a href="<?= base_url($page . '/ceklist/' . $r['id'] . '?mapel=' . $_GET['mapel'] . '&tanggal=' . $_GET['tanggal'] . '&penilaian=' . $_GET['penilaian']) ?>" class="btn btn-icon btn-round btn btn-outline-secondary btn-sm me-2">
-
-                                                    </a>
+                                                    <table border="1" class="table table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <td>Hadir</td>
+                                                                <td>Ijin</td>
+                                                                <td>Sakit</td>
+                                                                <td>Alpa</td>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    <a href="<?= base_url($page . '/ceklist/' . $r['id'] . '?mapel=' . $_GET['mapel'] . '&tanggal=' . $_GET['tanggal'] . '&penilaian=' . $_GET['penilaian'] . '&status=Hadir') ?>" class="btn btn-icon btn-round btn btn-outline-secondary btn-sm me-2">
+                                                                    </a>
+                                                                </td>
+                                                                <td>
+                                                                    <a href="<?= base_url($page . '/ceklist/' . $r['id'] . '?mapel=' . $_GET['mapel'] . '&tanggal=' . $_GET['tanggal'] . '&penilaian=' . $_GET['penilaian'] . '&status=Ijin') ?>" class="btn btn-icon btn-round btn btn-outline-secondary btn-sm me-2">
+                                                                    </a>
+                                                                </td>
+                                                                <td>
+                                                                    <a href="<?= base_url($page . '/ceklist/' . $r['id'] . '?mapel=' . $_GET['mapel'] . '&tanggal=' . $_GET['tanggal'] . '&penilaian=' . $_GET['penilaian'] . '&status=Sakit') ?>" class="btn btn-icon btn-round btn btn-outline-secondary btn-sm me-2">
+                                                                    </a>
+                                                                </td>
+                                                                <td>
+                                                                    <a href="<?= base_url($page . '/ceklist/' . $r['id'] . '?mapel=' . $_GET['mapel'] . '&tanggal=' . $_GET['tanggal'] . '&penilaian=' . $_GET['penilaian'] . '&status=Alpa') ?>" class="btn btn-icon btn-round btn btn-outline-secondary btn-sm me-2">
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
                                                 <?php
                                                 }
                                                 ?>
@@ -407,12 +489,12 @@ function convertColumnName($columnName)
                                                                     <input type="hidden" name="penilaian" value="<?= $_GET['penilaian'] ?>">
                                                                     <input type="hidden" name="materi" value="<?= @$_GET['materi'] ?>" class="form-control" id="" required>
                                                                     <input type="number" class="form-control" value="<?php
-                                                                                                                        if ($_GET['penilaian'] == "Tugas" || $_GET['penilaian'] == "Kuis" || $_GET['penilaian'] == "Ulangan") {
-                                                                                                                            $query = $db->query('SELECT * FROM nilai');
+                                                                                                                        if ($_GET['penilaian'] == "Tugas" || $_GET['penilaian'] == "Kuis" || $_GET['penilaian'] == "Ulangan" || $_GET['penilaian'] == "PTS" || $_GET['penilaian'] == "PAS") {
+                                                                                                                            $query = $db->query('SELECT nilai,nilai.id_absen_siswa as id_absen_siswa FROM nilai JOIN absen_siswa on absen_siswa.id = nilai.id_absen_siswa UNION SELECT nilai,protofolio_proyek.id_absen_siswa as id_absen_siswa FROM protofolio_proyek JOIN absen_siswa on absen_siswa.id = protofolio_proyek.id_absen_siswa UNION SELECT nilai,nilai_ujian.id_absen_siswa as id_absen_siswa FROM nilai_ujian JOIN absen_siswa on absen_siswa.id = nilai_ujian.id_absen_siswa;');
                                                                                                                         } else if ($_GET['penilaian'] == "PTS" || $_GET['penilaian'] == "PAS") {
-                                                                                                                            $query = $db->query('SELECT * FROM nilai_ujian');
+                                                                                                                            $query = $db->query('SELECT nilai,nilai.id_absen_siswa as id_absen_siswa FROM nilai JOIN absen_siswa on absen_siswa.id = nilai.id_absen_siswa UNION SELECT nilai,protofolio_proyek.id_absen_siswa as id_absen_siswa FROM protofolio_proyek JOIN absen_siswa on absen_siswa.id = protofolio_proyek.id_absen_siswa UNION SELECT nilai,nilai_ujian.id_absen_siswa as id_absen_siswa FROM nilai_ujian JOIN absen_siswa on absen_siswa.id = nilai_ujian.id_absen_siswa;');
                                                                                                                         } else if ($_GET['penilaian'] == "Portofolio dan Proyek") {
-                                                                                                                            $query = $db->query('SELECT * FROM protofolio_proyek');
+                                                                                                                            $query = $db->query('SELECT nilai,nilai.id_absen_siswa as id_absen_siswa FROM nilai JOIN absen_siswa on absen_siswa.id = nilai.id_absen_siswa UNION SELECT nilai,protofolio_proyek.id_absen_siswa as id_absen_siswa FROM protofolio_proyek JOIN absen_siswa on absen_siswa.id = protofolio_proyek.id_absen_siswa UNION SELECT nilai,nilai_ujian.id_absen_siswa as id_absen_siswa FROM nilai_ujian JOIN absen_siswa on absen_siswa.id = nilai_ujian.id_absen_siswa;');
                                                                                                                         }
                                                                                                                         $results = $query->getResultArray();
                                                                                                                         foreach ($results as $nil) {
@@ -542,34 +624,36 @@ function convertColumnName($columnName)
                                             <?php
                                             }
                                         } else {
+                                            if (!isset($hadir)) {
                                             ?>
-                                            <td>
-                                                <?php
-                                                if (isset($verifikasi)) {
-                                                ?>
-                                                    <a href="<?= base_url($page . '/verifikasi/' . $r['id']) ?>" style="padding: 4px;" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-check-circle"></i></i></a>
-                                                <?php
-                                                }
-                                                ?>
-                                                <?php
-                                                if (!isset($hiddenEdit)) {
-                                                ?>
-                                                    <a href=" <?= base_url($page . '/edit/' . $r['id']) ?>" style="padding: 4px;" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i></i></a>
-                                                <?php
-                                                }
-                                                if (!isset($hiddenDelete)) {
-                                                ?>
+                                                <td>
+                                                    <?php
+                                                    if (isset($verifikasi)) {
+                                                    ?>
+                                                        <a href="<?= base_url($page . '/verifikasi/' . $r['id']) ?>" style="padding: 4px;" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-check-circle"></i></i></a>
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                    <?php
+                                                    if (!isset($hiddenEdit)) {
+                                                    ?>
+                                                        <a href=" <?= base_url($page . '/edit/' . $r['id']) ?>" style="padding: 4px;" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i></i></a>
+                                                    <?php
+                                                    }
+                                                    if (!isset($hiddenDelete)) {
+                                                    ?>
 
-                                                    <a href="<?= base_url($page . '/delete/' . $r['id']) ?>" style="padding: 4px;" data-bs-toggle="tooltip" title="" class="btn btn-link btn-danger delete-button" data-id="<?= $r['id'] ?>" data-original-title="Remove"> <i class="fa fa-times"></i></a>
-                                                <?php
-                                                }
-                                                ?>
+                                                        <a href="<?= base_url($page . '/delete/' . $r['id']) ?>" style="padding: 4px;" data-bs-toggle="tooltip" title="" class="btn btn-link btn-danger delete-button" data-id="<?= $r['id'] ?>" data-original-title="Remove"> <i class="fa fa-times"></i></a>
+                                                    <?php
+                                                    }
+                                                    ?>
 
-                                            </td>
-                                        <?php
+                                                </td>
+                                            <?php
+                                            }
                                         }
                                         if (isset($statusVerif)) {
-                                        ?>
+                                            ?>
                                             <td>
                                                 <?php
                                                 if ($r['id_user_verifikasi'] > 1) {

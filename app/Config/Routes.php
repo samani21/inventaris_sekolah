@@ -51,6 +51,13 @@ $routes->get('/kelas/edit/(:any)', 'Kelas::edit/$1');
 $routes->post('/kelas/update/(:any)', 'Kelas::update/$1');
 $routes->get('/kelas/delete/(:any)', 'Kelas::delete/$1');
 
+$routes->get('/data1', 'Data1::index');
+$routes->get('/data1/tambah', 'Data1::tambah');
+$routes->post('data1/store', 'Data1::store');
+$routes->get('/data1/edit/(:any)', 'Data1::edit/$1');
+$routes->post('/data1/update/(:any)', 'Data1::update/$1');
+$routes->get('/data1/delete/(:any)', 'Data1::delete/$1');
+
 //ekskul
 $routes->get('/ekskul', 'Ekstrakurikuler::index');
 $routes->get('/ekskul/tambah', 'Ekstrakurikuler::tambah');
@@ -133,8 +140,10 @@ $routes->get('/siswa_perkelas/(:any)/absen_nilai', 'SiswaPerkelas::index/$1');
 $routes->get('/siswa/(:any)/absen_nilai/tambah', 'SiswaPerkelas::tambah/$1');
 $routes->post('siswa/(:any)/absen_nilai/store', 'SiswaPerkelas::store/$1');
 $routes->get('/siswa/(:any)/absen_nilai/ceklist/(:any)', 'SiswaPerkelas::ceklist/$1/$2');
+$routes->get('/siswa/(:any)/absen_nilai/update-ceklist/(:any)', 'SiswaPerkelas::updateCeklist/$1/$2');
 $routes->post('/siswa/nilai/absen_nilai/store/(:any)', 'SiswaPerkelas::nilai/$1');
 $routes->get('siswa/(:any)/absen_nilai/delete/(:any)', 'SiswaPerkelas::delete/$1/$2');
+$routes->post('siswa/(:any)/store', 'SiswaPerkelas::store/$1');
 
 $routes->get('/siswa_perkelas/edit/(:any)', 'SiswaPerkelas::edit/$1');
 $routes->post('/siswa_perkelas/update/(:any)', 'SiswaPerkelas::update/$1');
@@ -149,6 +158,7 @@ $routes->get('/siswa_perkelas/(:any)/ujian', 'UjianSiswa::index/$1');
 $routes->get('/siswa/(:any)/ujian/tambah', 'UjianSiswa::tambah/$1');
 $routes->post('siswa/(:any)/ujian/store', 'UjianSiswa::store/$1');
 $routes->get('/siswa/(:any)/ujian/ceklist/(:any)', 'UjianSiswa::ceklist/$1/$2');
+$routes->get('/siswa/(:any)/ujian/update-ceklist/(:any)', 'UjianSiswa::updateCeklist/$1/$2');
 $routes->post('/siswa/nilai/ujian/store/(:any)', 'UjianSiswa::nilai/$1');
 $routes->get('siswa/(:any)/ujian/delete/(:any)', 'UjianSiswa::delete/$1/$2');
 
@@ -346,6 +356,6 @@ $routes->get('ekskul_siswa/report', 'EkstrakurikulerSiswa::reportGuru');
 $routes->get('ekskul_siswa/cetak', 'EkstrakurikulerSiswa::cetakGuru');
 
 $routes->get('raport_siswa/report', 'SiswaPerkelas::reportSiswa');
-$routes->get('raport_siswa/cetak_satuan/(:any)', 'SiswaPerkelas::cetakSiswa/$1');
+$routes->get('raport_siswa/cetak_satuan/(:any)/(:any)', 'SiswaPerkelas::cetakSiswa/$1/$2');
 //profil
 $routes->get('/profil', 'Profil::index');

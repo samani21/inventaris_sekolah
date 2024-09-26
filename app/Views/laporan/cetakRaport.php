@@ -50,13 +50,37 @@ DINAS PENDIDIKAN</b>
             <th>NIS</th>
             <th>:</th>
             <td><?= $rowSiswa['nis'] ?></td>
-        </tr>
-        <tr align="left">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
             <th>Nama</th>
             <th>:</th>
             <td><?= $rowSiswa['nama'] ?></td>
-        </tr>
-        <tr align="left">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
             <th>Kelas</th>
             <th>:</th>
             <td><?= $rowKelas['nama_kelas'] ?></td>
@@ -65,8 +89,6 @@ DINAS PENDIDIKAN</b>
             <th>Tahun</th>
             <th>:</th>
             <td><?= $dt['tahun'] ?></td>
-        </tr>
-        <tr align="left">
             <th>Semester</th>
             <th>:</th>
             <td><?= $dt['semester'] ?></td>
@@ -82,6 +104,9 @@ DINAS PENDIDIKAN</b>
         </tr>
         <?php
         $no = 1;
+        $total = 0;
+        $row_count = count($row); // Count the number of rows for average calculation if needed
+
         foreach ($row as $r) {
         ?>
             <tr align="left">
@@ -89,15 +114,89 @@ DINAS PENDIDIKAN</b>
                 <?php
                 foreach ($column as $col) {
                 ?>
-                    <td><?= $r[$col] ?></td>
+                    <td><?= htmlspecialchars($r[$col]) ?></td>
                 <?php
                 }
                 ?>
-                <td><?= floor(($r['nilai_harian'] + $r['pts'] + $r['pas']) / 3) ?></td>
+                <td>
+                    <?php
+                    // Check if the values are set and numeric
+                    $nilai_harian = isset($r['nilai_harian']) && is_numeric($r['nilai_harian']) ? $r['nilai_harian'] : 0;
+                    $pts = isset($r['pts']) && is_numeric($r['pts']) ? $r['pts'] : 0;
+                    $pas = isset($r['pas']) && is_numeric($r['pas']) ? $r['pas'] : 0;
+
+                    // Calculate the average
+                    $average = ($nilai_harian + $pts + $pas) / 3;
+
+                    // Output the floored average
+                    echo floor($average);
+
+                    // Add to total
+                    $total += $average;
+                    ?>
+                </td>
             </tr>
         <?php
         }
         ?>
+
+        <!-- Optionally, you can calculate the overall average of all rows if needed -->
+        <tr align="left">
+            <td colspan="<?= count($column) + 1 ?>">Nilai Rata Rata</td>
+            <?php
+            if ($total != 0) {
+            ?>
+                <td><?= floor($total / $row_count) ?></td>
+            <?php
+            }
+            ?>
+        </tr>
+    </table>
+    <?php
+    if ($dt['semester'] == 2) {
+        if ($total != 0) {
+            if (floor($total / $row_count) > 60) {
+    ?>
+                <table>
+                    <td>
+                        <p style="text-decoration: line-through;">Tidak naik kelas.</p>
+                    </td>
+                    <td>/</td>
+                    <td>
+                        <p> naik kelas.</p>
+                    </td>
+                </table>
+            <?php
+            } else {
+            ?>
+                <table>
+                    <td>
+                        <p>Tidak naik kelas.</p>
+                    </td>
+                    <td>/</td>
+                    <td>
+                        <p style="text-decoration: line-through;"> naik kelas.</p>
+                    </td>
+                </table>
+    <?php
+            }
+        }
+    }
+    ?>
+    <h3>Kehadiran Siswa</h3>
+    <table style="font-size: 24px; border-collapse: collapse;" border="1" width="100%">
+        <tr>
+            <th>Hadir</th>
+            <th>Ijin</th>
+            <th>Sakit</th>
+            <th>Alpa</th>
+        </tr>
+        <tr>
+            <th><?= $rowAbsen['hadir'] ?></th>
+            <th><?= $rowAbsen['ijin'] ?></th>
+            <th><?= $rowAbsen['sakit'] ?></th>
+            <th><?= $rowAbsen['alpa'] ?></th>
+        </tr>
     </table>
     <h3>Ekstrakurikuler</h3>
     <table style="font-size: 24px; border-collapse: collapse;" border="1" width="100%">
@@ -116,6 +215,7 @@ DINAS PENDIDIKAN</b>
         <?php
         }
         ?>
+    </table>
 </body>
 
 </html>

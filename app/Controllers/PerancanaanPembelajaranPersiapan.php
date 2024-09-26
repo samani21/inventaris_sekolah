@@ -31,7 +31,7 @@ class PerancanaanPembelajaranPersiapan  extends BaseController
             $hiddenButtonAdd = true;
             $hiddenButtonAction = true;
             $verif = true;
-            $column = ['nama_mapel', 'materi', 'tanggal', 'media', 'tujuan'];
+            $column = ['nama', 'nama_mapel', 'materi', 'tanggal', 'media', 'tujuan'];
             return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'hiddenButtonAdd', 'hiddenButtonAction', 'verif'));
         } else {
             $data = "Persiapan dan Perancanaan Pembelajaran";
@@ -39,7 +39,7 @@ class PerancanaanPembelajaranPersiapan  extends BaseController
             $page = 'perancaan_persiapan_pembelajaran';
             $model = new PerancaanPersiapanPembelajaranModel();
             $row = $model->getData();
-            $column = ['nip', 'nama', 'nama_mapel', 'materi', 'tanggal', 'media', 'tujuan'];
+            $column = ['nama', 'nip', 'nama', 'nama_mapel', 'materi', 'tanggal', 'media', 'tujuan'];
             $statusVerif = "id_user_verifikasi";
             return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'statusVerif'));
         }
@@ -141,6 +141,7 @@ class PerancanaanPembelajaranPersiapan  extends BaseController
             $form = [
                 ['type' => 'relasi', 'name' => 'id_mapel'],
                 ['type' => 'relas', 'name' => 'id_media'],
+                ['type' => 'relasi', 'name' => 'id_media'],
                 ['type' => 'text', 'name' => 'materi'],
                 ['type' => 'date', 'name' => 'tanggal'],
                 ['type' => 'textArea', 'name' => 'tujuan'],
@@ -255,7 +256,7 @@ class PerancanaanPembelajaranPersiapan  extends BaseController
             $page = 'perancaan_persiapan_pembelajaran';
             $model = new PerancaanPersiapanPembelajaranModel();
             $row = $model->getData();
-            $column = ['nip', 'nama', 'nama_mapel', 'materi', 'tanggal', 'media', 'tujuan'];
+            $column = ['nama', 'nip', 'nama', 'nama_mapel', 'materi', 'tanggal', 'media', 'tujuan'];
             $cetakData = true;
             return view('main/laporan', compact('data', 'hover', 'row', 'column', 'page', 'cetakData'));
         } else {
@@ -264,7 +265,7 @@ class PerancanaanPembelajaranPersiapan  extends BaseController
             $page = 'perancaan_persiapan_pembelajaran';
             $model = new PerancaanPersiapanPembelajaranModel();
             $row = $model->getData();
-            $column = ['nip', 'nama', 'nama_mapel', 'materi', 'tanggal', 'media', 'tujuan'];
+            $column = ['nama', 'nip', 'nama', 'nama_mapel', 'materi', 'tanggal', 'media', 'tujuan'];
             $cetakData = true;
             return view('main/laporan', compact('data', 'hover', 'row', 'column', 'page', 'cetakData'));
         }
@@ -289,14 +290,14 @@ class PerancanaanPembelajaranPersiapan  extends BaseController
             }
         } else {
             if ($dari && $sampai) {
-                $column = ['nip', 'nama', 'nama_mapel', 'materi', 'tanggal', 'media', 'tujuan'];
+                $column = ['nama', 'nip', 'nama', 'nama_mapel', 'materi', 'tanggal', 'media', 'tujuan'];
                 $model = new PerancaanPersiapanPembelajaranModel();
                 $row = $model->cetakDataBeetwen($dari, $sampai);
                 return view('laporan/cetak', compact('dari', 'sampai', 'column', 'row', 'data'));
             } else {
                 $model = new PerancaanPersiapanPembelajaranModel();
                 $row = $model->cetakData();
-                $column = ['nip', 'nama', 'nama_mapel', 'materi', 'tanggal', 'media', 'tujuan'];
+                $column = ['nama', 'nip', 'nama', 'nama_mapel', 'materi', 'tanggal', 'media', 'tujuan'];
                 return view('laporan/cetak', compact('column', 'row', 'data'));
             }
         }

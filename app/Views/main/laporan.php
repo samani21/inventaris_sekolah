@@ -25,23 +25,25 @@ function convertColumnName($columnName)
                 if (isset($hiddenBetween)) {
                 ?>
                     <a href="<?= base_url($page . '/cetak') ?>" class="btn btn-success">Cetak</a>
-                <?php
+                    <?php
                 } else {
-                ?>
-                    <form action="<?= base_url($page . '/cetak') ?>" method="get">
-                        <div class="row">
-                            <div class="col-5">
-                                <input type="date" class="form-control" name="dari">
+                    if (!isset($hiddenCetak)) {
+                    ?>
+                        <form action="<?= base_url($page . '/cetak') ?>" method="get">
+                            <div class="row">
+                                <div class="col-5">
+                                    <input type="date" class="form-control" name="dari">
+                                </div>
+                                <div class="col-5">
+                                    <input type="date" class="form-control" name="sampai">
+                                </div>
+                                <div class="col-2">
+                                    <button class="btn btn-success" type="submit">Cetak</button>
+                                </div>
                             </div>
-                            <div class="col-5">
-                                <input type="date" class="form-control" name="sampai">
-                            </div>
-                            <div class="col-2">
-                                <button class="btn btn-success" type="submit">Cetak</button>
-                            </div>
-                        </div>
-                    </form>
+                        </form>
                 <?php
+                    }
                 }
                 ?>
             </div>
@@ -158,7 +160,13 @@ function convertColumnName($columnName)
                                 } else if (isset($cetakRaport)) {
                                     ?>
                                     <td>
-                                        <a href="<?= base_url($page . '/cetak_satuan/' . $r['id']) ?>" class="btn btn-warning">Cetak</a>
+                                        <?php
+                                        foreach ($rapotSemester as $sem) {
+                                        ?>
+                                            <a href="<?= base_url($page . '/cetak_satuan/' . $r['id']) . '/' . $sem['id'] ?>" class="btn btn-warning">Raport <?= $sem['semester'] ?></a>
+                                        <?php
+                                        }
+                                        ?>
                                     </td>
                                 <?php
                                 }

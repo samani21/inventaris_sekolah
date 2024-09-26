@@ -39,7 +39,9 @@ class SiswaPerkelasModel extends Model
                                 GROUP_CONCAT(DISTINCT IF(mapel.nama_mapel = "' . $mapel . '", mapel.nama_mapel, NULL) SEPARATOR ", ") AS nama_mapel,
                                 GROUP_CONCAT(DISTINCT IF(mapel.nama_mapel = "' . $mapel . '" AND absen_siswa.tanggal = "' . $tanggal . '", absen_siswa.id, NULL) SEPARATOR ", ") AS id_absen_siswa,
                                 GROUP_CONCAT(DISTINCT IF(absen_siswa.tanggal = "' . $tanggal . '", absen_siswa.tanggal, NULL) SEPARATOR ", ") AS tanggal,
-                                GROUP_CONCAT(DISTINCT IF(absen_siswa.hadir = 1, absen_siswa.hadir, NULL) SEPARATOR ", ") AS hadir')
+                                GROUP_CONCAT(DISTINCT IF(absen_siswa.hadir = 1, absen_siswa.hadir, NULL) SEPARATOR ", ") AS hadir,
+                                GROUP_CONCAT(DISTINCT IF(mapel.nama_mapel = "' . $mapel . '" AND absen_siswa.tanggal = "' . $tanggal . '", absen_siswa.status, NULL) SEPARATOR ", ") AS status,
+                                GROUP_CONCAT(DISTINCT IF(mapel.nama_mapel = "' . $mapel . '" AND absen_siswa.tanggal = "' . $tanggal . '", absen_siswa.id, NULL) SEPARATOR ", ") AS id_absen')
             ->where([
                 'kelas.nama_kelas' => $kelas,
                 'tahun_ajaran.tahun' => $tahunajaran

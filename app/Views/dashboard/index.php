@@ -11,7 +11,7 @@ if (session()->get('level') == "Siswa") {
 ?>
     <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
 
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
                     <div class="card-title">Radar Chart</div>
@@ -124,26 +124,14 @@ if (session()->get('level') == "Siswa") {
     } else {
     ?>
         <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
-            <div class="col-md-6">
+            <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">Line Chart</div>
                     </div>
                     <div class="card-body">
                         <div class="chart-container">
-                            <canvas id="myChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">Line Chart</div>
-                    </div>
-                    <div class="card-body">
-                        <div class="chart-container">
-                            <canvas id="mySiswa"></canvas>
+                            <canvas id="myEkskul"></canvas>
                         </div>
                     </div>
                 </div>
@@ -180,37 +168,32 @@ if (session()->get('level') == "Siswa") {
                 labels: [
                     <?php
                     $db = \Config\Database::connect();
-                    $query = $db->query('SELECT 
-    siswa.id AS siswa_id, 
-    siswa.nama, 
-    mapel.id AS mapel_id, 
-    AVG(nilai.nilai) AS rata_rata_nilai,
-    AVG(nilai_ujian.nilai) AS rata_rata_nilai_ujian, 
-    AVG(COALESCE(nilai.nilai, 0) + COALESCE(nilai_ujian.nilai, 0)) AS total_rata_rata_nilai,
-    mapel.nama_mapel
-FROM 
-    siswa_perkelas 
-JOIN 
-    siswa ON siswa.id = siswa_perkelas.id_siswa 
-JOIN 
-    absen_siswa ON siswa_perkelas.id = absen_siswa.id_siswa_perkelas 
-LEFT JOIN 
-    nilai ON absen_siswa.id = nilai.id_absen_siswa 
-LEFT JOIN 
-    nilai_ujian ON absen_siswa.id = nilai_ujian.id_absen_siswa 
-JOIN 
-    mapel ON absen_siswa.id_mapel = mapel.id WHERE absen_siswa.id_tahun_ajaran = 4
-GROUP BY 
-    siswa.id, 
-    siswa.nama, 
-    mapel.id, 
-    mapel.nama_mapel
-ORDER BY 
-    siswa.id');
+                    $id_siswa = session()->get('id');
+                    $query = $db->query("SELECT SUM(COALESCE(nilai.nilai, 0) + COALESCE(protofolio_proyek.nilai, 0)) /COUNT(CASE 
+            WHEN COALESCE(nilai.nilai, 0) > 0 OR COALESCE(protofolio_proyek.nilai, 0) > 0 
+            THEN 1 
+            ELSE NULL 
+          END) AS nilai_harian, 
+        SUM(CASE WHEN nilai_ujian.jenis = 'PTS' THEN nilai_ujian.nilai ELSE 0 END) AS pts, 
+        SUM(CASE WHEN nilai_ujian.jenis = 'PAS' THEN nilai_ujian.nilai ELSE 0 END) AS pas, 
+        mapel.nama_mapel AS mapel 
+        FROM absen_siswa 
+        LEFT JOIN nilai ON nilai.id_absen_siswa = absen_siswa.id 
+        LEFT JOIN protofolio_proyek ON protofolio_proyek.id_absen_siswa = absen_siswa.id 
+        LEFT JOIN nilai_ujian ON absen_siswa.id = nilai_ujian.id_absen_siswa 
+        JOIN mapel ON mapel.id = absen_siswa.id_mapel
+        JOIN siswa_perkelas ON siswa_perkelas.id = absen_siswa.id_siswa_perkelas 
+        JOIN siswa ON siswa.id = siswa_perkelas.id_siswa 
+        WHERE siswa.id = $id_siswa AND (nilai.id_tahun_ajaran = $idAjaran OR nilai.id_tahun_ajaran IS NULL) 
+        AND (protofolio_proyek.id_tahun_ajaran = $idAjaran OR protofolio_proyek.id_tahun_ajaran IS NULL) 
+        AND (nilai_ujian.id_tahun_ajaran = $idAjaran OR nilai_ujian.id_tahun_ajaran IS NULL) 
+        AND (nilai.id_tahun_ajaran = $idAjaran OR nilai.id_tahun_ajaran IS NULL) 
+        AND (nilai.nilai IS NOT NULL OR protofolio_proyek.nilai IS NOT NULL OR nilai_ujian.nilai IS NOT NULL) 
+        GROUP BY absen_siswa.id_mapel");
                     $results = $query->getResultArray();
                     $labels = [];
                     foreach ($results as $br) {
-                        $labels[] = '"' . $br['nama_mapel'] . '"';
+                        $labels[] = '"' . $br['mapel'] . '"';
                     }
                     echo implode(',', $labels);
                     ?>
@@ -221,7 +204,7 @@ ORDER BY
                         <?php
                         $data = [];
                         foreach ($results as $br) {
-                            $data[] = $br['total_rata_rata_nilai']; // Sesuaikan dengan field yang ingin Anda gunakan
+                            $data[] = (($br['nilai_harian'] + $br['pts'] + $br['pas']) / 3); // Sesuaikan dengan field yang ingin Anda gunakan
                         }
                         echo implode(',', $data);
                         ?>
@@ -293,81 +276,49 @@ ORDER BY
 } else {
 ?>
     <script>
-        const ctx = document.getElementById('myChart');
-        const ctxs = document.getElementById('mySiswa');
+        const ctxE = document.getElementById('myEkskul').getContext('2d');
         const ctxg = multipleLineChart = document
             .getElementById("multipleLineChart")
             .getContext("2d");
 
-        new Chart(ctx, {
-            type: 'line',
+        new Chart(ctxE, {
+            type: 'radar',
             data: {
                 labels: [
                     <?php
                     $db = \Config\Database::connect();
-                    $query = $db->query('SELECT nama_barang,SUM(barang_masuk.total) as jumlah_barang FROM `barang_masuk` JOIN barang ON barang.id = barang_masuk.id_barang GROUP BY barang.id ORDER BY barang.nama_barang');
+                    $query = $db->query('SELECT COUNT(ekskul_siswa.id_ekskul) as total,kegiatan FROM `ekskul_siswa` JOIN ekskul ON ekskul.id = ekskul_siswa.id_ekskul GROUP BY ekskul_siswa.id_ekskul');
                     $results = $query->getResultArray();
                     $labels = [];
                     foreach ($results as $br) {
-                        $labels[] = '"' . $br['nama_barang'] . '"';
+                        $labels[] = '"' . $br['kegiatan'] . '"';
                     }
                     echo implode(',', $labels);
                     ?>
                 ],
                 datasets: [{
-                    label: '# Barang',
+                    label: 'Peminat Ekskul',
                     data: [
                         <?php
                         $data = [];
                         foreach ($results as $br) {
-                            $data[] = $br['jumlah_barang']; // Sesuaikan dengan field yang ingin Anda gunakan
+                            $data[] = $br['total']; // Sesuaikan dengan field yang ingin Anda gunakan
                         }
                         echo implode(',', $data);
                         ?>
                     ],
-                    borderWidth: 1
+                    borderWidth: 1,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    pointBackgroundColor: 'rgba(54, 162, 235, 1)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgba(54, 162, 235, 1)'
                 }]
             },
             options: {
                 scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-        new Chart(ctxs, {
-            type: 'line',
-            data: {
-                labels: [
-                    <?php
-                    $db = \Config\Database::connect();
-                    $query = $db->query('SELECT COUNT(semester) as jumlah_siswa,tahun,semester FROM `siswa_perkelas` JOIN tahun_ajaran ON tahun_ajaran.id = siswa_perkelas.id_tahun_ajaran GROUP BY semester,tahun,semester');
-                    $results = $query->getResultArray();
-                    $labels = [];
-                    foreach ($results as $br) {
-                        $labels[] = '"' . $br['tahun'] . ' Sem ' . $br['semester'] . '"';
-                    }
-                    echo implode(',', $labels);
-                    ?>
-                ],
-                datasets: [{
-                    label: '# Barang',
-                    data: [
-                        <?php
-                        $data = [];
-                        foreach ($results as $br) {
-                            $data[] = $br['jumlah_siswa']; // Sesuaikan dengan field yang ingin Anda gunakan
-                        }
-                        echo implode(',', $data);
-                        ?>
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
+                    r: {
                         beginAtZero: true
                     }
                 }

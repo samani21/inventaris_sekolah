@@ -315,14 +315,14 @@ class PelaksanaanPembelajaran  extends BaseController
             }
         } else {
             if ($dari && $sampai) {
-                $column = ['nip', 'nama', 'nama_mapel', 'materi', 'tanggal', 'metode', 'evaluasi', 'foto/video'];
+                $column = ['nip', 'nama', 'nama_mapel', 'materi', 'tanggal', 'metode', 'evaluasi'];
                 $model = new PelaksanaanPembelajaranModel();
                 $row = $model->cetakDataBeetwen($dari, $sampai);
                 return view('laporan/cetak', compact('dari', 'sampai', 'column', 'row', 'data'));
             } else {
                 $model = new PelaksanaanPembelajaranModel();
                 $row = $model->cetakData();
-                $column = ['nip', 'nama', 'nama_mapel', 'materi', 'tanggal', 'metode', 'evaluasi', 'foto/video'];
+                $column = ['nip', 'nama', 'nama_mapel', 'materi', 'tanggal', 'metode', 'evaluasi'];
                 return view('laporan/cetak', compact('column', 'row', 'data'));
             }
         }

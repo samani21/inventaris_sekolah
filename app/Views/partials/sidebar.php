@@ -363,7 +363,7 @@ $results = $query->getResultArray();
                         </a>
                     </li>
                     <?php
-                    if (session()->get('level') == "Tata Usaha") {
+                    if (session()->get('level') == "Tata Usaha" || session()->get('level') == "Admin") {
                     ?>
                         <li class="nav-item <?php if ($hover == 'Prestasi Siswa') {
                                                 echo 'active';
@@ -377,9 +377,9 @@ $results = $query->getResultArray();
                     }
                     if (session()->get('level') == "Admin"  || session()->get('level') == "Tata Usaha" || session()->get('level') == "Kepala Sekolah") {
                     ?>
-                        <li class="nav-item <?php if ($hover == 'Prestasi Guru') {
-                                                echo 'active';
-                                            } ?>">
+                        <!-- <li class="nav-item <?php if ($hover == 'Prestasi Guru') {
+                                                        echo 'active';
+                                                    } ?>">
                             <a href="<?= base_url('prestasi_guru') ?>">
                                 <i class="fas fa-star"></i>
                                 <p>Prestasi Guru</p>
@@ -392,11 +392,58 @@ $results = $query->getResultArray();
                                 <i class="fa fa-user"></i>
                                 <p>Kinerja Guru</p>
                             </a>
-                        </li>
+                        </li> -->
                     <?php
                     }
                     ?>
 
+                <?php
+                }
+                if (session()->get('level') == "Tata Usaha") {
+                ?>
+                    <li class="nav-item">
+                        <a data-bs-toggle="collapse" href="#kegiatan">
+                            <i class="fa fa-server"></i>
+                            <p>Ekstrakurikuler</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="kegiatan">
+                            <ul class="nav nav-collapse">
+                                <?php
+
+                                $query = $db->query('SELECT * FROM ekskul');
+                                $results = $query->getResultArray();
+                                foreach ($results as $kel) {
+                                ?>
+                                    <li class="<?php if ($hover == $kel['kegiatan']) {
+                                                    echo 'active';
+                                                } ?>">
+                                        <a href="<?= base_url('ekstrakurikuler/' . str_replace(' ', '_', $kel['kegiatan']) . '') ?>">
+                                            <span class="sub-item"><?= $kel['kegiatan'] ?></span>
+                                        </a>
+                                    </li>
+                                <?php
+                                }
+                                ?>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item <?php if ($hover == 'Bimbingan dan Konseling') {
+                                            echo 'active';
+                                        } ?>">
+                        <a href="<?= base_url('bimbingan_konseling') ?>">
+                            <i class="fa fa-puzzle-piece" aria-hidden="true"></i>
+                            <p>Bimbingan dan Konseling</p>
+                        </a>
+                    </li>
+                    <li class="nav-item <?php if ($hover == 'Prestasi Siswa') {
+                                            echo 'active';
+                                        } ?>">
+                        <a href="<?= base_url('prestasi_siswa') ?>">
+                            <i class="fas fa-star"></i>
+                            <p>Prestasi Siswa</p>
+                        </a>
+                    </li>
                 <?php
                 }
                 ?>

@@ -32,7 +32,8 @@ class Dashboard extends BaseController
             $dt = $guru->where([
                 'user_id' => $id_user,
             ])->first();
-            return view('dashboard/index', compact('data', 'hover', 'page'));
+            $idAjaran = $this->idTahunAjaran;
+            return view('dashboard/index', compact('idAjaran', 'data', 'hover', 'page'));
         } else if (session()->get('level') == "Guru") {
             $db = \Config\Database::connect();
             $querySiswa = $db->query('SELECT COUNT(nis) as jumlah FROM `siswa` ');
@@ -70,8 +71,8 @@ class Dashboard extends BaseController
 
             $modelInovasi = new InovasiGuruModel();
             $inovasi = count($modelInovasi->getChart());
-
-            return view('dashboard/index', compact('data', 'hover', 'page', 'jumlahSiSwa', 'jumlahSiSwaPerkelas', 'jumlahGuru', 'jumlahTataUsaha', 'perancanaan', 'pelaksanaan', 'sikap', 'inovasi'));
+            $idAjaran = $this->idTahunAjaran;
+            return view('dashboard/index', compact('idAjaran', 'data', 'hover', 'page', 'jumlahSiSwa', 'jumlahSiSwaPerkelas', 'jumlahGuru', 'jumlahTataUsaha', 'perancanaan', 'pelaksanaan', 'sikap', 'inovasi'));
         } else {
             $db = \Config\Database::connect();
             $querySiswa = $db->query('SELECT COUNT(nis) as jumlah FROM `siswa` ');
@@ -98,7 +99,8 @@ class Dashboard extends BaseController
             $dt = $guru->where([
                 'user_id' => $id_user,
             ])->first();
-            return view('dashboard/index', compact('data', 'hover', 'page', 'jumlahSiSwa', 'jumlahSiSwaPerkelas', 'jumlahGuru', 'jumlahTataUsaha'));
+            $idAjaran = $this->idTahunAjaran;
+            return view('dashboard/index', compact('idAjaran', 'data', 'hover', 'page', 'jumlahSiSwa', 'jumlahSiSwaPerkelas', 'jumlahGuru', 'jumlahTataUsaha'));
         }
     }
 }

@@ -67,7 +67,8 @@ class SiswaPerkelas extends BaseController
                 $hadir = true;
                 $modelMapel = new MapelModel();
                 $dtMapel = $modelMapel->getData();
-                return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'foto', 'ceklist', 'hiddenEdit', 'hadir', 'hadirHarian', 'dtMapel'));
+                $hiddenDelete = true;
+                return view('main/list', compact('data', 'hiddenDelete', 'hover', 'row', 'column', 'page', 'foto', 'ceklist', 'hiddenEdit', 'hadir', 'hadirHarian', 'dtMapel'));
             } else {
                 $row = $model->getDataKelas($namaKelas, $this->tahunajaran);
                 $hiddenEdit = true;
@@ -128,6 +129,7 @@ class SiswaPerkelas extends BaseController
         $mapel = $this->request->getVar('mapel');
         $penilaian = $this->request->getVar('penilaian');
         $materi = $this->request->getVar('materi');
+        $status = $this->request->getVar('status');
         $modelMapel = new MapelModel();
         $idMapel = $modelMapel->where('nama_mapel', $mapel)->first();
         $data = new AbsenSiswaModel();
@@ -137,7 +139,20 @@ class SiswaPerkelas extends BaseController
             'tanggal' => $tanggal,
             'hadir' => 1,
             'id_mapel' => $idMapel['id'],
-            'id_guru' => session()->get('id_guru')
+            'id_guru' => session()->get('id_guru'),
+            'status' => $status
+        ]);
+
+        session()->setFlashdata("success", "Berhasil update data");
+        return redirect()->back();
+    }
+
+    public function updateCeklist($kelas, $id)
+    {
+        $status = $this->request->getVar('status');
+        $data = new AbsenSiswaModel();
+        $data->update($id, [
+            'status' => $status,
         ]);
 
         session()->setFlashdata("success", "Berhasil update data");
@@ -254,25 +269,34 @@ class SiswaPerkelas extends BaseController
         if (session()->get('level') == "Siswa") {
             $model = new SiswaPerkelasModel();
             $row = $model->reportPersiswa();
-            $column = ['nis', 'nama', 'kelas', 'tahun', 'semester'];
+            $column = ['nis', 'nama', 'kelas', 'tahun'];
         } else {
             $model = new SiswaPerkelasModel();
             $row = $model->reportSiswa();
-            $column = ['nis', 'nama', 'kelas', 'tahun', 'semester'];
+            $column = ['nis', 'nama', 'kelas', 'tahun'];
         }
         $cetakRaport = true;
-        return view('main/laporan', compact('data', 'hover', 'row', 'column', 'page', 'cetakRaport'));
+        $modelTahunAjaran = new TahunAjaranModel();
+        $tahun = $this->tahunajaran;
+        $hiddenCetak = true;
+        $rapotSemester = $modelTahunAjaran->where('tahun', $tahun)->findAll();
+        return view('main/laporan', compact('data', 'hover', 'row', 'column', 'page', 'cetakRaport', 'rapotSemester', 'hiddenCetak'));
     }
 
-    public function cetakSiswa($id)
+    public function cetakSiswa($id, $id_tahun)
     {
         $data = "RAPORT SISWA";
         $column = ['mapel'];
+        $modelTahunAjaran = new TahunAjaranModel();
+        $tahun = $this->tahunajaran;
+        $tahunajaran = $modelTahunAjaran->where('id', $id_tahun)->first();
+        $semester = $tahunajaran['semester'];
         $model = new AbsenSiswaModel();
-        $row = $model->cetakRaport($id);
+        $row = $model->cetakRaport($id, $id_tahun);
+        $rowAbsen = $model->absenRaport($id, $id_tahun);
         $modeSswaPerkelas = new SiswaPerkelasModel();
         $dt = $modeSswaPerkelas->join('tahun_ajaran', 'tahun_ajaran.id = siswa_perkelas.id_tahun_ajaran')
-            ->select('siswa_perkelas.*,tahun_ajaran.tahun,tahun_ajaran.semester')
+            ->select('siswa_perkelas.*,tahun_ajaran.tahun,' . $semester . ' as semester')
             ->where([
                 'siswa_perkelas.id' => $id,
             ])->first();
@@ -282,6 +306,6 @@ class SiswaPerkelas extends BaseController
         $rowSiswa = $modelSiswa->where('id', $dt['id_siswa'])->first();
         $modelKelas = new KelasModel();
         $rowKelas = $modelKelas->where('id', $dt['id_kelas'])->first();
-        return view('laporan/cetakRaport', compact('column', 'row', 'data', 'rowEkskul', 'rowSiswa', 'rowKelas', 'dt'));
+        return view('laporan/cetakRaport', compact('column', 'row', 'data', 'rowEkskul', 'rowSiswa', 'rowKelas', 'dt', 'rowAbsen'));
     }
 }
