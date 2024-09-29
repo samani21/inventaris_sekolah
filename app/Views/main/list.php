@@ -527,43 +527,85 @@ function convertColumnName($columnName)
                                         ?>
                                             <td>
                                                 <?php
-                                                if ($r['id_user_verifikasi'] !== null && $r['id_user_verifikasi'] > 0) {
+                                                if (isset($r['id_user_verifikasi'])) {
+                                                    if ($r['id_user_verifikasi'] !== null && $r['id_user_verifikasi'] > 0) {
                                                 ?>
-                                                    <div class="row-12">
-                                                        <div class="col-6">
-                                                            <span class="badge badge-success">Verifikasi</span>
-                                                        </div>
-                                                        <br>
-                                                        <div class="col-6">
-                                                            <a class="btn btn-danger" href="<?= base_url('reject/' . $page . '/' . $r['id']) ?>">Reject</a>
-                                                        </div>
-                                                    </div>
-                                                    <?php
-                                                } else {
-                                                    if ($r['id_user_verifikasi'] === null) {
-                                                    ?>
                                                         <div class="row-12">
                                                             <div class="col-6">
-                                                                <a class="btn btn-warning" href="<?= base_url('verifikasi/' . $page . '/' . $r['id']) ?>">Verifikasi</a>
+                                                                <span class="badge badge-success">Verifikasi</span>
                                                             </div>
                                                             <br>
                                                             <div class="col-6">
                                                                 <a class="btn btn-danger" href="<?= base_url('reject/' . $page . '/' . $r['id']) ?>">Reject</a>
                                                             </div>
                                                         </div>
-                                                    <?php
+                                                        <?php
                                                     } else {
-                                                    ?>
+                                                        if ($r['id_user_verifikasi'] === null) {
+                                                        ?>
+                                                            <div class="row-12">
+                                                                <div class="col-6">
+                                                                    <a class="btn btn-warning" href="<?= base_url('verifikasi/' . $page . '/' . $r['id']) ?>">Verifikasi</a>
+                                                                </div>
+                                                                <br>
+                                                                <div class="col-6">
+                                                                    <a class="btn btn-danger" href="<?= base_url('reject/' . $page . '/' . $r['id']) ?>">Reject</a>
+                                                                </div>
+                                                            </div>
+                                                        <?php
+                                                        } else {
+                                                        ?>
+                                                            <div class="row-12">
+                                                                <div class="col-6">
+                                                                    <span class="badge badge-danger">Ditolak</span>
+                                                                </div>
+                                                                <br>
+                                                                <div class="col-6">
+                                                                    <a class="btn btn-warning" href="<?= base_url('verifikasi/' . $page . '/' . $r['id']) ?>">Verifikasi</a>
+                                                                </div>
+                                                            </div>
+                                                        <?php
+                                                        }
+                                                    }
+                                                } else if (isset($r['status'])) {
+                                                    if ($r['status'] == 'Disetujui') {
+                                                        ?>
                                                         <div class="row-12">
                                                             <div class="col-6">
-                                                                <span class="badge badge-danger">Ditolak</span>
+                                                                <span class="badge badge-success">Verifikasi</span>
                                                             </div>
                                                             <br>
                                                             <div class="col-6">
-                                                                <a class="btn btn-warning" href="<?= base_url('verifikasi/' . $page . '/' . $r['id']) ?>">Verifikasi</a>
+                                                                <a class="btn btn-danger" href="<?= base_url('reject/' . $page . '/' . $r['id']) ?>">Reject</a>
                                                             </div>
                                                         </div>
+                                                        <?php
+                                                    } else {
+                                                        if ($r['status'] === 'Proses') {
+                                                        ?>
+                                                            <div class="row-12">
+                                                                <div class="col-6">
+                                                                    <a class="btn btn-warning" href="<?= base_url('verifikasi/' . $page . '/' . $r['id']) ?>">Verifikasi</a>
+                                                                </div>
+                                                                <br>
+                                                                <div class="col-6">
+                                                                    <a class="btn btn-danger" href="<?= base_url('reject/' . $page . '/' . $r['id']) ?>">Reject</a>
+                                                                </div>
+                                                            </div>
+                                                        <?php
+                                                        } else {
+                                                        ?>
+                                                            <div class="row-12">
+                                                                <div class="col-6">
+                                                                    <span class="badge badge-danger">Ditolak</span>
+                                                                </div>
+                                                                <br>
+                                                                <div class="col-6">
+                                                                    <a class="btn btn-warning" href="<?= base_url('verifikasi/' . $page . '/' . $r['id']) ?>">Verifikasi</a>
+                                                                </div>
+                                                            </div>
                                                 <?php
+                                                        }
                                                     }
                                                 }
                                                 ?>

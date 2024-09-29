@@ -19,7 +19,9 @@ class Guru extends BaseController
         $column = ['nip', 'nama', 'ttl', 'agama', 'jenis_kelamin', 'no_hp', 'foto'];
         $row = $model->getData();
         // $hiddenButtonAdd = true;
-        return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'hiddenButtonAdd'));
+        $hiddenButtonAction = true;
+        $verif = true;
+        return view('main/list', compact('data', 'hover', 'row', 'column', 'page', 'hiddenButtonAdd', 'hiddenButtonAction', 'verif'));
     }
 
     public function tambah()
@@ -174,6 +176,26 @@ class Guru extends BaseController
         }
         session()->setFlashdata("success", "Berhasil update data");
         return redirect()->back();
+    }
+
+    public function verifikasi($id)
+    {
+        $data = new GuruModel();
+        $data->update($id, [
+            'status' => "Disetujui",
+        ]);
+        session()->setFlashdata("success", "Berhasil Verifikasi data");
+        return redirect('tata_usaha');
+    }
+
+    public function reject($id)
+    {
+        $data = new GuruModel();
+        $data->update($id, [
+            'status' => "Ditolak",
+        ]);
+        session()->setFlashdata("success", "Berhasil Reject data");
+        return redirect('tata_usaha');
     }
 
     public function delete($id)

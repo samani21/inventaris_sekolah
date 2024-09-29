@@ -36,29 +36,34 @@ class Login extends BaseController
 				$dt = $user->where([
 					'user_id' => $users['id'],
 				])->first();
-				if (empty($dt['id'])) {
-					$login = [
-						'islogin' => true,
-						'id' => $users['id'],
-						'username' => $users['username'],
-						'email' => $users['email'],
-						'name' => $users['name'],
-						'level' => $users['level'],
-					];
+				if ($dt['status'] == 'Disetujui') {
+					if (empty($dt['id'])) {
+						$login = [
+							'islogin' => true,
+							'id' => $users['id'],
+							'username' => $users['username'],
+							'email' => $users['email'],
+							'name' => $users['name'],
+							'level' => $users['level'],
+						];
+					} else {
+						$login = [
+							'islogin' => true,
+							'id' => $users['id'],
+							'username' => $users['username'],
+							'email' => $users['email'],
+							'name' => $users['name'],
+							'level' => $users['level'],
+							'id_guru' => $dt['id'],
+							'foto' => $dt['foto'],
+						];
+					}
+					$session->set($login);
+					return redirect()->to('/dashboard');
 				} else {
-					$login = [
-						'islogin' => true,
-						'id' => $users['id'],
-						'username' => $users['username'],
-						'email' => $users['email'],
-						'name' => $users['name'],
-						'level' => $users['level'],
-						'id_guru' => $dt['id'],
-						'foto' => $dt['foto'],
-					];
+					$session->setFlashdata('msg', 'Akun belum disetujui KEPSEK');
+					return redirect()->to('/login');
 				}
-				$session->set($login);
-				return redirect()->to('/dashboard');
 			} else {
 				$session->setFlashdata('msg', 'Email/Password invalid');
 				return redirect()->to('/login');

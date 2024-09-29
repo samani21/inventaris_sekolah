@@ -38,6 +38,8 @@ $routes->get('/tata_usaha/tambah', 'Guru::tambah');
 $routes->post('tata_usaha/store', 'Guru::store');
 $routes->get('/tata_usaha/edit/(:any)', 'Guru::edit/$1');
 $routes->post('/tata_usaha/update/(:any)', 'Guru::update/$1');
+$routes->get('/verifikasi/tata_usaha/(:any)', 'Guru::verifikasi/$1');
+$routes->get('/reject/tata_usaha/(:any)', 'Guru::reject/$1');
 $routes->post('/tata_usaha/profil/(:any)/(:any)', 'Guru::profil/$1/$2');
 $routes->get('/tata_usaha/delete/(:any)', 'Guru::delete/$1');
 $routes->get('/tata_usaha/laporan', 'Guru::laporan');

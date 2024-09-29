@@ -252,7 +252,7 @@ class PelaksanaanPembelajaran  extends BaseController
         $data->update($id, [
             'id_user_verifikasi' => 0,
         ]);
-        session()->setFlashdata("success", "Berhasil Verifikasi data");
+        session()->setFlashdata("success", "Berhasil Reject data");
         return redirect('pelaksanaan_pembelajaran');
     }
 

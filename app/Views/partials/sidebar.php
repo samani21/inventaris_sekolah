@@ -44,6 +44,20 @@ $results = $query->getResultArray();
                     </a>
                 </li>
                 <?php
+                if (session()->get('level') == "Kepala Sekolah") {
+                ?>
+                    <li class="nav-item <?php if ($hover == 'Tata Usaha') {
+                                            echo 'active';
+                                        } ?>">
+                        <a href="<?= base_url('tata_usaha') ?>">
+                            <i class="fas fa-users"></i>
+                            <p>Tata Usaha & Guru</p>
+                        </a>
+                    </li>
+                <?php
+                }
+                ?>
+                <?php
                 if (session()->get('level') == "Admin" || session()->get('level') == "Tata Usaha") {
                 ?>
                     <li class="nav-item

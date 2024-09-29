@@ -8,13 +8,13 @@ class GuruModel extends Model
 {
     protected $table            = 'guru';
     protected $primaryKey       = 'id';
-    protected $allowedFields    = ['user_id', 'foto', 'nip', 'nama', 'tempat', 't_lahir', 'j_kelamin', 'agama', 'no_hp', 'id_guru'];
+    protected $allowedFields    = ['user_id', 'foto', 'nip', 'nama', 'tempat', 't_lahir', 'j_kelamin', 'agama', 'no_hp', 'id_guru', 'tanggal_verifikasi', 'status'];
 
 
     public function getData()
     {
         return $this->join('users', 'users.id=guru.user_id')
-            ->select('concat(tempat,",",t_lahir) as ttl,guru.id,nip,nama,tempat,j_kelamin as jenis_kelamin,agama,no_hp,foto,level')->findAll();
+            ->select('concat(tempat,",",t_lahir) as ttl,guru.id,nip,nama,tempat,j_kelamin as jenis_kelamin,agama,no_hp,foto,level,status')->findAll();
     }
 
     public function getDataSelct()
