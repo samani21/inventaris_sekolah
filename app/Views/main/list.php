@@ -203,8 +203,13 @@ function convertColumnName($columnName)
                                 <?php
                                 }
                             }
-                            if (!isset($hiddenButtonAction)) {
+                            if (isset($download)) {
                                 ?>
+                                <th>Download</th>
+                            <?php
+                            }
+                            if (!isset($hiddenButtonAction)) {
+                            ?>
                                 <th>
                                     action
                                 </th>
@@ -638,9 +643,16 @@ function convertColumnName($columnName)
                                     } else {
                                         ?>
                                         <?php
+                                        if (isset($download)) {
+                                        ?>
+                                            <td>
+                                                <a href="<?= base_url('download-file/' . $r['file']) ?>" style="padding: 4px;" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-file"></i></i></a>
+                                            </td>
+                                            <?php
+                                        }
                                         if (isset($status)) {
                                             if ($r[$status] == 1) {
-                                        ?>
+                                            ?>
                                                 <td>
                                                     <?php
                                                     if (isset($verifikasi)) {

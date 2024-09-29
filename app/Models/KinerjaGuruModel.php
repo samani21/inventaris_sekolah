@@ -8,7 +8,7 @@ class KinerjaGuruModel extends Model
 {
     protected $table            = 'kinerja_guru';
     protected $primaryKey       = 'id';
-    protected $allowedFields    = ['id', 'id_guru', 'kompetensi_pedagogik', 'kompetensi_kepribadian', 'kompetensi_profesional', 'kompetensi_sosial', 'tanggal', 'keterangan', 'id_user_verifikasi'];
+    protected $allowedFields    = ['id', 'id_guru', 'kompetensi_pedagogik', 'kompetensi_kepribadian', 'kompetensi_profesional', 'kompetensi_sosial', 'tanggal', 'keterangan', 'id_user_verifikasi', 'file'];
 
 
     public function getData()

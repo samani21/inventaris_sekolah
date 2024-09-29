@@ -399,7 +399,7 @@ $results = $query->getResultArray();
                                 <p>Prestasi Guru</p>
                             </a>
                         </li>
-                        <li class="nav-item <?php if ($hover == 'Kinerja Guru') {
+                      <li class="nav-item <?php if ($hover == 'Kinerja Guru') {
                                                 echo 'active';
                                             } ?>">
                             <a href="<?= base_url('kinerja_guru') ?>">
@@ -407,6 +407,14 @@ $results = $query->getResultArray();
                                 <p>Kinerja Guru</p>
                             </a>
                         </li> -->
+                        <li class="nav-item <?php if ($hover == 'Kinerja Guru') {
+                                                echo 'active';
+                                            } ?>">
+                            <a href="<?= base_url('kinerja_guru') ?>">
+                                <i class="fa fa-user"></i>
+                                <p>Kinerja Guru</p>
+                            </a>
+                        </li>
                     <?php
                     }
                     ?>

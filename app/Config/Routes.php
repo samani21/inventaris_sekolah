@@ -361,3 +361,6 @@ $routes->get('raport_siswa/report', 'SiswaPerkelas::reportSiswa');
 $routes->get('raport_siswa/cetak_satuan/(:any)/(:any)', 'SiswaPerkelas::cetakSiswa/$1/$2');
 //profil
 $routes->get('/profil', 'Profil::index');
+
+
+$routes->get('download-file/(:segment)', 'DownloadFile::download/$1');

@@ -72,7 +72,7 @@ function transformTableName($tableName)
             ?>
 
                 <label for="<?= $f['name'] ?>" class="col-md-3 col-form-label"><?= transformTableName($f['name']) ?></label>
-                <input type="file" name="<?= $f['name'] ?>" class="form-control" placeholder="Input <?= transformTableName($f['name']) ?>" required autofocus>
+                <input type="file" name="<?= $f['name'] ?>" class="form-control" placeholder="Input <?= transformTableName($f['name']) ?>" <?php if(isset($notRequired)){}else{echo "required";}?> autofocus>
 
             <?php
             } elseif ($f['type'] == 'relasi') {
