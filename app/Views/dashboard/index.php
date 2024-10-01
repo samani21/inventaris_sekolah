@@ -118,6 +118,11 @@ if (session()->get('level') == "Siswa") {
                         <canvas id="pieChart" style="width: 100%; height: 100%"></canvas>
                     </div>
                 </div>
+                <div class="card-body">
+                    <div class="chart-container">
+                        <canvas id="pieChart1" style="width: 100%; height: 100%"></canvas>
+                    </div>
+                </div>
             </div>
         </div>
     <?php
@@ -242,6 +247,64 @@ if (session()->get('level') == "Siswa") {
                     borderWidth: 0,
                 }, ],
                 labels: ["Perancanaan", "Pelaksanaan", "Sikap", 'Inovasi'],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                legend: {
+                    position: "bottom",
+                    labels: {
+                        fontColor: "rgb(154, 154, 154)",
+                        fontSize: 11,
+                        usePointStyle: true,
+                        padding: 20,
+                    },
+                },
+                pieceLabel: {
+                    render: "percentage",
+                    fontColor: "white",
+                    fontSize: 14,
+                },
+                tooltips: false,
+                layout: {
+                    padding: {
+                        left: 20,
+                        right: 20,
+                        top: 20,
+                        bottom: 20,
+                    },
+                },
+            },
+        });
+
+        pieChart1 = document.getElementById("pieChart1").getContext("2d");
+        var myPieChart1 = new Chart(pieChart1, {
+            type: "polarArea",
+            data: {
+                datasets: [{
+                    data: [<?php
+                            $data = [];
+                            foreach ($diagram as $dr) {
+                                $data[] = $dr['total']; // Sesuaikan dengan field yang ingin Anda gunakan
+                            }
+                            echo implode(',', $data);
+                            ?>],
+                    backgroundColor: ["rgba(255, 99, 132, 0.5)", "rgba(54, 162, 235, 0.5)", "rgba(255, 206, 86, 0.5", "rgba(75, 192, 192, 0.5)", "rgba(153, 102, 255, 0.5)"],
+                    borderWidth: 0,
+                }, ],
+                labels: [
+                    <?php
+                    $db = \Config\Database::connect();
+                    $id_siswa = session()->get('id');
+                    $query = $db->query("SELECT DISTINCT(status_kinerja) as status_kinerja,COUNT(status_kinerja)as total FROM `monitoring_guru` WHERE id_guru =" . session()->get('id_guru') . " GROUP BY status_kinerja");
+                    $results = $query->getResultArray();
+                    $labels = [];
+                    foreach ($results as $br) {
+                        $labels[] = '"' . $br['status_kinerja'] . '"';
+                    }
+                    echo implode(',', $labels);
+                    ?>
+                ],
             },
             options: {
                 responsive: true,

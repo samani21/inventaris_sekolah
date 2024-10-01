@@ -389,7 +389,7 @@ $results = $query->getResultArray();
                         </li>
                     <?php
                     }
-                    if (session()->get('level') == "Admin"  || session()->get('level') == "Tata Usaha" || session()->get('level') == "Kepala Sekolah") {
+                    if (session()->get('level') == "Admin"  || session()->get('level') == "Tata Usaha" || session()->get('level') == "Kepala Sekolah" || session()->get('level') == "Guru") {
                     ?>
                         <!-- <li class="nav-item <?php if ($hover == 'Prestasi Guru') {
                                                         echo 'active';
@@ -413,6 +413,22 @@ $results = $query->getResultArray();
                             <a href="<?= base_url('kinerja_guru') ?>">
                                 <i class="fa fa-user"></i>
                                 <p>Kinerja Guru</p>
+                            </a>
+                        </li>
+                        <li class="nav-item <?php if ($hover == 'Nilai Guru') {
+                                                echo 'active';
+                                            } ?>">
+                            <a href="<?= base_url('nilai_guru') ?>">
+                                <i class="fa fa-briefcase"></i>
+                                <p>Nilai Guru</p>
+                            </a>
+                        </li>
+                        <li class="nav-item <?php if ($hover == 'Monitoring Guru') {
+                                                echo 'active';
+                                            } ?>">
+                            <a href="<?= base_url('monitoring_guru') ?>">
+                                <i class="fa fa-binoculars"></i>
+                                <p>Monitoring Guru</p>
                             </a>
                         </li>
                     <?php

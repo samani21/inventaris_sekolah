@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\GuruModel;
 use App\Models\InovasiGuruModel;
+use App\Models\MonitoringGuruModel;
 use App\Models\PelaksanaanPembelajaranModel;
 use App\Models\PerancaanPersiapanPembelajaranModel;
 use App\Models\SikapPrilakuKedisiplinanModel;
@@ -72,7 +73,10 @@ class Dashboard extends BaseController
             $modelInovasi = new InovasiGuruModel();
             $inovasi = count($modelInovasi->getChart());
             $idAjaran = $this->idTahunAjaran;
-            return view('dashboard/index', compact('idAjaran', 'data', 'hover', 'page', 'jumlahSiSwa', 'jumlahSiSwaPerkelas', 'jumlahGuru', 'jumlahTataUsaha', 'perancanaan', 'pelaksanaan', 'sikap', 'inovasi'));
+
+            $monitoring = new MonitoringGuruModel();
+            $diagram = $monitoring->getDiagram();
+            return view('dashboard/index', compact('idAjaran', 'data', 'hover', 'page', 'jumlahSiSwa', 'jumlahSiSwaPerkelas', 'jumlahGuru', 'jumlahTataUsaha', 'perancanaan', 'pelaksanaan', 'sikap', 'inovasi', 'diagram'));
         } else {
             $db = \Config\Database::connect();
             $querySiswa = $db->query('SELECT COUNT(nis) as jumlah FROM `siswa` ');
