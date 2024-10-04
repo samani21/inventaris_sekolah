@@ -201,8 +201,8 @@ $routes->post('/kinerja_guru/update/(:any)', 'KinerjaGuru::update/$1');
 $routes->post('/kinerja_guru/profil/(:any)/(:any)', 'KinerjaGuru::profil/$1/$2');
 $routes->get('verifikasi/kinerja_guru/(:any)', 'KinerjaGuru::verifikasi/$1');
 $routes->get('/kinerja_guru/delete/(:any)', 'KinerjaGuru::delete/$1');
-$routes->get('/kinerja_guru/laporan', 'KinerjaGuru::laporan');
-$routes->post('kinerja_guru/cetak', 'KinerjaGuru::cetak');
+$routes->get('/kinerja_guru/report', 'KinerjaGuru::report');
+$routes->get('kinerja_guru/cetak', 'KinerjaGuru::cetak');
 
 $routes->get('/nilai_guru', 'NilaiGuru::index');
 $routes->get('/nilai_guru/tambah', 'NilaiGuru::tambah');
@@ -212,8 +212,8 @@ $routes->post('/nilai_guru/update/(:any)', 'NilaiGuru::update/$1');
 $routes->post('/nilai_guru/profil/(:any)/(:any)', 'NilaiGuru::profil/$1/$2');
 $routes->get('verifikasi/nilai_guru/(:any)', 'NilaiGuru::verifikasi/$1');
 $routes->get('/nilai_guru/delete/(:any)', 'NilaiGuru::delete/$1');
-$routes->get('/nilai_guru/laporan', 'NilaiGuru::laporan');
-$routes->post('nilai_guru/cetak', 'NilaiGuru::cetak');
+$routes->get('/nilai_guru/report', 'NilaiGuru::report');
+$routes->get('nilai_guru/cetak', 'NilaiGuru::cetak');
 
 $routes->get('/monitoring_guru', 'MonitoringGuru::index');
 $routes->get('/monitoring_guru/tambah', 'MonitoringGuru::tambah');
@@ -223,14 +223,27 @@ $routes->post('/monitoring_guru/update/(:any)', 'MonitoringGuru::update/$1');
 $routes->post('/monitoring_guru/profil/(:any)/(:any)', 'MonitoringGuru::profil/$1/$2');
 $routes->get('verifikasi/monitoring_guru/(:any)', 'MonitoringGuru::verifikasi/$1');
 $routes->get('/monitoring_guru/delete/(:any)', 'MonitoringGuru::delete/$1');
-$routes->get('/monitoring_guru/laporan', 'MonitoringGuru::laporan');
-$routes->post('monitoring_guru/cetak', 'MonitoringGuru::cetak');
+$routes->get('/monitoring_guru/report', 'MonitoringGuru::report');
+$routes->get('monitoring_guru/cetak', 'MonitoringGuru::cetak');
+
+
+$routes->get('/pembayaran', 'Pembayaran::index');
+$routes->get('/pembayaran/tambah', 'Pembayaran::tambah');
+$routes->post('pembayaran/store', 'Pembayaran::store');
+$routes->get('/pembayaran/edit/(:any)', 'Pembayaran::edit/$1');
+$routes->post('/pembayaran/update/(:any)', 'Pembayaran::update/$1');
+$routes->post('/pembayaran/profil/(:any)/(:any)', 'Pembayaran::profil/$1/$2');
+$routes->get('verifikasi/pembayaran/(:any)', 'Pembayaran::verifikasi/$1');
+$routes->get('/pembayaran/delete/(:any)', 'Pembayaran::delete/$1');
+$routes->get('/pembayaran/report', 'Pembayaran::report');
+$routes->get('pembayaran/cetak', 'Pembayaran::cetak');
+$routes->get('pembayaran/cetak_satuan/(:any)', 'Pembayaran::cetakSatuan/$1');
 
 
 //barang baik
 $routes->get('/kondisi_barang', 'BarangBaik::index');
 $routes->get('/kondisi_barang/tambah', 'BarangBaik::tambah');
-$routes->post('kondisi_barang/store', 'BarangBaik::store');
+$routes->get('kondisi_barang/store', 'BarangBaik::store');
 $routes->get('/kondisi_barang/edit/(:any)', 'BarangBaik::edit/$1');
 $routes->post('/kondisi_barang/update/(:any)', 'BarangBaik::update/$1');
 $routes->get('/kondisi_barang/delete/(:any)', 'BarangBaik::delete/$1');

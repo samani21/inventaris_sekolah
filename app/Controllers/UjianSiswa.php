@@ -8,6 +8,7 @@ use App\Models\KelasModel;
 use App\Models\MapelModel;
 use App\Models\NilaiModel;
 use App\Models\NilaiUjianModel;
+use App\Models\PembayaranModel;
 use App\Models\PortofolioProyekModel;
 use App\Models\SiswaModel;
 use App\Models\SiswaPerkelasModel;
@@ -134,13 +135,31 @@ class UjianSiswa extends BaseController
                 'nilai' => $nilai,
             ]);
         } else {
-            $data->insert([
-                'id_absen_siswa' => $id,
-                'id_tahun_ajaran' => $this->idTahunAjaran,
-                'tanggal' => $tanggal,
-                'nilai' => $nilai,
-                'jenis' => $penilaian,
-            ]);
+            $siswaPerkerlas = new AbsenSiswaModel();
+            $absenSiswa = $siswaPerkerlas->join('siswa_perkelas', 'siswa_perkelas.id=absen_siswa.id_siswa_perkelas')->where('absen_siswa.id', $id)->select('id_siswa')->first();
+            $modelPembayaran = new PembayaranModel();
+            $pembayaran = $modelPembayaran->select('SUM(pembayaran_ke) as total')->where('id_tahun_ajaran', $this->idTahunAjaran)->where('id_siswa', $absenSiswa['id_siswa'])->first();
+
+            if ($pembayaran['total'] > 2 && $penilaian == "PTS") {
+                $data->insert([
+                    'id_absen_siswa' => $id,
+                    'id_tahun_ajaran' => $this->idTahunAjaran,
+                    'tanggal' => $tanggal,
+                    'nilai' => $nilai,
+                    'jenis' => $penilaian,
+                ]);
+            } else if ($pembayaran['total'] > 5 && $penilaian == "PAS") {
+                $data->insert([
+                    'id_absen_siswa' => $id,
+                    'id_tahun_ajaran' => $this->idTahunAjaran,
+                    'tanggal' => $tanggal,
+                    'nilai' => $nilai,
+                    'jenis' => $penilaian,
+                ]);
+            } else {
+                session()->setFlashdata("failed", "SPP YANG DIBAYAR TIDAK MENCUKUPI");
+                return redirect()->back();
+            }
         }
 
         session()->setFlashdata("success", "Berhasil tambah nilai");

@@ -161,19 +161,65 @@ class MonitoringGuru extends BaseController
         return redirect('monitoring_guru');
     }
 
-    public function laporan_sumber()
+    public function report()
     {
-        $data = "Laporan Sumber Barang";
-        $hover = "Laporan Sumber Barang";
-        $dt = new MonitoringGuruModel();
-        $d_bmp = $dt->getPemerintah();
-        return view('monitoring_guru/laporan_sumber', compact('data', 'hover', 'd_bmp'));
+        if (session()->get('level') == "Guru") {
+            $data = "Monitoring Guru";
+            $hover = "Monitoring Guru";
+            $page = 'monitoring_guru';
+            $model = new MonitoringGuruModel();
+            $row = $model->getDataPerguru();
+            $column = ['tanggal', 'status_kinerja', 'catatan'];
+
+            return view('main/laporan', compact('data', 'hover', 'row', 'column', 'page'));
+        } else if (session()->get('level') == "Kepala Sekolah") {
+            $data = "Monitoring Guru";
+            $hover = "Monitoring Guru";
+            $page = 'monitoring_guru';
+            $model = new MonitoringGuruModel();
+            $row = $model->getData();
+            $column = ['nip', 'nama', 'tanggal', 'status_kinerja', 'catatan'];
+            return view('main/laporan', compact('data', 'hover', 'row', 'column', 'page'));
+        } else {
+            $data = "Monitoring Guru";
+            $hover = "Monitoring Guru";
+            $page = 'monitoring_guru';
+            $model = new MonitoringGuruModel();
+            $row = $model->getData();
+            $column = ['nip', 'nama', 'tanggal', 'status_kinerja', 'catatan'];
+            return view('main/laporan', compact('data', 'hover', 'row', 'column', 'page'));
+        }
     }
 
-    public function cetak_sumber()
+    public function cetak()
     {
-        $dari = $this->request->getPost('dari');
-        $sampai = $this->request->getPost('sampai');
-        return view('monitoring_guru/cetak_sumber', compact('dari', 'sampai'));
+        $dari = $this->request->getVar('dari');
+        $sampai = $this->request->getVar('sampai');
+        $data = "Monitoring Guru";
+        if (session()->get('level') == "Guru") {
+            if ($dari && $sampai) {
+                $column = ['tanggal', 'status_kinerja', 'catatan'];
+                $model = new MonitoringGuruModel();
+                $row = $model->cetakDataBeetwenGuru($dari, $sampai);
+                return view('laporan/cetak', compact('dari', 'sampai', 'column', 'row', 'data'));
+            } else {
+                $model = new MonitoringGuruModel();
+                $row = $model->cetakDataPerguru();
+                $column = ['tanggal', 'status_kinerja', 'catatan'];
+                return view('laporan/cetak', compact('column', 'row', 'data'));
+            }
+        } else {
+            if ($dari && $sampai) {
+                $column = ['nip', 'nama', 'tanggal', 'status_kinerja', 'catatan'];
+                $model = new MonitoringGuruModel();
+                $row = $model->cetakDataBeetwen($dari, $sampai);
+                return view('laporan/cetak', compact('dari', 'sampai', 'column', 'row', 'data'));
+            } else {
+                $model = new MonitoringGuruModel();
+                $row = $model->cetakData();
+                $column = ['nip', 'nama', 'tanggal', 'status_kinerja', 'catatan'];
+                return view('laporan/cetak', compact('column', 'row', 'data'));
+            }
+        }
     }
 }

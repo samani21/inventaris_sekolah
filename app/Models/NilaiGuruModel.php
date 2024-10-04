@@ -43,4 +43,41 @@ class NilaiGuruModel extends Model
             ->join('tahun_ajaran', 'tahun_ajaran.id=nilai_guru.id_tahun_ajaran')
             ->select('guru.nama,guru.nip,nilai_guru.*,users.level,tahun,semester')->where('guru.id', session()->get('id_guru'))->findAll();
     }
+
+    public function cetakDataBeetwen($dari, $sampai)
+    {
+        return $this->join('guru', 'guru.id=nilai_guru.id_guru')
+            ->join('users', 'users.id=guru.user_id')
+            ->join('tahun_ajaran', 'tahun_ajaran.id=nilai_guru.id_tahun_ajaran')
+            ->select('guru.nama,guru.nip,nilai_guru.*,users.level,tahun,semester')
+            ->where("nilai_guru.tanggal BETWEEN '$dari' AND '$sampai'")
+            ->findAll();
+    }
+
+    public function cetakDataBeetwenGuru($dari, $sampai)
+    {
+        return $this->join('guru', 'guru.id=nilai_guru.id_guru')
+            ->join('users', 'users.id=guru.user_id')
+            ->join('tahun_ajaran', 'tahun_ajaran.id=nilai_guru.id_tahun_ajaran')
+            ->select('guru.nama,guru.nip,nilai_guru.*,users.level,tahun,semester')
+            ->where("nilai_guru.tanggal BETWEEN '$dari' AND '$sampai'")
+            ->where('guru.id', session()->get('id_guru'))
+            ->findAll();
+    }
+
+    public function cetakDataPerguru()
+    {
+        return $this->join('guru', 'guru.id=nilai_guru.id_guru')
+            ->join('users', 'users.id=guru.user_id')
+            ->join('tahun_ajaran', 'tahun_ajaran.id=nilai_guru.id_tahun_ajaran')
+            ->select('guru.nama,guru.nip,nilai_guru.*,users.level,tahun,semester')
+            ->where('guru.id', session()->get('id_guru'))->findAll();
+    }
+    public function cetakData()
+    {
+        return $this->join('guru', 'guru.id=nilai_guru.id_guru')
+            ->join('users', 'users.id=guru.user_id')
+            ->join('tahun_ajaran', 'tahun_ajaran.id=nilai_guru.id_tahun_ajaran')
+            ->select('guru.nama,guru.nip,nilai_guru.*,users.level,tahun,semester')->findAll();
+    }
 }

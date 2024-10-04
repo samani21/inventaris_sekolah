@@ -175,19 +175,66 @@ class NilaiGuru extends BaseController
         return redirect('nilai_guru');
     }
 
-    public function laporan_sumber()
+
+    public function report()
     {
-        $data = "Laporan Sumber Barang";
-        $hover = "Laporan Sumber Barang";
-        $dt = new NilaiGuruModel();
-        $d_bmp = $dt->getPemerintah();
-        return view('nilai_guru/laporan_sumber', compact('data', 'hover', 'd_bmp'));
+        if (session()->get('level') == "Guru") {
+            $data = "Nilai Guru";
+            $hover = "Nilai Guru";
+            $page = 'nilai_guru';
+            $model = new NilaiGuruModel();
+            $row = $model->getDataPerguru();
+            $column = ['tanggal', 'nilai', 'kategori', 'keterangan', 'semester', 'tahun'];
+
+            return view('main/laporan', compact('data', 'hover', 'row', 'column', 'page'));
+        } else if (session()->get('level') == "Kepala Sekolah") {
+            $data = "Nilai Guru";
+            $hover = "Nilai Guru";
+            $page = 'nilai_guru';
+            $model = new NilaiGuruModel();
+            $row = $model->getData();
+            $column = ['nip', 'nama', 'tanggal', 'nilai', 'kategori', 'keterangan', 'semester', 'tahun'];
+            return view('main/laporan', compact('data', 'hover', 'row', 'column', 'page'));
+        } else {
+            $data = "Nilai Guru";
+            $hover = "Nilai Guru";
+            $page = 'nilai_guru';
+            $model = new NilaiGuruModel();
+            $row = $model->getData();
+            $column = ['nip', 'nama', 'tanggal', 'nilai', 'kategori', 'keterangan', 'semester', 'tahun'];
+            return view('main/laporan', compact('data', 'hover', 'row', 'column', 'page'));
+        }
     }
 
-    public function cetak_sumber()
+    public function cetak()
     {
-        $dari = $this->request->getPost('dari');
-        $sampai = $this->request->getPost('sampai');
-        return view('nilai_guru/cetak_sumber', compact('dari', 'sampai'));
+        $dari = $this->request->getVar('dari');
+        $sampai = $this->request->getVar('sampai');
+        $data = "Nilai Guru";
+        if (session()->get('level') == "Guru") {
+            if ($dari && $sampai) {
+                $column = ['tanggal', 'nilai', 'kategori', 'keterangan', 'semester', 'tahun'];
+                $model = new NilaiGuruModel();
+                $row = $model->cetakDataBeetwenGuru($dari, $sampai);
+                return view('laporan/cetak', compact('dari', 'sampai', 'column', 'row', 'data'));
+            } else {
+                $model = new NilaiGuruModel();
+                $row = $model->cetakDataPerguru();
+                $column = ['tanggal', 'nilai', 'kategori', 'keterangan', 'semester', 'tahun'];
+                return view('laporan/cetak', compact('column', 'row', 'data'));
+            }
+        } else {
+            if ($dari && $sampai) {
+                $column = ['nip', 'nama', 'tanggal', 'nilai', 'kategori', 'keterangan', 'semester', 'tahun'];
+                $model = new NilaiGuruModel();
+                $row = $model->cetakDataBeetwen($dari, $sampai);
+                return view('laporan/cetak', compact('dari', 'sampai', 'column', 'row', 'data'));
+            } else {
+                $model = new NilaiGuruModel();
+                $row = $model->cetakData();
+                $column = ['nip', 'nama', 'tanggal', 'nilai', 'kategori', 'keterangan', 'semester', 'tahun'];
+                return view('laporan/cetak', compact('column', 'row', 'data'));
+            }
+        }
     }
 }

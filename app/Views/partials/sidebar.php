@@ -377,6 +377,20 @@ $results = $query->getResultArray();
                         </a>
                     </li>
                     <?php
+                    if (session()->get('level') != "Kepala Sekolah") {
+                    ?>
+                        <li class="nav-item <?php if ($hover == 'Pembayaran') {
+                                                echo 'active';
+                                            } ?>">
+                            <a href="<?= base_url('pembayaran') ?>">
+                                <i class="fa fa-university" aria-hidden="true"></i>
+                                <p>Pembayaran</p>
+                            </a>
+                        </li>
+                    <?php
+                    }
+                    ?>
+                    <?php
                     if (session()->get('level') == "Tata Usaha" || session()->get('level') == "Admin") {
                     ?>
                         <li class="nav-item <?php if ($hover == 'Prestasi Siswa') {
@@ -562,6 +576,27 @@ $results = $query->getResultArray();
                                             <span class="sub-item">Inovasi Guru</span>
                                         </a>
                                     </li>
+                                    <li class="<?php if ($hover == "Kinerja Guru") {
+                                                    echo 'active';
+                                                } ?>">
+                                        <a href="<?= base_url('kinerja_guru/report') ?>">
+                                            <span class="sub-item">Kinerja Guru</span>
+                                        </a>
+                                    </li>
+                                    <li class="<?php if ($hover == "Nilai Guru") {
+                                                    echo 'active';
+                                                } ?>">
+                                        <a href="<?= base_url('nilai_guru/report') ?>">
+                                            <span class="sub-item">Nilai Guru</span>
+                                        </a>
+                                    </li>
+                                    <li class="<?php if ($hover == "Monitoring Guru") {
+                                                    echo 'active';
+                                                } ?>">
+                                        <a href="<?= base_url('monitoring_guru/report') ?>">
+                                            <span class="sub-item">Monitoring Guru</span>
+                                        </a>
+                                    </li>
                                     <li class="<?php if ($hover == "Jadwal Kelas") {
                                                     echo 'active';
                                                 } ?>">
@@ -586,6 +621,13 @@ $results = $query->getResultArray();
                                 <?php
                                 } else if (session()->get('level') == "Siswa") {
                                 ?>
+                                    <li class="<?php if ($hover == "Pembayaran") {
+                                                    echo 'active';
+                                                } ?>">
+                                        <a href="<?= base_url('pembayaran/report') ?>">
+                                            <span class="sub-item">Pembayaran</span>
+                                        </a>
+                                    </li>
                                     <li class="<?php if ($hover == "Jadwal Kelas") {
                                                     echo 'active';
                                                 } ?>">
@@ -652,6 +694,27 @@ $results = $query->getResultArray();
                                             <span class="sub-item">Inovasi Guru</span>
                                         </a>
                                     </li>
+                                    <li class="<?php if ($hover == "Kinerja Guru") {
+                                                    echo 'active';
+                                                } ?>">
+                                        <a href="<?= base_url('kinerja_guru/report') ?>">
+                                            <span class="sub-item">Kinerja Guru</span>
+                                        </a>
+                                    </li>
+                                    <li class="<?php if ($hover == "Nilai Guru") {
+                                                    echo 'active';
+                                                } ?>">
+                                        <a href="<?= base_url('nilai_guru/report') ?>">
+                                            <span class="sub-item">Nilai Guru</span>
+                                        </a>
+                                    </li>
+                                    <li class="<?php if ($hover == "Monitoring Guru") {
+                                                    echo 'active';
+                                                } ?>">
+                                        <a href="<?= base_url('monitoring_guru/report') ?>">
+                                            <span class="sub-item">Monitoring Guru</span>
+                                        </a>
+                                    </li>
                                     <li class="<?php if ($hover == "Jadwal Kelas") {
                                                     echo 'active';
                                                 } ?>">
@@ -664,6 +727,13 @@ $results = $query->getResultArray();
                                                 } ?>">
                                         <a href="<?= base_url('agenda/report') ?>">
                                             <span class="sub-item">Agenda</span>
+                                        </a>
+                                    </li>
+                                    <li class="<?php if ($hover == "Pembayaran") {
+                                                    echo 'active';
+                                                } ?>">
+                                        <a href="<?= base_url('pembayaran/report') ?>">
+                                            <span class="sub-item">Pembayaran</span>
                                         </a>
                                     </li>
                                     <li class="<?php if ($hover == "Nilai Siswa") {

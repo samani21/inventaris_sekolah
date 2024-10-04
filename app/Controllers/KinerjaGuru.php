@@ -205,19 +205,65 @@ class KinerjaGuru extends BaseController
         return redirect('kinerja_guru');
     }
 
-    public function laporan_sumber()
+    public function report()
     {
-        $data = "Laporan Sumber Barang";
-        $hover = "Laporan Sumber Barang";
-        $dt = new KinerjaGuruModel();
-        $d_bmp = $dt->getPemerintah();
-        return view('kinerja_guru/laporan_sumber', compact('data', 'hover', 'd_bmp'));
+        if (session()->get('level') == "Guru") {
+            $data = "Kinerja Guru";
+            $hover = "Kinerja Guru";
+            $page = 'kinerja_guru';
+            $model = new KinerjaGuruModel();
+            $row = $model->getDataPerguru();
+            $column = ['tanggal', 'kompetensi_pedagogik', 'kompetensi_kepribadian', 'kompetensi_profesional', 'kompetensi_sosial', 'keterangan'];
+
+            return view('main/laporan', compact('data', 'hover', 'row', 'column', 'page'));
+        } else if (session()->get('level') == "Kepala Sekolah") {
+            $data = "Kinerja Guru";
+            $hover = "Kinerja Guru";
+            $page = 'kinerja_guru';
+            $model = new KinerjaGuruModel();
+            $row = $model->getData();
+            $column = ['nip', 'nama', 'tanggal', 'kompetensi_pedagogik', 'kompetensi_kepribadian', 'kompetensi_profesional', 'kompetensi_sosial', 'keterangan'];
+            return view('main/laporan', compact('data', 'hover', 'row', 'column', 'page'));
+        } else {
+            $data = "Kinerja Guru";
+            $hover = "Kinerja Guru";
+            $page = 'kinerja_guru';
+            $model = new KinerjaGuruModel();
+            $row = $model->getData();
+            $column = ['nip', 'nama', 'tanggal', 'kompetensi_pedagogik', 'kompetensi_kepribadian', 'kompetensi_profesional', 'kompetensi_sosial', 'keterangan'];
+            return view('main/laporan', compact('data', 'hover', 'row', 'column', 'page'));
+        }
     }
 
-    public function cetak_sumber()
+    public function cetak()
     {
-        $dari = $this->request->getPost('dari');
-        $sampai = $this->request->getPost('sampai');
-        return view('kinerja_guru/cetak_sumber', compact('dari', 'sampai'));
+        $dari = $this->request->getVar('dari');
+        $sampai = $this->request->getVar('sampai');
+        $data = "Kinerja Guru";
+        if (session()->get('level') == "Guru") {
+            if ($dari && $sampai) {
+                $column = ['tanggal', 'kompetensi_pedagogik', 'kompetensi_kepribadian', 'kompetensi_profesional', 'kompetensi_sosial', 'keterangan'];
+                $model = new KinerjaGuruModel();
+                $row = $model->cetakDataBeetwenGuru($dari, $sampai);
+                return view('laporan/cetak', compact('dari', 'sampai', 'column', 'row', 'data'));
+            } else {
+                $model = new KinerjaGuruModel();
+                $row = $model->cetakDataPerguru();
+                $column = ['tanggal', 'kompetensi_pedagogik', 'kompetensi_kepribadian', 'kompetensi_profesional', 'kompetensi_sosial', 'keterangan'];
+                return view('laporan/cetak', compact('column', 'row', 'data'));
+            }
+        } else {
+            if ($dari && $sampai) {
+                $column = ['nip', 'nama', 'tanggal', 'kompetensi_pedagogik', 'kompetensi_kepribadian', 'kompetensi_profesional', 'kompetensi_sosial', 'keterangan'];
+                $model = new KinerjaGuruModel();
+                $row = $model->cetakDataBeetwen($dari, $sampai);
+                return view('laporan/cetak', compact('dari', 'sampai', 'column', 'row', 'data'));
+            } else {
+                $model = new KinerjaGuruModel();
+                $row = $model->cetakData();
+                $column = ['nip', 'nama', 'tanggal', 'kompetensi_pedagogik', 'kompetensi_kepribadian', 'kompetensi_profesional', 'kompetensi_sosial', 'keterangan'];
+                return view('laporan/cetak', compact('column', 'row', 'data'));
+            }
+        }
     }
 }

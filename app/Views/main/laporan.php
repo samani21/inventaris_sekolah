@@ -60,7 +60,7 @@ function convertColumnName($columnName)
                                 <th><?= convertColumnName($col) ?></th>
                             <?php
                             }
-                            if (isset($cetakData)) {
+                            if (isset($cetakData) || isset($cetak_satuan)) {
                             ?>
                                 <th>Cetak</th>
                             <?php
@@ -82,7 +82,7 @@ function convertColumnName($columnName)
                                 <th><?= convertColumnName($col) ?></th>
                             <?php
                             }
-                            if (isset($cetakData)) {
+                            if (isset($cetakData) || isset($cetak_satuan)) {
                             ?>
                                 <th>Cetak</th>
                             <?php
@@ -145,8 +145,8 @@ function convertColumnName($columnName)
 
                                     <?php
                                 }
-                                if (isset($cetakData)) {
-                                    if ($r['id_user_verifikasi'] > 0) {
+                                if (isset($cetakData) || isset($cetak_satuan)) {
+                                    if (isset($r['id_user_verifikasi']) > 0 || isset($cetak_satuan)) {
                                     ?>
                                         <td>
                                             <a href="<?= base_url($page . '/cetak_satuan/' . $r['id']) ?>" class="btn btn-warning">Cetak</a>
